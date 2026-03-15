@@ -1,10 +1,12 @@
 Object = require "classic"
+Timer = require "timer"
 require "player"
 require "ant"
-require "bullet"
+require "spit"
 require "animation"
 require "mastermind"
 require "powerups"
+
 
 local push = require "push"
 local button = require "Button"
@@ -36,14 +38,12 @@ local function startNewGame()
     game.state["menu"] = false
     game.state["running"] = true
 
-
-
 end
 
 
 function love.load()
 
-    love.window.setTitle("Not Good Enough")
+    love.window.setTitle("You Cannot Remain")
     
 
     
@@ -89,7 +89,7 @@ function love.load()
     player = Player()
 
     listOfEnemies = {}
-    listOfBullets = {}
+    listOfSpitBullets = {}
     listOfPowerups = {}
 
 
@@ -207,6 +207,9 @@ function love.update(dt)
 
     --game runnin
     if game.state["running"] then
+
+
+
         for i,v in ipairs(listOfEnemies) do
             v:update(dt)
         end
@@ -215,10 +218,10 @@ function love.update(dt)
             v:update(dt)
         end
 
-        for i,v in ipairs(listOfBullets) do 
+        for i,v in ipairs(listOfSpitBullets) do 
             v:update(dt)
 
-            --collision checking of bullets to enemies
+            --collision checking of spit bullets to enemies
             for j,k in ipairs(listOfEnemies) do
                 v:checkCollision(k)
                 --remove dead enemies
@@ -227,7 +230,7 @@ function love.update(dt)
                end
             end
 
-            --collision checking of bullets to powerups
+            --collision checking of spit bullets to powerups
             for j,k in ipairs(listOfPowerups) do
                 v:checkCollision(k)
                 --"redeem" completed power ups
@@ -238,7 +241,7 @@ function love.update(dt)
 
             --remove 'dead' bullets
             if v.dead then
-                table.remove(listOfBullets,i)
+                table.remove(listOfSpitBullets,i)
             end
         end
         
@@ -262,8 +265,10 @@ function love.update(dt)
         spdStatLevelAnim:update(dt)
         pspdStatLevelAnim:update(dt)
         --update scroll background
-        u = u-6*dt
+        u = u-2*dt
     end
+    --update timer
+    Timer.update(dt)
 end
 
 
@@ -271,8 +276,6 @@ end
 function love.draw()
     --scaling...
     push:start()
-
-    
 
     --if game.state is menu
     if game.state["menu"] then
@@ -298,6 +301,7 @@ function love.draw()
         pspdStatLevelAnim:draw()
         -----weapon drawing
         love.graphics.draw(spit,18,70)
+        
         --draw mango
         player:draw()
 
@@ -313,8 +317,8 @@ function love.draw()
             v:draw()
         end
 
-        --draw bullets
-        for i,v in ipairs(listOfBullets) do
+        --draw spit bullets
+        for i,v in ipairs(listOfSpitBullets) do
             v:draw()
         end
 

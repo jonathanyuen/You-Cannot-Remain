@@ -11,7 +11,7 @@ function Powerup:new(spawnX,spawnY,type,hp)
 	self.x = spawnX
 	self.y = spawnY
 	
-	self.speed = 6
+	self.speed = 2
 
 	self.type = type
 

@@ -1,4 +1,6 @@
 Player = Object:extend()
+require "spitWeapon"
+
 
 function Player:new()
 	
@@ -18,6 +20,26 @@ function Player:new()
 	self.rad = 0
 	self.pspd = 0
 	self.speed = 50
+
+
+	--what weapons are unlocked
+	self.weaponsUnlocked = {
+		spit = true,
+		flameThrower = false,
+		railBreath = false,
+		ironTail = false
+	}
+
+	--what weapons are equipped/available to be equipped
+	self.spitter = SpitWeapon()
+	self.weaponEquipped = {
+		spitter = true
+	}
+
+
+	
+
+
 end
 
 --upgrade a stat (stat) by an amount (upgradeAmt) -- these need to pass through to bullet...
@@ -89,7 +111,6 @@ function Player:statUp(stat, upgradeAmt)
     	end
     
 	end
-	print ("hp: ".. self.health .. "\ndmg: " .. self.dmg .. "\nrad: " .. self.rad .. "\nspd: " .. self.speed .. "\npspd: " .. self.pspd)
 end
 
 function Player:takeDmg(dmgNum)
@@ -119,12 +140,18 @@ end
 
 function Player:keyPressed(key)
 	--spacebar
-	if key == "space" then
-		table.insert(listOfBullets, Bullet(self.x+4, self.y))
+	if love.keyboard.isDown("space") and self.weaponEquipped["spitter"] then
+		self.spitter:triggerPull()
+	end
+	if self.spitter.activeReloadTimer == 2 and love.keyboard.isDown("space") then
+		print("active reload successful at ".. self.spitter.activeReloadTimer)
+		self.spitter:reloadOverride()
 	end
 end
 
 function Player:update(dt)
+
+
 	--portrait animation
 	self.portraitAnim:setPosition(229,10)
 	self.portraitAnim:update(dt)
@@ -160,6 +187,7 @@ function Player:update(dt)
 end
 
 function Player:draw()
+	
 	--set player pos
 	self.anim:setPosition(self.x,self.y)
 	--draw frame of player sprite
@@ -168,4 +196,7 @@ function Player:draw()
 	self.portraitAnim:draw()
 	--draw health
     self.healthAnim:draw()
+
+    --draw spitter
+    self.spitter:draw()
 end

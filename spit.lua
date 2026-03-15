@@ -1,6 +1,6 @@
-Bullet = Object:extend()
+Spit = Object:extend()
 
-function Bullet:new(x,y)
+function Spit:new(x,y)
     self.image = love.graphics.newImage("sprites/bullet.png")
     self.x = x
     self.y = y
@@ -12,11 +12,11 @@ function Bullet:new(x,y)
     self.rad = 1+player.rad
 end
 
-function Bullet:update(dt)
+function Spit:update(dt)
     self.y = self.y - self.speed * dt
 end
 
-function Bullet:checkCollision(obj)
+function Spit:checkCollision(obj)
     local self_left = self.x 
     local self_right = self.x + self.width
     local self_top = self.y
@@ -39,6 +39,6 @@ function Bullet:checkCollision(obj)
 end
 
 
-function Bullet:draw()
+function Spit:draw()
     love.graphics.draw(self.image, self.x, self.y,0,self.rad,self.rad)
 end
