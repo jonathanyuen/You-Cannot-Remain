@@ -26,7 +26,7 @@ does the calculations of whether or not a projectile is *fired*
 ]]
 function SpitWeapon:triggerPull()
     --spit logic -- is it worth doing this by weapon?
-    if self.spitClip > 0 and self.reloadComplete == true then
+    if self.spitClip > 0 and self.reloadComplete == true and self.reloadInstance == 0 and self.activeReloadInstance == 0 then
         self:fireBullet()
     elseif self.spitClip <= 0 then
         self:reload()
@@ -37,39 +37,42 @@ end
 function SpitWeapon:reload()
     --reload!
     self.reloadComplete = false
+    --flags to help manage reload
     self.reloadInstance = self.reloadInstance+1
     self.activeReloadInstance = self.activeReloadInstance+1
+    print ("reload instance ".. self.reloadInstance .. " starting...\nactive reload instance ".. self.activeReloadInstance.." starting")
     --timing of reload
     if self.reloadInstance == 1 and self.activeReloadInstance == 1 then
         Timer.after(self.spitReloadTime, function()
+            print("natural reload")
             self:reloadOverride()
         end)
         Timer.script(function(wait)
             for i = 0, self.spitReloadTime do
                 wait(1)
-                print("timer is running on active reload ".. self.activeReloadTimer)
                 self.activeReloadTimer = self.activeReloadTimer +1
-                
+                print("timer is running on active reload ".. self.activeReloadTimer)
             end
         end
             )
     end
 end
 
+--actual reloading function without handling logic
+--resets clip size, resets flags
 function SpitWeapon:reloadOverride()
     self.spitClip = self.spitMaxCapacity
     self.reloadComplete = true
     self.reloadInstance = 0 
     self.activeReloadTimer = 0
     self.activeReloadInstance = 0
-    print("reloading complete")
+    Timer.clear()
+    print("reloading complete and reset")
 end
 
 function SpitWeapon:fireBullet()
     table.insert(listOfSpitBullets, Spit(player.x+4, player.y))
-    print("spit fired")
     self.spitClip = self.spitClip - 1
-    print ("Clip: ".. self.spitClip)
 end
 
 function SpitWeapon:update(dt)

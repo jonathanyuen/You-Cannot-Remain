@@ -13,6 +13,8 @@ local button = require "Button"
 local gameWidth, gameHeight = 320,180
 local windowWidth, windowHeight = love.window.getDesktopDimensions()
 
+--debug timer
+local secondCounter = 0
 
 --game states
 local game = {
@@ -146,6 +148,13 @@ function love.load()
 
     --keep track of what is selected using buttons.menu_state array index - "play" by default
     selectedMenuButton = buttons.menu_state[1]
+
+
+    --timer just to help debug
+    Timer.every(1, function()
+        secondCounter = secondCounter+1
+        print (secondCounter .. " seconds elapsed =======================================") 
+    end)
 end
 
 function love.keypressed(key)
@@ -301,7 +310,7 @@ function love.draw()
         pspdStatLevelAnim:draw()
         -----weapon drawing
         love.graphics.draw(spit,18,70)
-        
+
         --draw mango
         player:draw()
 
