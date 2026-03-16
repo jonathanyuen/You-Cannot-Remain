@@ -79,6 +79,8 @@ function love.load()
     --weapons
     spit = love.graphics.newImage("/sprites/spit.png")
 
+    --title screen
+    titleScreen = love.graphics.newImage("/sprites/title screen.png")
    
     
     push:setupScreen(gameWidth, gameHeight, 1280, 720, {fullscreen = false, vsync = true, pixelperfect = true})
@@ -108,7 +110,7 @@ function love.load()
     
     --cursor
     menuCursorAnim = LoveAnimation.new("menuCursorAnimations.lua")
-    menuCursorAnim:setPosition(10-1, 20+3)
+    menuCursorAnim:setPosition(140-1, 140+3)
     
 
 
@@ -288,6 +290,7 @@ function love.draw()
 
     --if game.state is menu
     if game.state["menu"] then
+        love.graphics.draw(titleScreen,0,0)
         menuCursorAnim:draw()
     end
 
@@ -333,9 +336,9 @@ function love.draw()
 
     --game is menu state
     elseif game.state["menu"] then
-        buttons.menu_state.play_game:draw(10,20,0,0)
-        buttons.menu_state.settings:draw(10,60,0,0)
-        buttons.menu_state.quit_game:draw(10,100,0,0)
+        buttons.menu_state.play_game:draw(140,140,0,0)
+        buttons.menu_state.settings:draw(140,150,0,0)
+        buttons.menu_state.quit_game:draw(140,160,0,0)
     end
 
 
