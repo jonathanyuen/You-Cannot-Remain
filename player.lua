@@ -31,7 +31,7 @@ function Player:new()
 	}
 
 	--what weapons are equipped/available to be equipped
-	self.spitter = SpitWeapon()
+	self.spitter = SpitWeapon(self.x,self.y)
 	self.weaponEquipped = {
 		spitter = true
 	}
@@ -143,14 +143,14 @@ function Player:keyPressed(key)
 	if love.keyboard.isDown("space") and self.weaponEquipped["spitter"] then
 		self.spitter:triggerPull()
 	end
-	if self.spitter.activeReloadTimer == 2 and love.keyboard.isDown("space") then
+	if self.spitter.activeReloadCursorXPos >= 5 and self.spitter.activeReloadCursorXPos <= 7 and love.keyboard.isDown("space") then
 		print("active reload successful at ".. self.spitter.activeReloadTimer)
 		self.spitter:reloadOverride()
 	end
 end
 
 function Player:update(dt)
-
+	self.spitter:update(dt)
 
 	--portrait animation
 	self.portraitAnim:setPosition(229,10)

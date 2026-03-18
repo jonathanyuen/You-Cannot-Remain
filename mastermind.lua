@@ -41,7 +41,7 @@ function Mastermind:nextLevel(lvl)
 		table.insert(listOfEnemies,Ant(lvl,math.random(120,200),-16*i))
 	end
 
-	for i = 0,lvl do
+	for i = 1,lvl do
 			local rngType = math.random(1,4)
 			if rngType == 1 then
 				rngType = "pspd"
@@ -53,7 +53,7 @@ function Mastermind:nextLevel(lvl)
 				rngType = "rad"
 			end
 
-			table.insert(listOfPowerups,Powerup(math.random(120,200),0-(24*i),rngType,math.random(1,5*(self.level+1))))
+			table.insert(listOfPowerups,Powerup(math.random(120,200),0-(30*i),rngType,math.random(1,5*(self.level+1))))
 	end
 end
 
