@@ -33,6 +33,8 @@ function SpitWeapon:new()
     self.activeReloadCursorYPos = 0
 
 
+    self.activeReloadSuccessSprite = love.graphics.newImage("sprites/active-reload-success.png")
+    self.activeReloadSuccessFlag = 0
 end
 
 --[[
@@ -109,5 +111,10 @@ function SpitWeapon:draw()
         love.graphics.setColor(self.activeReloadCursorColor)
         love.graphics.rectangle("fill", self.activeReloadCursorXPos + player.x+1, self.activeReloadCursorYPos+player.y+17,self.activeReloadCursorWidth,self.activeReloadCursorHeight)
         love.graphics.setColor(1,1,1)
+
+        --on success (too visual... tabled for later)
+        if self.activeReloadSuccessFlag == true then
+            --love.graphics.draw(self.activeReloadSuccessSprite, self.activeReloadCursorXPos + player.x + 1, self.activeReloadCursorYPos + player.y +17)
+        end
     end
 end

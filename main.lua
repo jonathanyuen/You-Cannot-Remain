@@ -21,7 +21,7 @@ local game = {
     state = {
         menu = true,
         merchant = false,
-        paused = false,
+        pause = false,
         running = false,
         ended = false
     }
@@ -31,7 +31,7 @@ local game = {
 local buttons = {
     menu_state = {},
     merchant_state = {},
-    paused_state = {},
+    pause_state = {},
     ended_state = {}
 }
 
@@ -42,12 +42,21 @@ local function startNewGame()
 
 end
 
+local function goToMainMenu()
+    game.state["menu"] = true
+    game.state["running"] = false
+    game.state["pause"] = false
+    menuCursorAnim:setPosition(140-1, 140+3)
+end
+
+local function resumeGame()
+    game.state["pause"] = false
+    game.state["running"] = true
+end
 
 function love.load()
 
     love.window.setTitle("You Cannot Remain")
-    
-
     
 
     love.graphics.setDefaultFilter("nearest","nearest")
@@ -63,9 +72,6 @@ function love.load()
     right bound is 218
 
     ]]--
-
-
-    
 
 
     --infinite scrolling backdrop
@@ -97,6 +103,7 @@ function love.load()
     listOfPowerups = {}
 
 
+    --MAIN MENU
     --buttons!
     buttons.menu_state.play_game = button("Play", startNewGame, nil, 50, 13)
     buttons.menu_state.settings = button("Settings", nil, nil, 50, 13)
@@ -108,10 +115,24 @@ function love.load()
     table.insert(buttons.menu_state, buttons.menu_state.quit_game)
 
     
-    --cursor
+    --cursor for main menu
     menuCursorAnim = LoveAnimation.new("menuCursorAnimations.lua")
+    --set pos for cursor for main menu
     menuCursorAnim:setPosition(140-1, 140+3)
-    
+
+
+    --PAUSE MENU
+    buttons.pause_state.resume = button("Play", resumeGame, nil, 50, 13)
+    buttons.pause_state.settings = button("Settings", nil, nil, 50, 13)
+    buttons.pause_state.quitToMenu = button("Quit to Menu", goToMainMenu,nil, 50,13)
+    buttons.pause_state.quit_game = button("Quit Game", love.event.quit, nil, 50, 13)
+
+
+
+    table.insert(buttons.pause_state, buttons.pause_state.resume)
+    table.insert(buttons.pause_state, buttons.pause_state.settings)
+    table.insert(buttons.pause_state, buttons.pause_state.quitToMenu)
+    table.insert(buttons.pause_state, buttons.pause_state.quit_game)
 
 
     --figure out where/how to do this so its not just in load?
@@ -150,6 +171,7 @@ function love.load()
 
     --keep track of what is selected using buttons.menu_state array index - "play" by default
     selectedMenuButton = buttons.menu_state[1]
+    selectedPauseButton = buttons.pause_state[1]
 
 
     --timer just to help debug
@@ -160,9 +182,18 @@ function love.load()
 end
 
 function love.keypressed(key)
-    player:keyPressed(key)
-    mastermind:keyPressed(key)
 
+    if game.state["running"] then
+        --what happens when you press pause
+        if love.keyboard.isDown("p") == true or love.keyboard.isDown("escape") == true then
+            menuCursorAnim:setPosition(138,53)
+            game.state["running"] = false
+            game.state["pause"] = true
+            game.state["menu"] = false
+        end
+        player:keyPressed(key)
+        mastermind:keyPressed(key)
+    end
 
     --main menu nav
     if game.state["menu"] then
@@ -190,36 +221,54 @@ function love.keypressed(key)
             end
         end
     end
+
+    --pause menu nav
+    if game.state["pause"] then
+        -----option selection
+        if  (love.keyboard.isDown("return") == true) or (love.keyboard.isDown("space")) then
+            selectedPauseButton:pressed()
+        end
+
+        --option navigation
+        if love.keyboard.isDown("down") == true then
+            if selectedPauseButton == buttons.pause_state[1] then
+                selectedPauseButton = buttons.pause_state[2]
+                menuCursorAnim:setPosition(selectedPauseButton.button_x-1,selectedPauseButton.button_y+3)
+            elseif selectedPauseButton == buttons.pause_state[2] then
+                selectedPauseButton = buttons.pause_state[3]
+                menuCursorAnim:setPosition(selectedPauseButton.button_x-1,selectedPauseButton.button_y+3)
+            elseif selectedPauseButton == buttons.pause_state[3] then
+                selectedPauseButton = buttons.pause_state[4]
+                menuCursorAnim:setPosition(selectedPauseButton.button_x-1,selectedPauseButton.button_y+3)
+            end
+        elseif love.keyboard.isDown("up") == true then
+            if selectedPauseButton == buttons.pause_state[2] then
+                selectedPauseButton = buttons.pause_state[1]
+                menuCursorAnim:setPosition(selectedPauseButton.button_x-1, selectedPauseButton.button_y+3)
+            elseif selectedPauseButton == buttons.pause_state[3] then
+                selectedPauseButton = buttons.pause_state[2]
+                menuCursorAnim:setPosition(selectedPauseButton.button_x-1, selectedPauseButton.button_y+3)
+            elseif selectedPauseButton == buttons.pause_state[4] then
+                selectedPauseButton = buttons.pause_state[3]
+                menuCursorAnim:setPosition(selectedPauseButton.button_x-1, selectedPauseButton.button_y+3)
+            end
+        end
+    end
 end
 
 function love.update(dt)
     --menuuu
-    if game.state["menu"] then
+    if game.state["menu"] == true then
+        menuCursorAnim:update(dt)        
+    end
+
+    ---game pause
+    if game.state["pause"] == true then
         menuCursorAnim:update(dt)
-
-        
-
-        --[[
-        
-        handle logic of menu game state
-
-        - player navigates buttons using arrow keys up/down
-        - player can press enter/space to select an option and trigger function of the option
-
-
-        WISHLIST: Cursor code is a bit repetitive
-
-        ]]
-
-        
-
-        
     end
 
     --game runnin
-    if game.state["running"] then
-
-
+    if game.state["running"] == true then
 
         for i,v in ipairs(listOfEnemies) do
             v:update(dt)
@@ -291,11 +340,14 @@ function love.draw()
     --if game.state is menu
     if game.state["menu"] then
         love.graphics.draw(titleScreen,0,0)
+        buttons.menu_state.play_game:draw(140,140,0,0)
+        buttons.menu_state.settings:draw(140,150,0,0)
+        buttons.menu_state.quit_game:draw(140,160,0,0)
         menuCursorAnim:draw()
-    end
+    
 
     --if game.state is running
-    if game.state["running"] then
+    elseif game.state["running"] then
         -- scrolling background
         backQuad:setViewport(0,u,backdrop:getWidth(),backdrop:getHeight())
         love.graphics.draw(backdrop, backQuad, 102,0,0)
@@ -334,14 +386,15 @@ function love.draw()
             v:draw()
         end
 
-    --game is menu state
-    elseif game.state["menu"] then
-        buttons.menu_state.play_game:draw(140,140,0,0)
-        buttons.menu_state.settings:draw(140,150,0,0)
-        buttons.menu_state.quit_game:draw(140,160,0,0)
+
+    --game is pause state
+    elseif game.state["pause"] then
+        buttons.pause_state.resume:draw(140,50,0,0)
+        buttons.pause_state.settings:draw(140,60,0,0)
+        buttons.pause_state.quitToMenu:draw(140,70,0,0)
+        buttons.pause_state.quit_game:draw(140,80,0,0)
+        menuCursorAnim:draw()
     end
-
-
 
     --finish scaling
     push:finish()

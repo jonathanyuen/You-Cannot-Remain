@@ -139,12 +139,15 @@ function Player:takeDmg(dmgNum)
 end
 
 function Player:keyPressed(key)
-	--spacebar
+	--firing
 	if love.keyboard.isDown("space") and self.weaponEquipped["spitter"] then
 		self.spitter:triggerPull()
 	end
-	if self.spitter.activeReloadCursorXPos >= 5 and self.spitter.activeReloadCursorXPos <= 7 and love.keyboard.isDown("space") then
+
+	--active reload
+	if self.spitter.activeReloadCursorXPos >= 4 and self.spitter.activeReloadCursorXPos <= 7 and love.keyboard.isDown("space") then
 		print("active reload successful at ".. self.spitter.activeReloadTimer)
+		self.spitter.activeReloadSuccessFlag = true
 		self.spitter:reloadOverride()
 	end
 end
