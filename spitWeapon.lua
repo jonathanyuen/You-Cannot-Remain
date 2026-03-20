@@ -1,6 +1,6 @@
 SpitWeapon = Object:extend()
 
-Timer = require "timer"
+reloadTimer = Timer.new()
 
 -- see if we can get away with spitWeapon being called only in the player class?
 
@@ -61,7 +61,7 @@ function SpitWeapon:reload()
     self.activeReloadInstance = self.activeReloadInstance+1
     --timing of 'natural' reload
     if self.reloadInstance == 1 and self.activeReloadInstance == 1 then
-        Timer.after(self.reloadTime, function()
+        reloadTimer:after(self.reloadTime, function()
             self:reloadOverride()
         end)
         
@@ -77,18 +77,25 @@ function SpitWeapon:reloadOverride()
     self.activeReloadTimer = 0
     self.activeReloadInstance = 0
     self.activeReloadCursorXPos = 0
-    Timer.clear()
+    reloadTimer:clear()
 end
 
 function SpitWeapon:fireBullet()
-    table.insert(listOfSpitBullets, Spit(player.x+4, player.y))
-    self.clip = self.clip - 1
+    if self.activeReloadSuccessFlag == 0 then
+        table.insert(listOfSpitBullets, Spit(player.x+4, player.y))
+        self.clip = self.clip - 1
+    elseif self.activeReloadSuccessFlag == 1 then
+        table.insert(listOfSpitBullets, Spit(player.x+2, player.y))
+        table.insert(listOfSpitBullets, Spit(player.x+6, player.y))
+        self.clip = self.clip - 1
+    end
 end
 
 function SpitWeapon:update(dt)
     if self.reloadInstance == 1 and self.activeReloadInstance == 1 then
         self.activeReloadCursorXPos = self.activeReloadCursorXPos + 15 * dt
     end
+    reloadTimer:update(dt)
 end
 
 function SpitWeapon:draw()
@@ -113,7 +120,7 @@ function SpitWeapon:draw()
         love.graphics.setColor(1,1,1)
 
         --on success (too visual... tabled for later)
-        if self.activeReloadSuccessFlag == true then
+        if self.activeReloadSuccessFlag == 1 then
             --love.graphics.draw(self.activeReloadSuccessSprite, self.activeReloadCursorXPos + player.x + 1, self.activeReloadCursorYPos + player.y +17)
         end
     end

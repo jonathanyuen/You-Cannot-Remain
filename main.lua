@@ -369,7 +369,6 @@ function love.update(dt)
     --update timer
     Timer.update(dt)
 
-
 end
 
 

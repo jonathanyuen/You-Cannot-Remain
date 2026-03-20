@@ -147,8 +147,13 @@ function Player:keyPressed(key)
 
 	--active reload
 	if self.spitter.activeReloadCursorXPos >= 4 and self.spitter.activeReloadCursorXPos <= 7 and love.keyboard.isDown("space") then
-		print("active reload successful at ".. self.spitter.activeReloadTimer)
-		self.spitter.activeReloadSuccessFlag = true
+		self.spitter.activeReloadSuccessFlag = 1
+		Timer.after(5, function() 
+
+			print("hey this worked")
+			self.spitter.activeReloadSuccessFlag = 0
+			Timer.clear()
+		end)
 		self.spitter:reloadOverride()
 	end
 end
@@ -188,14 +193,22 @@ function Player:update(dt)
 
 	--update player health
     self.healthAnim:update(dt)
+
+    --debug active reload success
+    print("AR Success: " .. self.spitter.activeReloadSuccessFlag)
 end
 
 function Player:draw()
 	
 	--set player pos
 	self.anim:setPosition(self.x,self.y)
+	--active reload success blue?
+	if self.spitter.activeReloadSuccessFlag == 1 then
+		love.graphics.setColor(0,0,1)
+	end
 	--draw frame of player sprite
 	self.anim:draw()
+	love.graphics.setColor(1,1,1)
 	--draw frame of player portrait
 	self.portraitAnim:draw()
 	--draw health
