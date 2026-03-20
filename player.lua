@@ -11,11 +11,12 @@ function Player:new()
 	self.anim = LoveAnimation.new('mangoAnimations.lua')
 	self.portraitAnim = LoveAnimation.new('portraitAnimations.lua')
 	self.healthAnim = LoveAnimation.new('healthAnimations.lua')
+	self.healthAnim:setState("three")
 	self.healthAnim:setPosition(22,142)
 
 
 	--upgradable stats
-	self.health = 9
+	self.health = 3
 	self.dmg = 0 
 	self.rad = 0
 	self.pspd = 0

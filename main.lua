@@ -46,8 +46,30 @@ local function goToMainMenu()
     game.state["menu"] = true
     game.state["running"] = false
     game.state["pause"] = false
+    game.state["ended"] = false
     menuCursorAnim:setPosition(140-1, 140+3)
 end
+
+local function deathScreen()
+    game.state["ended"] = true
+    game.state["running"] = false
+    game.state["pause"] = false
+    game.state["menu"] = false
+
+    Timer.script(function(wait)
+        wait(3)
+        deathScreenAnim:setState("gameOverFadeIn")
+        wait(3)
+        deathScreenAnim:setState("gameOverFadeOut")
+        wait(3)
+        deathScreenAnim:setState("mantra1")
+        wait(10)
+        goToMainMenu()
+    end)
+   
+end
+
+
 
 local function resumeGame()
     game.state["pause"] = false
@@ -98,9 +120,16 @@ function love.load()
     mastermind = Mastermind()
     player = Player()
 
+
+    --arrays
     listOfEnemies = {}
     listOfSpitBullets = {}
     listOfPowerups = {}
+
+
+    --death screen animation setup
+    deathScreenAnim = LoveAnimation.new("deathScreenAnimations.lua")
+    deathScreenAnim:setPosition(0,0)
 
 
     --MAIN MENU
@@ -324,11 +353,23 @@ function love.update(dt)
         radStatLevelAnim:update(dt)
         spdStatLevelAnim:update(dt)
         pspdStatLevelAnim:update(dt)
+
+        --trigger death screen
+        if player.health <= 0 then
+            deathScreen()
+        end
         --update scroll background
         u = u-2*dt
     end
+
+    --death screen
+    if game.state["ended"] == true then
+        deathScreenAnim:update(dt)
+    end
     --update timer
     Timer.update(dt)
+
+
 end
 
 
@@ -394,6 +435,8 @@ function love.draw()
         buttons.pause_state.quitToMenu:draw(140,70,0,0)
         buttons.pause_state.quit_game:draw(140,80,0,0)
         menuCursorAnim:draw()
+    elseif game.state["ended"] then
+        deathScreenAnim:draw()
     end
 
     --finish scaling
