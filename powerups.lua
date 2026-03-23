@@ -87,6 +87,9 @@ function Powerup:update(dt)
 			player:statUp("rad",1)
 		end
 
+		--dead so update score
+		score = score + 1
+
 	elseif self:isDead() == true and self.newlyDead == false then
 		self.deathAnimation:update(dt)
 		self.readyToClean = self.readyToClean+1

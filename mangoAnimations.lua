@@ -81,5 +81,32 @@ return {
 			nextState = "idle", -- after the jump is finished, we switch back to running
 			switchDelay = 0.1
 		},
+		melee = {
+			frameCount = 7,
+			offsetX = 0,
+			offsetY = 32,
+			frameW = 16,
+			frameH = 16, -- the frame height can change between states
+			nextState = "idle", 
+			switchDelay = 0.1
+		},
+		intoShell = {
+			frameCount = 11,
+			offsetX = 0,
+			offsetY = 48,
+			frameW = 16,
+			frameH = 16, -- the frame height can change between states
+			nextState = "outOfShell", 
+			switchDelay = 0.1
+		},
+		outOfShell = {
+			frameCount = 10,
+			offsetX = 0,
+			offsetY = 64,
+			frameW = 16,
+			frameH = 16, -- the frame height can change between states
+			nextState = "idle", 
+			switchDelay = 0.1
+		}
 	}
 }

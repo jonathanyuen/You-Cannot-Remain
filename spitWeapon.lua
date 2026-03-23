@@ -32,6 +32,9 @@ function SpitWeapon:new()
     self.activeReloadCursorXPos = 0
     self.activeReloadCursorYPos = 0
 
+    --flag for if the active reload cursor should bounce and reverse
+    self.reverseFlag = false
+
 
     self.activeReloadSuccessSprite = love.graphics.newImage("sprites/active-reload-success.png")
     self.activeReloadSuccessFlag = 0
@@ -77,6 +80,9 @@ function SpitWeapon:reloadOverride()
     self.activeReloadTimer = 0
     self.activeReloadInstance = 0
     self.activeReloadCursorXPos = 0
+    if self.activeReloadSuccessFlag == -1 then
+        self.activeReloadSuccessFlag = 0
+    end
     reloadTimer:clear()
 end
 
@@ -93,7 +99,15 @@ end
 
 function SpitWeapon:update(dt)
     if self.reloadInstance == 1 and self.activeReloadInstance == 1 then
-        self.activeReloadCursorXPos = self.activeReloadCursorXPos + 15 * dt
+        if self.reverseFlag == false and self.activeReloadCursorXPos < 15 then
+            self.activeReloadCursorXPos = self.activeReloadCursorXPos + 15 * dt
+        elseif self.reverseFlag == false and self.activeReloadCursorXPos >= 15 then
+            self.reverseFlag = true
+        elseif self.reverseFlag == true and self.activeReloadCursorXPos > 0 then
+            self.activeReloadCursorXPos = self.activeReloadCursorXPos - 15 * dt
+        elseif self.reverseFlag == true and self.activeReloadCursorXPos <= 0 then
+            self.reverseFlag = false
+        end
     end
     reloadTimer:update(dt)
 end
@@ -102,7 +116,7 @@ function SpitWeapon:draw()
     --ammo counter for dev purposes
     if self.reloadComplete == true then
         love.graphics.print(self.clip,player.x+7,player.y+15)
-    else
+    elseif self.reloadComplete == false and self.activeReloadSuccessFlag >= 0 then
         --draw background bar
         love.graphics.setColor(self.activeReloadBarColor)
         love.graphics.rectangle("fill", player.x+1, player.y+18, self.activeReloadBarWidth, self.activeReloadBarHeight)
@@ -118,10 +132,10 @@ function SpitWeapon:draw()
         love.graphics.setColor(self.activeReloadCursorColor)
         love.graphics.rectangle("fill", self.activeReloadCursorXPos + player.x+1, self.activeReloadCursorYPos+player.y+17,self.activeReloadCursorWidth,self.activeReloadCursorHeight)
         love.graphics.setColor(1,1,1)
-
-        --on success (too visual... tabled for later)
-        if self.activeReloadSuccessFlag == 1 then
-            --love.graphics.draw(self.activeReloadSuccessSprite, self.activeReloadCursorXPos + player.x + 1, self.activeReloadCursorYPos + player.y +17)
-        end
+    elseif self.reloadComplete == false and self.activeReloadSuccessFlag == -1 then
+        --draw background bar
+        love.graphics.setColor(self.activeReloadBarColor)
+        love.graphics.rectangle("fill", player.x+1, player.y+18, self.activeReloadBarWidth, self.activeReloadBarHeight)
+        love.graphics.setColor(1,1,1)
     end
 end

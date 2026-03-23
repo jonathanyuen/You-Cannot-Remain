@@ -35,6 +35,8 @@ function Spit:checkCollision(obj)
 
         --decrease health
         obj:takeDmg(self.damage)
+    else
+        scoring.flagBulletsMissed = true
     end
 end
 

@@ -8,6 +8,7 @@ function Player:new()
 	self.x = 160
 	self.y = 140
 	self.width = 16
+	self.height = 16
 	self.anim = LoveAnimation.new('mangoAnimations.lua')
 	self.portraitAnim = LoveAnimation.new('portraitAnimations.lua')
 	self.healthAnim = LoveAnimation.new('healthAnimations.lua')
@@ -148,14 +149,15 @@ function Player:keyPressed(key)
 	--active reload
 	if self.spitter.activeReloadCursorXPos >= 4 and self.spitter.activeReloadCursorXPos <= 7 and love.keyboard.isDown("space") then
 		self.spitter.activeReloadSuccessFlag = 1
+		scoring.counterActiveReloadSuccess = scoring.counterActiveReloadSuccess + 1
 		Timer.after(5, function() 
-
-			print("hey this worked")
 			self.spitter.activeReloadSuccessFlag = 0
 			Timer.clear()
 		end)
 		self.spitter:reloadOverride()
 	end
+
+
 end
 
 function Player:update(dt)
@@ -173,13 +175,13 @@ function Player:update(dt)
 		self.x = self.x + self.speed * dt
 	end
 
-	--animations
-	if love.keyboard.isDown("space") then
-		self.anim:setState("shoot")
-	end
-	self.anim:update(dt)
+	--moving up and down
 
-	local window_width = 320
+	if love.keyboard.isDown("up") then
+		self.y = self.y -self.speed * dt
+	elseif love.keyboard.isDown("down") then
+		self.y = self.y + self.speed * dt
+	end
 
 	--if too far to the left
 	if self.x < 102 then
@@ -191,11 +193,29 @@ function Player:update(dt)
 		self.x = 218 - self.width
 	end
 
+	--if too far up
+	if self.y < 0 then
+		self.y = 0
+	end
+
+	--too far down
+	if self.y >160 then
+		self.y = 160
+	end
+
+	--animations
+	if love.keyboard.isDown("space") then
+		self.anim:setState("shoot")
+	end
+	self.anim:update(dt)
+
+	local window_width = 320
+
 	--update player health
     self.healthAnim:update(dt)
 
-    --debug active reload success
-    print("AR Success: " .. self.spitter.activeReloadSuccessFlag)
+
+    
 end
 
 function Player:draw()
@@ -205,6 +225,10 @@ function Player:draw()
 	--active reload success blue?
 	if self.spitter.activeReloadSuccessFlag == 1 then
 		love.graphics.setColor(0,0,1)
+	end
+
+	if self.spitter.activeReloadSuccessFlag == -1 then
+		love.graphics.setColor(.2,.2,.2,1)
 	end
 	--draw frame of player sprite
 	self.anim:draw()

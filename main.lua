@@ -13,6 +13,23 @@ local button = require "Button"
 local gameWidth, gameHeight = 320,180
 local windowWidth, windowHeight = love.window.getDesktopDimensions()
 
+--scoring
+score = 0
+scoring = {
+    counterAntsKilled = 0,
+    counterActiveReloadSuccess = 0,
+    flagBulletsMissed = false,
+    flagActiveReloadMissed = false
+}
+
+
+--palette of colors
+colorPalette = {
+    red = {180/255,82/255,82/255},
+    fauxWhite = {184/255, 181/255, 185/255}
+}
+
+
 --debug timer
 local secondCounter = 0
 
@@ -39,6 +56,10 @@ local buttons = {
 local function startNewGame()
     game.state["menu"] = false
     game.state["running"] = true
+    score = 0
+    scoring.counterAntsKilled = 0
+    scoring.counterActiveReloadSuccess = 0
+    
 
 end
 
@@ -63,7 +84,7 @@ local function deathScreen()
         deathScreenAnim:setState("gameOverFadeOut")
         wait(3)
         deathScreenAnim:setState("mantra1")
-        wait(10)
+        wait(15)
         goToMainMenu()
     end)
    
@@ -85,6 +106,9 @@ function love.load()
     --font
     font = love.graphics.newFont("/fonts/Tiny5-Regular.ttf",8 )
     love.graphics.setFont(font)
+
+    --renown font
+    renownFont = love.graphics.newFont("/fonts/NotJamChunky8.ttf", 8)
     --ui
     --[[
     note that ui left side is: 102x180
@@ -171,8 +195,8 @@ function love.load()
     
 
     --initiate Stage UI element & designate position
-    stageAnim = LoveAnimation.new('stageAnimations.lua')
-    stageAnim:setPosition(237,154)
+    --stageAnim = LoveAnimation.new('stageAnimations.lua')
+    --stageAnim:setPosition(237,154)
 
      --stat upgrade animations (chevrons first then actual progress) & designate positions
     dmgStatUpChevronAnim = LoveAnimation.new('statupAnimations.lua')
@@ -219,6 +243,14 @@ function love.keypressed(key)
             game.state["running"] = false
             game.state["pause"] = true
             game.state["menu"] = false
+        end
+
+        if player.spitter.activeReloadInstance == 1 and player.spitter.activeReloadCursorXPos < 4 or player.spitter.activeReloadCursorXPos > 7 then
+            if key == "space" then
+                print("nope")
+                scoring.flagActiveReloadMissed = true
+                player.spitter.activeReloadSuccessFlag= -1
+            end
         end
         player:keyPressed(key)
         mastermind:keyPressed(key)
@@ -328,6 +360,8 @@ function love.update(dt)
                 end
             end
 
+
+
             --remove 'dead' bullets
             if v.dead then
                 table.remove(listOfSpitBullets,i)
@@ -338,7 +372,7 @@ function love.update(dt)
         player:update(dt)
 
         --update stage
-        stageAnim:update(dt)
+        --stageAnim:update(dt)
 
         --update mastermind
         mastermind:update(dt)
@@ -358,6 +392,21 @@ function love.update(dt)
         if player.health <= 0 then
             deathScreen()
         end
+
+        --scoring
+        --[[
+
+        score = 0
+        scoring = {
+            counterAntsKilled = 0,
+            counterActiveReloadSuccess = 0,
+            flagBulletsMissed = false,
+            flagActiveReloadMissed = false
+        }
+
+        ]]
+        score = scoring.counterAntsKilled + scoring.counterActiveReloadSuccess
+
         --update scroll background
         u = u-2*dt
     end
@@ -393,7 +442,7 @@ function love.draw()
         love.graphics.draw(backdrop, backQuad, 102,0,0)
         --ui & stage
         love.graphics.draw(ui,0,0)
-        stageAnim:draw()
+        --stageAnim:draw()
         dmgStatUpChevronAnim:draw()
         radStatUpChevronAnim:draw()
         spdStatUpChevronAnim:draw()
@@ -425,6 +474,13 @@ function love.draw()
         for i,v in ipairs(listOfSpitBullets) do
             v:draw()
         end
+
+        --draw score
+        love.graphics.setFont(renownFont)
+        ---colored printing scores and whatnot... still haven't done calcs yet either
+        love.graphics.print({colorPalette.red,"REKNOWN "},224,171)
+        love.graphics.print({colorPalette.fauxWhite,string.format("%04d",score)},288,171)
+        love.graphics.setFont(font)
 
 
     --game is pause state
