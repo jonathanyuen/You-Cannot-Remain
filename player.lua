@@ -22,6 +22,7 @@ function Player:new()
 	self.rad = 0
 	self.pspd = 0
 	self.speed = 50
+	self.tailDmg = 1
 
 
 	--what weapons are unlocked

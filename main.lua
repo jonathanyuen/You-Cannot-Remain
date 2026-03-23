@@ -478,8 +478,8 @@ function love.draw()
         --draw score
         love.graphics.setFont(renownFont)
         ---colored printing scores and whatnot... still haven't done calcs yet either
-        love.graphics.print({colorPalette.red,"REKNOWN "},224,171)
-        love.graphics.print({colorPalette.fauxWhite,string.format("%04d",score)},288,171)
+        love.graphics.print({colorPalette.red,"RENOWN "},224,171)
+        love.graphics.print({colorPalette.fauxWhite,string.format("%04d",score)},282,171)
         love.graphics.setFont(font)
 
 
