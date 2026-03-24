@@ -14,6 +14,10 @@ function Player:new()
 	self.healthAnim = LoveAnimation.new('healthAnimations.lua')
 	self.healthAnim:setState("three")
 	self.healthAnim:setPosition(22,142)
+	--amt of time it takes to come out of shell when dmg'd
+	self.recoveryTime = 2
+
+	self.inShell = false
 
 
 	--upgradable stats
@@ -21,8 +25,10 @@ function Player:new()
 	self.dmg = 0 
 	self.rad = 0
 	self.pspd = 0
+	self.baseSpd = 50
 	self.speed = 50
 	self.tailDmg = 1
+
 
 
 	--what weapons are unlocked
@@ -65,6 +71,7 @@ function Player:statUp(stat, upgradeAmt)
     	end
 	elseif stat == "spd" then
 		self.speed = self.speed + 50*upgradeAmt
+		self.baseSpd = self.baseSpd + 50 * upgradeAmt
 		spdStatUpChevronAnim:setState("active")
 		if self.speed == 50 + 50*1 then
     		spdStatLevelAnim:setState("one")
@@ -118,6 +125,7 @@ end
 
 function Player:takeDmg(dmgNum)
 	self.health = self.health - dmgNum
+	
 	if self.health == 9 then
         self.healthAnim:setState("nine")
     elseif player.health == 8 then
@@ -141,14 +149,29 @@ function Player:takeDmg(dmgNum)
     end
 end
 
+function Player:getHit()
+	player.anim:setState("intoShell")
+	print("in shell")
+	self.inShell = true
+	player.speed = 0
+	Timer.after(self.recoveryTime, function() 
+		player.anim:setState("outOfShell") 
+		print("leaving shell")
+		player.speed = player.baseSpd
+		player.inShell = false
+	end)
+    
+end
+
 function Player:keyPressed(key)
 	--firing
-	if love.keyboard.isDown("space") and self.weaponEquipped["spitter"] then
+	if love.keyboard.isDown("space") and self.weaponEquipped["spitter"] and player.inShell == false then
+		print("fire spit")
 		self.spitter:triggerPull()
 	end
 
 	--active reload
-	if self.spitter.activeReloadCursorXPos >= 4 and self.spitter.activeReloadCursorXPos <= 7 and love.keyboard.isDown("space") then
+	if self.spitter.activeReloadCursorXPos >= 4 and self.spitter.activeReloadCursorXPos <= 7 and love.keyboard.isDown("space") and player.inShell == false then
 		self.spitter.activeReloadSuccessFlag = 1
 		scoring.counterActiveReloadSuccess = scoring.counterActiveReloadSuccess + 1
 		Timer.after(5, function() 
@@ -157,8 +180,6 @@ function Player:keyPressed(key)
 		end)
 		self.spitter:reloadOverride()
 	end
-
-
 end
 
 function Player:update(dt)
@@ -205,7 +226,7 @@ function Player:update(dt)
 	end
 
 	--animations
-	if love.keyboard.isDown("space") then
+	if love.keyboard.isDown("space") and self.inShell == false then
 		self.anim:setState("shoot")
 	end
 	self.anim:update(dt)

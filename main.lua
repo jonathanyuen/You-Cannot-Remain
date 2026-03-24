@@ -13,6 +13,8 @@ local button = require "Button"
 local gameWidth, gameHeight = 320,180
 local windowWidth, windowHeight = love.window.getDesktopDimensions()
 
+collisionInstance = 0
+
 --scoring
 score = 0
 scoring = {
@@ -59,6 +61,8 @@ local function startNewGame()
     score = 0
     scoring.counterAntsKilled = 0
     scoring.counterActiveReloadSuccess = 0
+    player = Player()
+    mastermind = Mastermind()
     
 
 end

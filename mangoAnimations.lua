@@ -95,8 +95,7 @@ return {
 			offsetX = 0,
 			offsetY = 48,
 			frameW = 16,
-			frameH = 16, -- the frame height can change between states
-			nextState = "outOfShell", 
+			frameH = 16, -- the frame height can change between states 
 			switchDelay = 0.1
 		},
 		outOfShell = {

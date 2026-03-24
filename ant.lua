@@ -15,7 +15,6 @@ function Ant:new(lvl,spawnX,spawnY)
 	self.newlyDead = true
 	self.readyToClean = 5
 	self.collisionDmg = 1
-	self.collisionInstance = 0
 end
 
 --handles damage
@@ -39,15 +38,17 @@ function Ant:checkCollision(obj)
     and self_left < obj_right
     and self_bottom > obj_top
     and self_top < obj_bottom then
-        if self.collisionInstance == 0 then
+        if collisionInstance == 0 then
 
-	        --decrease health
+	        --on collision with player - mango goes into shell
 
 	        ---!!!WORK ON INSTANCES SO IT JUST HAPPENS ONCE UGHHG
-	        self.collisionInstance = self.collisionInstance + 1
-	        print(self.collisionInstance)
-	        obj:takeDmg(self.collisionDmg)
-	        Timer.after(1,function() self.collisionInstance = 0 end)
+	        collisionInstance = collisionInstance + 1
+	        print(collisionInstance)
+	        player:getHit()
+	        Timer.after(3,function() 
+	        	collisionInstance = 0 
+	    	end)
 	        print("collision resolved")
 	    end
     end
