@@ -1,11 +1,14 @@
 Object = require "classic"
 Timer = require "timer"
+require "weapon"
 require "player"
 require "ant"
+require "irontail"
 require "spit"
 require "animation"
 require "mastermind"
 require "powerups"
+
 
 
 local push = require "push"
@@ -132,8 +135,10 @@ function love.load()
     
 
     ui = love.graphics.newImage("/sprites/ui.png")
-    --weapons
-    spit = love.graphics.newImage("/sprites/spit.png")
+    --weapons image
+    spitImage = love.graphics.newImage("/sprites/spit.png")
+    tailImage = love.graphics.newImage("/sprites/irontail.png")
+
 
     --title screen
     titleScreen = love.graphics.newImage("/sprites/title screen.png")
@@ -256,6 +261,11 @@ function love.keypressed(key)
                 player.spitter.activeReloadSuccessFlag= -1
             end
         end
+
+        if love.keyboard.isDown("q") == true and player.inShell == false then
+            player:cycleWeapon()
+        end
+
         player:keyPressed(key)
         mastermind:keyPressed(key)
     end
@@ -413,14 +423,15 @@ function love.update(dt)
 
         --update scroll background
         u = u-2*dt
+        --update timer
+        Timer.update(dt)
     end
 
     --death screen
     if game.state["ended"] == true then
         deathScreenAnim:update(dt)
     end
-    --update timer
-    Timer.update(dt)
+    
 
 end
 
@@ -457,7 +468,11 @@ function love.draw()
         spdStatLevelAnim:draw()
         pspdStatLevelAnim:draw()
         -----weapon drawing
-        love.graphics.draw(spit,18,70)
+        if player.weaponEquipped["spitter"].equipped == true then
+            love.graphics.draw(spitImage,18,70)
+        elseif player.weaponEquipped["ironTail"].equipped == true then
+            love.graphics.draw(tailImage,28,68)
+        end
 
         --draw mango
         player:draw()

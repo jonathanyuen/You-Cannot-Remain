@@ -33,22 +33,29 @@ function Player:new()
 
 	--what weapons are unlocked
 	self.weaponsUnlocked = {
-		spit = true,
-		flameThrower = false,
-		railBreath = false,
-		ironTail = false
+		unlockedSpit = true,
+		unlockedFlameThrower = false,
+		unlockedZapBreath = false,
+		unlockedIronTail = true
 	}
 
 	--what weapons are equipped/available to be equipped
-	self.spitter = SpitWeapon(self.x,self.y)
+	self.spitter = SpitWeapon()
+	self.ironTail = IronTail()
 	self.weaponEquipped = {
-		spitter = true
+		spitter = self.spitter, ironTail = self.ironTail
 	}
+end
 
 
-	
-
-
+function Player:cycleWeapon()
+	if self.weaponEquipped["spitter"].equipped == true then
+		self.weaponEquipped["spitter"].equipped = false
+		self.weaponEquipped["ironTail"].equipped = true
+	elseif self.weaponEquipped["ironTail"].equipped == true then
+		self.weaponEquipped["spitter"].equipped = true
+		self.weaponEquipped["ironTail"].equipped = false
+	end
 end
 
 --upgrade a stat (stat) by an amount (upgradeAmt) -- these need to pass through to bullet...
@@ -151,12 +158,10 @@ end
 
 function Player:getHit()
 	player.anim:setState("intoShell")
-	print("in shell")
 	self.inShell = true
 	player.speed = 0
 	Timer.after(self.recoveryTime, function() 
 		player.anim:setState("outOfShell") 
-		print("leaving shell")
 		player.speed = player.baseSpd
 		player.inShell = false
 	end)
@@ -165,13 +170,21 @@ end
 
 function Player:keyPressed(key)
 	--firing
-	if love.keyboard.isDown("space") and self.weaponEquipped["spitter"] and player.inShell == false then
-		print("fire spit")
+	if love.keyboard.isDown("space") and self.weaponEquipped["spitter"].equipped == true and player.inShell == false and self.spitter.outOfAmmoFlag == false then
 		self.spitter:triggerPull()
 	end
 
+	if love.keyboard.isDown("space") and self.weaponEquipped["ironTail"].equipped == true and player.inShell == false then
+		Timer.after(.1, function()
+			self.ironTail:smackTail()
+
+
+		end)
+		
+	end
+
 	--active reload
-	if self.spitter.activeReloadCursorXPos >= 4 and self.spitter.activeReloadCursorXPos <= 7 and love.keyboard.isDown("space") and player.inShell == false then
+	if self.spitter.outOfAmmoFlag == false and self.spitter.activeReloadCursorXPos >= 4 and self.spitter.activeReloadCursorXPos <= 7 and love.keyboard.isDown("space") and player.inShell == false then
 		self.spitter.activeReloadSuccessFlag = 1
 		scoring.counterActiveReloadSuccess = scoring.counterActiveReloadSuccess + 1
 		Timer.after(5, function() 
@@ -183,7 +196,9 @@ function Player:keyPressed(key)
 end
 
 function Player:update(dt)
+	--update weapons
 	self.spitter:update(dt)
+	self.ironTail:update(dt)
 
 	--portrait animation
 	self.portraitAnim:setPosition(229,10)
@@ -226,9 +241,14 @@ function Player:update(dt)
 	end
 
 	--animations
-	if love.keyboard.isDown("space") and self.inShell == false then
+	if love.keyboard.isDown("space") and self.weaponEquipped["spitter"].equipped == true and self.inShell == false then
 		self.anim:setState("shoot")
 	end
+
+	if love.keyboard.isDown("space") and self.weaponEquipped["ironTail"].equipped == true and player.inShell == false then
+		self.anim:setState("melee")
+	end
+
 	self.anim:update(dt)
 
 	local window_width = 320
@@ -243,7 +263,7 @@ end
 function Player:draw()
 	
 	--set player pos
-	self.anim:setPosition(self.x,self.y)
+	self.anim:setPosition(self.x,self.y-4)
 	--active reload success blue?
 	if self.spitter.activeReloadSuccessFlag == 1 then
 		love.graphics.setColor(0,0,1)
@@ -260,6 +280,10 @@ function Player:draw()
 	--draw health
     self.healthAnim:draw()
 
-    --draw spitter
-    self.spitter:draw()
+    --draw weapon associated graphics under mango
+	if self.weaponEquipped["spitter"].equipped == true and player.inShell == false then
+		self.spitter:draw()
+	elseif self.weaponEquipped["ironTail"].equipped == true and player.inShell == false then
+    	self.ironTail:draw()
+    end
 end

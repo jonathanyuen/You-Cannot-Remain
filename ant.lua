@@ -22,7 +22,7 @@ function Ant:takeDmg(dmgNum)
 	self.health = self.health - dmgNum
 end
 
---collision handling
+--checks Collisions
 function Ant:checkCollision(obj)
     local self_left = self.x 
     local self_right = self.x + self.width
@@ -38,21 +38,24 @@ function Ant:checkCollision(obj)
     and self_left < obj_right
     and self_bottom > obj_top
     and self_top < obj_bottom then
-        if collisionInstance == 0 then
-
-	        --on collision with player - mango goes into shell
-
-	        ---!!!WORK ON INSTANCES SO IT JUST HAPPENS ONCE UGHHG
-	        collisionInstance = collisionInstance + 1
-	        print(collisionInstance)
-	        player:getHit()
-	        Timer.after(3,function() 
-	        	collisionInstance = 0 
-	    	end)
-	        print("collision resolved")
-	    end
+        self:collisionWithMango()
     end
-	
+end
+
+--handles consequences of collision with Mango
+function Ant:collisionWithMango()
+	if collisionInstance == 0 then
+
+        --on collision with player - mango goes into shell
+
+        ---!!!WORK ON INSTANCES SO IT JUST HAPPENS ONCE UGHHG
+        collisionInstance = collisionInstance + 1
+        print(collisionInstance)
+        player:getHit()
+        Timer.after(3,function() 
+        	collisionInstance = 0 
+    	end)
+	end
 end
 
 --literally *only* checks if the health of the Ant is zero

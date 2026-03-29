@@ -63,11 +63,11 @@ return {
 	states = {
 		-- 1st line
 		idle = { -- the name of the state is arbitrary
-			frameCount = 16,
+			frameCount = 4,
 			offsetX = 0,
 			offsetY = 0,
-			frameW = 16,
-			frameH = 16,
+			frameW = 20,
+			frameH = 20,
 			nextState = "idle", -- we loop the running state
 			switchDelay = 0.2
 		},
@@ -75,35 +75,35 @@ return {
 		shoot = {
 			frameCount = 1,
 			offsetX = 0,
-			offsetY = 16,
-			frameW = 16,
-			frameH = 16, -- the frame height can change between states
+			offsetY = 20,
+			frameW = 20,
+			frameH = 20, -- the frame height can change between states
 			nextState = "idle", -- after the jump is finished, we switch back to running
 			switchDelay = 0.1
 		},
 		melee = {
-			frameCount = 7,
+			frameCount = 3,
 			offsetX = 0,
-			offsetY = 32,
-			frameW = 16,
-			frameH = 16, -- the frame height can change between states
+			offsetY = 40,
+			frameW = 20,
+			frameH = 20, -- the frame height can change between states
 			nextState = "idle", 
 			switchDelay = 0.1
 		},
 		intoShell = {
-			frameCount = 11,
+			frameCount = 10,
 			offsetX = 0,
-			offsetY = 48,
-			frameW = 16,
-			frameH = 16, -- the frame height can change between states 
+			offsetY = 60,
+			frameW = 20,
+			frameH = 20, -- the frame height can change between states 
 			switchDelay = 0.1
 		},
 		outOfShell = {
-			frameCount = 10,
+			frameCount = 5,
 			offsetX = 0,
-			offsetY = 64,
-			frameW = 16,
-			frameH = 16, -- the frame height can change between states
+			offsetY = 80,
+			frameW = 20,
+			frameH = 20, -- the frame height can change between states
 			nextState = "idle", 
 			switchDelay = 0.1
 		}
