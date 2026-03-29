@@ -58,7 +58,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 -- the return statement is mandatory
 return {
-	imageSrc = "sprites/ant-walking.png",
+	imageSrc = "sprites/ant.png",
 	defaultState = "walking",
 	states = {
 		-- 1st line
@@ -70,6 +70,15 @@ return {
 			frameH = 16,
 			nextState = "walking",
 			switchDelay = 0.4
+		},
+		damaged = { -- the name of the state is arbitrary
+			frameCount = 2,
+			offsetX = 0,
+			offsetY = 16,
+			frameW = 16,
+			frameH = 16,
+			nextState = "walking",
+			switchDelay = 0.1
 		}
 	}
 }

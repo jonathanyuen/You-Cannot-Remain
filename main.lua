@@ -303,21 +303,21 @@ function love.keypressed(key)
         --option navigation
         if love.keyboard.isDown("down") == true then
             if selectedMenuButton == buttons.menu_state[1] then
-                sfxButtonNav:play()
+                sfxButtonNav:clone():play()
                 selectedMenuButton = buttons.menu_state[2]
                 menuCursorAnim:setPosition(selectedMenuButton.button_x-1,selectedMenuButton.button_y+3)
             elseif selectedMenuButton == buttons.menu_state[2] then
-                sfxButtonNav:play()
+                sfxButtonNav:clone():play()
                 selectedMenuButton = buttons.menu_state[3]
                 menuCursorAnim:setPosition(selectedMenuButton.button_x-1,selectedMenuButton.button_y+3)
             end
         elseif love.keyboard.isDown("up") == true then
             if selectedMenuButton == buttons.menu_state[2] then
-                sfxButtonNav:play()
+                sfxButtonNav:clone():play()
                 selectedMenuButton = buttons.menu_state[1]
                 menuCursorAnim:setPosition(selectedMenuButton.button_x-1, selectedMenuButton.button_y+3)
             elseif selectedMenuButton == buttons.menu_state[3] then
-                sfxButtonNav:play()
+                sfxButtonNav:clone():play()
                 selectedMenuButton = buttons.menu_state[2]
                 menuCursorAnim:setPosition(selectedMenuButton.button_x-1, selectedMenuButton.button_y+3)
             end
@@ -336,29 +336,29 @@ function love.keypressed(key)
         --option navigation
         if love.keyboard.isDown("down") == true then
             if selectedPauseButton == buttons.pause_state[1] then
-                sfxButtonNav:play()
+                sfxButtonNav:clone():play()
                 selectedPauseButton = buttons.pause_state[2]
                 menuCursorAnim:setPosition(selectedPauseButton.button_x-1,selectedPauseButton.button_y+3)
             elseif selectedPauseButton == buttons.pause_state[2] then
-                sfxButtonNav:play()
+                sfxButtonNav:clone():play()
                 selectedPauseButton = buttons.pause_state[3]
                 menuCursorAnim:setPosition(selectedPauseButton.button_x-1,selectedPauseButton.button_y+3)
             elseif selectedPauseButton == buttons.pause_state[3] then
-                sfxButtonNav:play()
+                sfxButtonNav:clone():play()
                 selectedPauseButton = buttons.pause_state[4]
                 menuCursorAnim:setPosition(selectedPauseButton.button_x-1,selectedPauseButton.button_y+3)
             end
         elseif love.keyboard.isDown("up") == true then
             if selectedPauseButton == buttons.pause_state[2] then
-                sfxButtonNav:play()
+                sfxButtonNav:clone():play()
                 selectedPauseButton = buttons.pause_state[1]
                 menuCursorAnim:setPosition(selectedPauseButton.button_x-1, selectedPauseButton.button_y+3)
             elseif selectedPauseButton == buttons.pause_state[3] then
-                sfxButtonNav:play()
+                sfxButtonNav:clone():play()
                 selectedPauseButton = buttons.pause_state[2]
                 menuCursorAnim:setPosition(selectedPauseButton.button_x-1, selectedPauseButton.button_y+3)
             elseif selectedPauseButton == buttons.pause_state[4] then
-                sfxButtonNav:play()
+                sfxButtonNav:clone():play()
                 selectedPauseButton = buttons.pause_state[3]
                 menuCursorAnim:setPosition(selectedPauseButton.button_x-1, selectedPauseButton.button_y+3)
             end

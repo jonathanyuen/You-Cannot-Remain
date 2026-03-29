@@ -4,7 +4,7 @@ function Ant:new(lvl,spawnX,spawnY)
 	--coordinates/attributes
 	self.x = spawnX
 	self.y = spawnY
-	self.speed = 10
+	self.speed = 8
 	self.anim = LoveAnimation.new('antAnimations.lua')
 	self.deathAnimation = LoveAnimation.new('deathAnimations.lua')
 	self.health = lvl+1
@@ -15,12 +15,24 @@ function Ant:new(lvl,spawnX,spawnY)
 	self.newlyDead = true
 	self.readyToClean = 5
 	self.collisionDmg = 1
+	self.hitStunned = false
 end
 
 --handles damage
 function Ant:takeDmg(dmgNum)
+	--play sfx 
 	sfxSuccessfulHit:clone():play()
+
+	--health reduction
 	self.health = self.health - dmgNum
+
+	--damaged animation
+	self.anim:setState("damaged")
+	--freeze position for duration
+	self.hitStunned = true
+	
+	--expire the hitstun
+	Timer.after(.7,function() self.hitStunned = false end)
 end
 
 --checks Collisions
@@ -71,14 +83,15 @@ end
 function Ant:update(dt)
 	-- status: alive, so keep it pushin
 	if self:isDead() == false then
-		
-		self.y = self.y + self.speed * dt
-		if self.y > 180 then
-			player:takeDmg(1)
-			self.health = 0
-			self.readyToClean = 6
+		if self.hitStunned == false then
+			self.y = self.y + self.speed * dt
+			if self.y > 180 then
+				player:takeDmg(1)
+				self.health = 0
+				self.readyToClean = 6
+			end
+			self:checkCollision(player)
 		end
-		self:checkCollision(player)
 	
 	-- status: dead! play death animation
 	elseif self:isDead() == true and self.newlyDead == true then
