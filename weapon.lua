@@ -54,6 +54,7 @@ does the calculations of whether or not a projectile is *fired*
 function Weapon:triggerPull()
     if self.outOfAmmoFlag == false then
         if self.clip > 0 and self.reloadComplete == true and self.reloadInstance == 0 and self.activeReloadInstance == 0 then
+            sfxSpit:clone():play()
             self:fireBullet()
         elseif self.clip <= 0 then
             self:reload()

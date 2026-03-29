@@ -132,6 +132,7 @@ end
 
 function Player:takeDmg(dmgNum)
 	self.health = self.health - dmgNum
+	sfxHPDown:play()
 	
 	if self.health == 9 then
         self.healthAnim:setState("nine")
@@ -158,9 +159,11 @@ end
 
 function Player:getHit()
 	player.anim:setState("intoShell")
+	sfxInShell:play()
 	self.inShell = true
 	player.speed = 0
 	Timer.after(self.recoveryTime, function() 
+		--sfxOutOfShell:play()
 		player.anim:setState("outOfShell") 
 		player.speed = player.baseSpd
 		player.inShell = false
@@ -185,6 +188,7 @@ function Player:keyPressed(key)
 
 	--active reload
 	if self.spitter.outOfAmmoFlag == false and self.spitter.activeReloadCursorXPos >= 4 and self.spitter.activeReloadCursorXPos <= 7 and love.keyboard.isDown("space") and player.inShell == false then
+		sfxActiveReloadSuccess:play()
 		self.spitter.activeReloadSuccessFlag = 1
 		scoring.counterActiveReloadSuccess = scoring.counterActiveReloadSuccess + 1
 		Timer.after(5, function() 

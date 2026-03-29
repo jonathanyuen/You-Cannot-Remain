@@ -147,9 +147,19 @@ function love.load()
     --load the music
     songStageOne = love.audio.newSource("/sound/music/stage 1.mp3", "stream")
 
-    
-
     --load the sfx
+    sfxActiveReloadSuccess = love.audio.newSource("/sound/sfx/active-reload-success.ogg", "static")
+    sfxButtonNav = love.audio.newSource("/sound/sfx/button-nav.wav", "static")
+    sfxButtonSelect = love.audio.newSource("/sound/sfx/button-select.wav", "static")
+    sfxHPDown = love.audio.newSource("/sound/sfx/hp-down.ogg", "static")
+    sfxInShell = love.audio.newSource("/sound/sfx/in-shell.ogg", "static")
+    sfxIronTailSwipe = love.audio.newSource("/sound/sfx/irontailswipe.wav", "static")
+    --sfOutOfShell broken
+    --sfxOutOfShell = love.audio.newSource("/sound/sfx/outofshell.m4a", "stream")
+    --a little quiet, might need to adjust volume upward
+    sfxPowerUp = love.audio.newSource("/sound/sfx/powerup.wav", "static")
+    sfxSpit = love.audio.newSource("/sound/sfx/spit.wav", "static")
+    sfxSuccessfulHit= love.audio.newSource("/sound/sfx/successfulhit.wav", "static")
 
 
     --title screen
@@ -287,22 +297,27 @@ function love.keypressed(key)
     -----option selection
         if  (love.keyboard.isDown("return") == true) or (love.keyboard.isDown("space")) then
             selectedMenuButton:pressed()
+            sfxButtonSelect:play()
         end
 
         --option navigation
         if love.keyboard.isDown("down") == true then
             if selectedMenuButton == buttons.menu_state[1] then
+                sfxButtonNav:play()
                 selectedMenuButton = buttons.menu_state[2]
                 menuCursorAnim:setPosition(selectedMenuButton.button_x-1,selectedMenuButton.button_y+3)
             elseif selectedMenuButton == buttons.menu_state[2] then
+                sfxButtonNav:play()
                 selectedMenuButton = buttons.menu_state[3]
                 menuCursorAnim:setPosition(selectedMenuButton.button_x-1,selectedMenuButton.button_y+3)
             end
         elseif love.keyboard.isDown("up") == true then
             if selectedMenuButton == buttons.menu_state[2] then
+                sfxButtonNav:play()
                 selectedMenuButton = buttons.menu_state[1]
                 menuCursorAnim:setPosition(selectedMenuButton.button_x-1, selectedMenuButton.button_y+3)
             elseif selectedMenuButton == buttons.menu_state[3] then
+                sfxButtonNav:play()
                 selectedMenuButton = buttons.menu_state[2]
                 menuCursorAnim:setPosition(selectedMenuButton.button_x-1, selectedMenuButton.button_y+3)
             end
@@ -314,28 +329,36 @@ function love.keypressed(key)
         -----option selection
         if  (love.keyboard.isDown("return") == true) or (love.keyboard.isDown("space")) then
             selectedPauseButton:pressed()
+            sfxButtonSelect:play()
+
         end
 
         --option navigation
         if love.keyboard.isDown("down") == true then
             if selectedPauseButton == buttons.pause_state[1] then
+                sfxButtonNav:play()
                 selectedPauseButton = buttons.pause_state[2]
                 menuCursorAnim:setPosition(selectedPauseButton.button_x-1,selectedPauseButton.button_y+3)
             elseif selectedPauseButton == buttons.pause_state[2] then
+                sfxButtonNav:play()
                 selectedPauseButton = buttons.pause_state[3]
                 menuCursorAnim:setPosition(selectedPauseButton.button_x-1,selectedPauseButton.button_y+3)
             elseif selectedPauseButton == buttons.pause_state[3] then
+                sfxButtonNav:play()
                 selectedPauseButton = buttons.pause_state[4]
                 menuCursorAnim:setPosition(selectedPauseButton.button_x-1,selectedPauseButton.button_y+3)
             end
         elseif love.keyboard.isDown("up") == true then
             if selectedPauseButton == buttons.pause_state[2] then
+                sfxButtonNav:play()
                 selectedPauseButton = buttons.pause_state[1]
                 menuCursorAnim:setPosition(selectedPauseButton.button_x-1, selectedPauseButton.button_y+3)
             elseif selectedPauseButton == buttons.pause_state[3] then
+                sfxButtonNav:play()
                 selectedPauseButton = buttons.pause_state[2]
                 menuCursorAnim:setPosition(selectedPauseButton.button_x-1, selectedPauseButton.button_y+3)
             elseif selectedPauseButton == buttons.pause_state[4] then
+                sfxButtonNav:play()
                 selectedPauseButton = buttons.pause_state[3]
                 menuCursorAnim:setPosition(selectedPauseButton.button_x-1, selectedPauseButton.button_y+3)
             end

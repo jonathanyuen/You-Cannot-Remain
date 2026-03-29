@@ -19,6 +19,7 @@ end
 
 --handles damage
 function Ant:takeDmg(dmgNum)
+	sfxSuccessfulHit:clone():play()
 	self.health = self.health - dmgNum
 end
 

@@ -68,6 +68,7 @@ function Powerup:update(dt)
 	
 	-- status: dead! play death animation
 	elseif self:isDead() == true and self.newlyDead == true then
+		sfxPowerUp:play()
 		self.deathLocationX = self.x
 		self.deathLocationY = self.y
 		self.deathAnimation:setPosition(self.deathLocationX,self.deathLocationY)

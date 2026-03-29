@@ -23,6 +23,8 @@ does the calculations of whether or not a projectile is *fired*
 
 function IronTail:smackTail()
 
+    sfxIronTailSwipe:clone():play()
+
     local hbox_left = player.x
     local hbox_right = player.x + 16
     local hbox_top = player.y - 8
