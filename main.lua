@@ -1,3 +1,7 @@
+if arg[2] == "debug" then
+    require("lldebugger").start()
+end
+
 Object = require "classic"
 Timer = require "timer"
 require "weapon"
@@ -138,6 +142,14 @@ function love.load()
     --weapons image
     spitImage = love.graphics.newImage("/sprites/spit.png")
     tailImage = love.graphics.newImage("/sprites/irontail.png")
+
+
+    --load the music
+    songStageOne = love.audio.newSource("/sound/music/stage 1.mp3", "stream")
+
+    
+
+    --load the sfx
 
 
     --title screen
@@ -344,6 +356,10 @@ function love.update(dt)
 
     --game runnin
     if game.state["running"] == true then
+    
+        songStageOne:setLooping(true)
+        songStageOne:play()
+    
 
         for i,v in ipairs(listOfEnemies) do
             v:update(dt)
@@ -422,7 +438,7 @@ function love.update(dt)
         score = scoring.counterAntsKilled + scoring.counterActiveReloadSuccess
 
         --update scroll background
-        u = u-2*dt
+        u = u-6*dt
         --update timer
         Timer.update(dt)
     end
@@ -515,4 +531,14 @@ function love.draw()
 
     --finish scaling
     push:finish()
+end
+
+local love_errorhandler = love.errorhandler
+
+function love.errorhandler(msg)
+    if lldebugger then
+        error(msg, 2)
+    else
+        return love_errorhandler(msg)
+    end
 end

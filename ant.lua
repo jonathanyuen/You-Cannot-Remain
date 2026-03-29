@@ -4,7 +4,7 @@ function Ant:new(lvl,spawnX,spawnY)
 	--coordinates/attributes
 	self.x = spawnX
 	self.y = spawnY
-	self.speed = 7
+	self.speed = 10
 	self.anim = LoveAnimation.new('antAnimations.lua')
 	self.deathAnimation = LoveAnimation.new('deathAnimations.lua')
 	self.health = lvl+1

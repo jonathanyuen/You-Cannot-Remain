@@ -55,7 +55,7 @@ function IronTail:damageCalc(enemyIndex,enemy)
         for i,v in ipairs(player.weaponEquipped) do
             print (v)
             print (v.ammoLeft)
-            v.ammoLeft = v.ammoLeft + 2
+            v.ammoLeft = v.ammoLeft + 4
         end
     end
     --[[
