@@ -1,6 +1,6 @@
 Weapon = Object:extend()
 
-reloadTimer = Timer.new()
+local reloadTimer = Timer.new()
 
 -- see if we can get away with spitWeapon being called only in the player class?
 

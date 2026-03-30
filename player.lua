@@ -19,6 +19,9 @@ function Player:new()
 
 	self.inShell = false
 
+	--timer
+	self.reloadTimerForPlayer = Timer.new()
+
 
 	--upgradable stats
 	self.health = 3
@@ -191,15 +194,18 @@ function Player:keyPressed(key)
 		sfxActiveReloadSuccess:play()
 		self.spitter.activeReloadSuccessFlag = 1
 		scoring.counterActiveReloadSuccess = scoring.counterActiveReloadSuccess + 1
-		Timer.after(5, function() 
+		self.reloadTimerForPlayer:after(5, function() 
+			print(self.spitter.activeReloadSuccessFlag)
 			self.spitter.activeReloadSuccessFlag = 0
-			Timer.clear()
+			self.reloadTimerForPlayer:clear()
 		end)
 		self.spitter:reloadOverride()
 	end
 end
 
 function Player:update(dt)
+	--update clock
+	self.reloadTimerForPlayer:update(dt)
 	--update weapons
 	self.spitter:update(dt)
 	self.ironTail:update(dt)

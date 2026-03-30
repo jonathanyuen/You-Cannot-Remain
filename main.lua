@@ -14,7 +14,6 @@ require "mastermind"
 require "powerups"
 
 
-
 local push = require "push"
 local button = require "Button"
 local gameWidth, gameHeight = 320,180
@@ -34,8 +33,9 @@ scoring = {
 
 --palette of colors
 colorPalette = {
-    red = {180/255,82/255,82/255},
-    fauxWhite = {184/255, 181/255, 185/255}
+    red = {180/255,82/255,82/255,1},
+    fauxWhite = {184/255, 181/255, 185/255,1},
+    fauxBlack = {33/255,33/255,35/255,1}
 }
 
 
@@ -267,6 +267,7 @@ end
 
 function love.keypressed(key)
 
+
     if game.state["running"] then
         --what happens when you press pause
         if love.keyboard.isDown("p") == true or love.keyboard.isDown("escape") == true then
@@ -367,6 +368,7 @@ function love.keypressed(key)
 end
 
 function love.update(dt)
+
     --menuuu
     if game.state["menu"] == true then
         menuCursorAnim:update(dt)        
@@ -461,7 +463,7 @@ function love.update(dt)
         score = scoring.counterAntsKilled + scoring.counterActiveReloadSuccess
 
         --update scroll background
-        u = u-6*dt
+        u = u-4*dt
         --update timer
         Timer.update(dt)
     end
@@ -479,6 +481,9 @@ end
 function love.draw()
     --scaling...
     push:start()
+
+
+
 
     --if game.state is menu
     if game.state["menu"] then

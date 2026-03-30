@@ -44,6 +44,22 @@ function IronTail:smackTail()
             self:damageCalc(i,v)
         end
     end
+
+    for i,v in ipairs(listOfPowerups) do
+
+        local enemy_left = v.x 
+        local enemy_right = v.x +v.width
+        local enemy_top = v.y
+        local enemy_bottom = v.y + v.height
+
+        if  enemy_right > hbox_left
+        and enemy_left < hbox_right
+        and enemy_bottom > hbox_top
+        and enemy_top < hbox_bottom then
+            v:takeDmg(10000)
+            player.spitter.ammoLeft = player.spitter.ammoLeft + 16
+        end
+    end
     
     self.clip = self.clip - 1
 
