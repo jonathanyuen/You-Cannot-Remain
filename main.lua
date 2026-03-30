@@ -465,7 +465,7 @@ function love.update(dt)
         --update scroll background
         u = u-4*dt
         --update timer
-        Timer.update(dt)
+        
     end
 
     --death screen
@@ -473,7 +473,7 @@ function love.update(dt)
         deathScreenAnim:update(dt)
     end
     
-
+    Timer.update(dt)
 end
 
 

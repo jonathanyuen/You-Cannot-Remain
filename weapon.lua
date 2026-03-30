@@ -102,11 +102,11 @@ end
 
 function Weapon:fireBullet()
     if self.activeReloadSuccessFlag == 0 then
-        table.insert(listOfSpitBullets, Spit(player.x+4, player.y))
+        table.insert(listOfSpitBullets, Spit(player.x+5, player.y))
         self.clip = self.clip - 1
     elseif self.activeReloadSuccessFlag == 1 then
-        table.insert(listOfSpitBullets, Spit(player.x+2, player.y))
-        table.insert(listOfSpitBullets, Spit(player.x+6, player.y))
+        table.insert(listOfSpitBullets, Spit(player.x+7, player.y))
+        table.insert(listOfSpitBullets, Spit(player.x+3, player.y))
         self.clip = self.clip - 1
     end
 end

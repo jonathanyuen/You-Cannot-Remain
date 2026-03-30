@@ -66,7 +66,8 @@ function IronTail:smackTail()
 end
 
 function IronTail:damageCalc(enemyIndex,enemy)
-    enemy:takeDmg(self.damage)
+    --include damage scaling here
+    enemy:takeDmg(self.damage + player.dmg)
     if enemy:isDead() == true then
         player.spitter.ammoLeft = player.spitter.ammoLeft + 2
 

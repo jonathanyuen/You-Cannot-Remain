@@ -29,7 +29,7 @@ function Player:new()
 	self.rad = 0
 	self.pspd = 0
 	self.baseSpd = 50
-	self.speed = 50
+	self.speed = 35
 	self.tailDmg = 1
 
 
