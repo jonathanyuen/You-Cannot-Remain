@@ -63,13 +63,30 @@ return {
 	states = {
 		-- 1st line
 		idle = { -- the name of the state is arbitrary
-			frameCount = 29,
+			frameCount = 19,
 			offsetX = 0,
 			offsetY = 0,
 			frameW = 80,
 			frameH = 80,
 			nextState = "idle", -- we loop the running state
 			switchDelay = 0.1
+		},
+		sad = { -- the name of the state is arbitrary
+			frameCount = 2,
+			offsetX = 0,
+			offsetY = 80,
+			frameW = 80,
+			frameH = 80,
+			switchDelay = 0.5
+		},
+		activeReloadSuccess = { -- the name of the state is arbitrary
+			frameCount = 2,
+			offsetX = 0,
+			offsetY = 160,
+			frameW = 80,
+			frameH = 80,
+			nextState = "activeReloadSuccess", -- we loop the running state
+			switchDelay = 0.5
 		}
 	}
 }

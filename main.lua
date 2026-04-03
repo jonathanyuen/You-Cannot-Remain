@@ -61,6 +61,13 @@ local buttons = {
     ended_state = {}
 }
 
+--merchant (global)
+function startMerchant()
+    print ("merchant started")
+    game.state["running"] = false
+    game.state["merchant"] = true
+end
+
 --start the game
 local function startNewGame()
     game.state["menu"] = false
@@ -68,8 +75,22 @@ local function startNewGame()
     score = 0
     scoring.counterAntsKilled = 0
     scoring.counterActiveReloadSuccess = 0
+    player = nil
     player = Player()
+    mastermind = nil
     mastermind = Mastermind()
+    --reset arrays
+    listOfEnemies = nil
+    listOfSpitBullets = nil
+    listOfPowerups = nil
+
+    listOfEnemies = {}
+    listOfSpitBullets = {}
+    listOfPowerups = {}
+
+    --initialize enemies and powerups 
+    mastermind:spawn()
+    mastermind:spawnPowerup()
     
 
 end
@@ -217,6 +238,10 @@ function love.load()
     table.insert(buttons.pause_state, buttons.pause_state.settings)
     table.insert(buttons.pause_state, buttons.pause_state.quitToMenu)
     table.insert(buttons.pause_state, buttons.pause_state.quit_game)
+
+
+    --Merchant Buttons
+    --buttons.merchant_state.
 
 
     --figure out where/how to do this so its not just in load?

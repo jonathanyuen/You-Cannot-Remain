@@ -162,12 +162,14 @@ end
 
 function Player:getHit()
 	player.anim:setState("intoShell")
+	self.portraitAnim:setState("sad")
 	sfxInShell:play()
 	self.inShell = true
 	player.speed = 0
 	Timer.after(self.recoveryTime, function() 
 		--sfxOutOfShell:play()
 		player.anim:setState("outOfShell") 
+		self.portraitAnim:setState("idle")
 		player.speed = player.baseSpd
 		player.inShell = false
 	end)
@@ -192,10 +194,12 @@ function Player:keyPressed(key)
 	--active reload
 	if self.spitter.outOfAmmoFlag == false and self.spitter.activeReloadCursorXPos >= 4 and self.spitter.activeReloadCursorXPos <= 7 and love.keyboard.isDown("space") and player.inShell == false then
 		sfxActiveReloadSuccess:play()
+		self.portraitAnim:setState("activeReloadSuccess")
 		self.spitter.activeReloadSuccessFlag = 1
 		scoring.counterActiveReloadSuccess = scoring.counterActiveReloadSuccess + 1
 		self.reloadTimerForPlayer:after(5, function() 
 			print(self.spitter.activeReloadSuccessFlag)
+			self.portraitAnim:setState("idle")
 			self.spitter.activeReloadSuccessFlag = 0
 			self.reloadTimerForPlayer:clear()
 		end)

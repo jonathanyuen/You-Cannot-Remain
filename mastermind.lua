@@ -103,20 +103,28 @@ end
 
 function Mastermind:update(dt)
 	if 12 > self.enemyKillCount and self.enemyKillCount > 5 then
+		--startMerchant()
 		self:setLevel(2)
 	elseif 20 > self.enemyKillCount and self.enemyKillCount > 12 then
+		--startMerchant()
 		self:setLevel(3)
 	elseif 35 > self.enemyKillCount and self.enemyKillCount > 20 then
+		--startMerchant()
 		self:setLevel(4)
 	elseif 60 > self.enemyKillCount and self.enemyKillCount > 35 then
+		--startMerchant()
 		self:setLevel(5)
 	elseif 100 > self.enemyKillCount and self.enemyKillCount > 60 then
+		--startMerchant()
 		self:setLevel(6)
 	elseif 150 > self.enemyKillCount and self.enemyKillCount > 100 then
+		--startMerchant()
 		self:setLevel(7)
 	elseif 225 > self.enemyKillCount and self.enemyKillCount > 150 then
+		--startMerchant()
 		self:setLevel(8)
 	elseif self.enemyKillCount and self.enemyKillCount > 225 then
+		--startMerchant()
 		self:setLevel(9)
 	end
 end
