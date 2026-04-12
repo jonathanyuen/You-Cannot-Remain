@@ -58,35 +58,35 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 -- the return statement is mandatory
 return {
-	imageSrc = "sprites/mango-portrait.png",
-	defaultState = "idle",
+	imageSrc = "sprites/firebreath.png",
+	defaultState = "loop",
 	states = {
 		-- 1st line
-		idle = { -- the name of the state is arbitrary
-			frameCount = 18,
+		startup = { -- the name of the state is arbitrary
+			frameCount = 3,
 			offsetX = 0,
 			offsetY = 0,
-			frameW = 80,
-			frameH = 80,
-			nextState = "idle", -- we loop the running state
+			frameW = 31,
+			frameH = 29,
+			nextState = "loop",
 			switchDelay = 0.1
 		},
-		sad = { -- the name of the state is arbitrary
-			frameCount = 2,
+		loop = { -- the name of the state is arbitrary
+			frameCount = 3,
 			offsetX = 0,
-			offsetY = 80,
-			frameW = 80,
-			frameH = 80,
-			switchDelay = 0.5
+			offsetY = 29,
+			frameW = 31,
+			frameH = 29,
+			nextState = "loop",
+			switchDelay = 0.1
 		},
-		activeReloadSuccess = { -- the name of the state is arbitrary
-			frameCount = 2,
+		stop = { -- the name of the state is arbitrary
+			frameCount = 4,
 			offsetX = 0,
-			offsetY = 160,
-			frameW = 80,
-			frameH = 80,
-			nextState = "activeReloadSuccess", -- we loop the running state
-			switchDelay = 0.5
+			offsetY = 58,
+			frameW = 31,
+			frameH = 29,
+			switchDelay = 0.1
 		}
 	}
 }

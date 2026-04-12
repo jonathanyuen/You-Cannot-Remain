@@ -31,10 +31,25 @@ function Spit:checkCollision(obj)
     and self_left < obj_right
     and self_bottom > obj_top
     and self_top < obj_bottom then
-        self.dead = true
+        --spit hit!
 
+        --get rid of spit bullet
+        if player.item39Flag == false then
+            self.dead = true
+        else
+            Timer.after(4, function()
+                self.dead = true
+            end)
+        end
+        
+
+        --give extra renown for a kill
+        if player.item25Flag == true and obj.health <= self.damage then
+            score = score + 1
+        end
         --decrease health
         obj:takeDmg(self.damage)
+        
     else
         scoring.flagBulletsMissed = true
     end

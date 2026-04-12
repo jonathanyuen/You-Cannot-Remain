@@ -1,5 +1,7 @@
 Player = Object:extend()
 require "spitWeapon"
+require "equipment"
+require "firebreath"
 
 
 function Player:new()
@@ -28,7 +30,7 @@ function Player:new()
 	self.dmg = 0 
 	self.rad = 0
 	self.pspd = 0
-	self.baseSpd = 50
+	self.baseSpd = 35
 	self.speed = 35
 	self.tailDmg = 1
 
@@ -45,9 +47,25 @@ function Player:new()
 	--what weapons are equipped/available to be equipped
 	self.spitter = SpitWeapon()
 	self.ironTail = IronTail()
+	self.fireBreath = FireBreath()
 	self.weaponEquipped = {
-		spitter = self.spitter, ironTail = self.ironTail
+		spitter = self.spitter, ironTail = self.ironTail, fireBreath = self.fireBreath
 	}
+
+	--items
+	self.equipment = Equipment()
+
+	--item specific flags
+	--- on dmg, get a random power up
+	self.item21Flag = false
+	--spit kills give +1 renown
+	self.item25Flag = false
+	--tail kills give +1 renown
+	self.item26Flag = false
+	--shield 1 hit
+	self.item27Flag = false
+	--bullet passthrough
+	self.item39Flag = false
 end
 
 
@@ -55,9 +73,15 @@ function Player:cycleWeapon()
 	if self.weaponEquipped["spitter"].equipped == true then
 		self.weaponEquipped["spitter"].equipped = false
 		self.weaponEquipped["ironTail"].equipped = true
+		self.weaponEquipped["fireBreath"].equipped = false
 	elseif self.weaponEquipped["ironTail"].equipped == true then
+		self.weaponEquipped["spitter"].equipped = false
+		self.weaponEquipped["ironTail"].equipped = false
+		self.weaponEquipped["fireBreath"].equipped = true
+	elseif self.weaponEquipped["fireBreath"].equipped == true then
 		self.weaponEquipped["spitter"].equipped = true
 		self.weaponEquipped["ironTail"].equipped = false
+		self.weaponEquipped["fireBreath"].equipped = false
 	end
 end
 
@@ -134,9 +158,31 @@ function Player:statUp(stat, upgradeAmt)
 end
 
 function Player:takeDmg(dmgNum)
+	--item 27 -- block 1 damage
+	if player.item27Flag == true then
+		dmgNum = dmgNum - 1
+		player.item27Flag = false
+	end
+
 	self.health = self.health - dmgNum
 	sfxHPDown:play()
 	
+
+	--item 21 logic - providing a power up upon damage
+	if item21Flag == true and self.health > 0 then
+		local rngType = math.random(1,4)
+		if rngType == 1 then
+			player:statUp("dmg",1)
+		elseif rngType == 2 then
+			player:statUp("spd",5)
+		elseif rngType == 3 then
+			player:statUp("pspd",1)
+		elseif rngType == 4 then
+			player:statUp("rad",1)
+		end
+	end
+
+	--play health anim
 	if self.health == 9 then
         self.healthAnim:setState("nine")
     elseif player.health == 8 then
@@ -213,6 +259,7 @@ function Player:update(dt)
 	--update weapons
 	self.spitter:update(dt)
 	self.ironTail:update(dt)
+	self.fireBreath:update(dt)
 
 	--portrait animation
 	self.portraitAnim:setPosition(229,10)
@@ -269,8 +316,6 @@ function Player:update(dt)
 
 	--update player health
     self.healthAnim:update(dt)
-
-
     
 end
 
@@ -299,5 +344,7 @@ function Player:draw()
 		self.spitter:draw()
 	elseif self.weaponEquipped["ironTail"].equipped == true and player.inShell == false then
     	self.ironTail:draw()
-    end
+	elseif self.weaponEquipped["fireBreath"].equipped == true and player.inShell == false then
+		self.fireBreath:draw()
+	end
 end

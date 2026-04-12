@@ -69,7 +69,13 @@ function IronTail:damageCalc(enemyIndex,enemy)
     --include damage scaling here
     enemy:takeDmg(self.damage + player.dmg)
     if enemy:isDead() == true then
+        --refill ammo
         player.spitter.ammoLeft = player.spitter.ammoLeft + 2
+
+        --item26--give bonus renown on kill
+        if player.item26Flag == true then
+            score = score + 1
+        end
 
         for i,v in ipairs(player.weaponEquipped) do
             print (v)
