@@ -18,7 +18,11 @@ function FireBreath:new()
     self.temp = 0
     self.overheatFlag = false
 
+    
+
     self.flameAnim = LoveAnimation.new('firebreathAnimations.lua')
+
+    
     
 end
 
@@ -57,6 +61,9 @@ end
 function FireBreath:update(dt)
     --checks if its out of ammo
     self:outOfAmmo()
+    --flame anim position
+	self.flameAnim:setPosition(player.x-6, player.y-35)
+    self.flameAnim:update(dt)
 end
 
 function FireBreath:draw()

@@ -7,6 +7,8 @@ function IronTail:new()
     self.level = 0
  
     self.damage = 1
+    self.fireRate = 1.5
+    self.swinging = false
 
 
     --array to keep the targets who are being calculate for their hit

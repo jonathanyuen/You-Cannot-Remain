@@ -16,6 +16,7 @@ function Player:new()
 	self.healthAnim = LoveAnimation.new('healthAnimations.lua')
 	self.healthAnim:setState("three")
 	self.healthAnim:setPosition(22,142)
+
 	--amt of time it takes to come out of shell when dmg'd
 	self.recoveryTime = 2
 
@@ -224,15 +225,26 @@ end
 
 function Player:keyPressed(key)
 	--firing
+
+	--spitter
 	if love.keyboard.isDown("space") and self.weaponEquipped["spitter"].equipped == true and player.inShell == false and self.spitter.outOfAmmoFlag == false then
 		self.spitter:triggerPull()
 	end
 
-	if love.keyboard.isDown("space") and self.weaponEquipped["ironTail"].equipped == true and player.inShell == false then
+	--fireBreath
+	if love.keyboard.isDown("space") and self.weaponEquipped["fireBreath"].equipped == true and player.inShell == false and self.fireBreath.outOfAmmoFlag == false then
+		self.fireBreath:triggerPull()
+	end
+
+	--ironTail
+	if love.keyboard.isDown("space") and self.weaponEquipped["ironTail"].equipped == true and player.inShell == false and self.ironTail.swinging == false then
+		self.ironTail.swinging = true
 		Timer.after(.1, function()
 			self.ironTail:smackTail()
-
-
+			self.anim:setState("melee")
+		end)
+		Timer.after(self.ironTail.fireRate, function()
+			self.ironTail.swinging = false
 		end)
 		
 	end
@@ -306,7 +318,12 @@ function Player:update(dt)
 		self.anim:setState("shoot")
 	end
 
-	if love.keyboard.isDown("space") and self.weaponEquipped["ironTail"].equipped == true and player.inShell == false then
+	if love.keyboard.isDown("space") and self.weaponEquipped["fireBreath"].equipped == true and self.inShell == false then
+		self.fireBreath.flameAnim:setState("startup")
+		self.anim:setState("shoot")
+	end
+
+	if love.keyboard.isDown("space") and self.weaponEquipped["ironTail"].equipped == true and player.inShell == false and self.weaponEquipped["ironTail"].swinging == false then
 		self.anim:setState("melee")
 	end
 
