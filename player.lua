@@ -224,7 +224,7 @@ function Player:getHit()
 end
 
 function Player:keyPressed(key)
-	--firing
+	--firing weapons
 
 	--spitter
 	if love.keyboard.isDown("space") and self.weaponEquipped["spitter"].equipped == true and player.inShell == false and self.spitter.outOfAmmoFlag == false then
@@ -232,9 +232,8 @@ function Player:keyPressed(key)
 	end
 
 	--fireBreath
-	if love.keyboard.isDown("space") and self.weaponEquipped["fireBreath"].equipped == true and player.inShell == false and self.fireBreath.outOfAmmoFlag == false then
-		self.fireBreath:triggerPull()
-	end
+	
+	
 
 	--ironTail
 	if love.keyboard.isDown("space") and self.weaponEquipped["ironTail"].equipped == true and player.inShell == false and self.ironTail.swinging == false then
@@ -265,6 +264,14 @@ function Player:keyPressed(key)
 	end
 end
 
+function Player:keyReleased(key)
+	if key == "space" and self.weaponEquipped["fireBreath"].equipped == true and player.inShell == false then
+		self.fireBreath.flameAnim:setState("stop")
+		self.fireBreath.breathing = false
+		print("flames should stop")
+	end
+end
+
 function Player:update(dt)
 	--update clock
 	self.reloadTimerForPlayer:update(dt)
@@ -276,6 +283,16 @@ function Player:update(dt)
 	--portrait animation
 	self.portraitAnim:setPosition(229,10)
 	self.portraitAnim:update(dt)
+
+	--fire breath (here bc you hold down a key)
+	if love.keyboard.isDown("space") and self.weaponEquipped["fireBreath"].equipped == true and player.inShell == false then
+		print("firebreath triggered")
+		self.fireBreath:triggerPull()
+		self.anim:setState("shoot")
+	else
+		self.fireBreath.flameAnim:setState("stop")
+		self.fireBreath.breathing = false
+	end
 
 
 	--moving left and right
@@ -313,15 +330,11 @@ function Player:update(dt)
 		self.y = 160
 	end
 
-	--animations
+	--mango animations
 	if love.keyboard.isDown("space") and self.weaponEquipped["spitter"].equipped == true and self.inShell == false then
 		self.anim:setState("shoot")
 	end
 
-	if love.keyboard.isDown("space") and self.weaponEquipped["fireBreath"].equipped == true and self.inShell == false then
-		self.fireBreath.flameAnim:setState("startup")
-		self.anim:setState("shoot")
-	end
 
 	if love.keyboard.isDown("space") and self.weaponEquipped["ironTail"].equipped == true and player.inShell == false and self.weaponEquipped["ironTail"].swinging == false then
 		self.anim:setState("melee")
@@ -333,6 +346,9 @@ function Player:update(dt)
 
 	--update player health
     self.healthAnim:update(dt)
+
+	--debug firebreath
+	print(self.fireBreath.breathing)
     
 end
 
@@ -357,11 +373,11 @@ function Player:draw()
     self.healthAnim:draw()
 
     --draw weapon associated graphics under mango
-	if self.weaponEquipped["spitter"].equipped == true and player.inShell == false then
+	if self.weaponEquipped["spitter"].equipped == true then
 		self.spitter:draw()
-	elseif self.weaponEquipped["ironTail"].equipped == true and player.inShell == false then
+	elseif self.weaponEquipped["ironTail"].equipped == true then
     	self.ironTail:draw()
-	elseif self.weaponEquipped["fireBreath"].equipped == true and player.inShell == false then
+	elseif self.weaponEquipped["fireBreath"].equipped == true then
 		self.fireBreath:draw()
 	end
 end

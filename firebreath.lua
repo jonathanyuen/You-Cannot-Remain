@@ -10,11 +10,16 @@ function FireBreath:new()
     --weapon level
     self.equipped = 0
     self.level = 0
-    self.fuel = 4
+    self.fuel = 10
     self.outOfAmmoFlag = false
+    --flag to detect if the flame is still active aka if you're holding down the firing button
+    self.breathing = false
+    --flag to detect if the fire breath is initalizing - starting up the startup animations
+    self.newPull = false
+    self.startingFuelCost = 2
     
     --exclamation mark when it hits lower?
-    self.tempResistance = 10
+    self.tempThreshold = 10
     self.temp = 0
     self.overheatFlag = false
 
@@ -34,44 +39,69 @@ does the calculations of whether or not a projectile is *fired*
 ]]
 function FireBreath:triggerPull()
     if self.outOfAmmoFlag == false and self.overheatFlag == false then
-        if self.fuel > 0 then
-            --need new sound
-            sfxSpit:clone():play()
-            self:fire()
+        if self.breathing == false then
+            if self.fuel > self.startingFuelCost then
+                --need new sound
+                sfxSpit:clone():play()
+                self:fire()
+                self.fuel = self.fuel - self.startingFuelCost
+                self.flameAnim:setState("startup")
+                self.breathing = true
+                print("new instance of firebreath")
+            end
+        else
+            if self.fuel > self.startingFuelCost then
+                --need new sound
+                
+                self:fire()
+                self.breathing = true
+                print("continuing firebreath")
+            end
         end
     end
     
 end
 
-function FireBreath:fire()
+
+function FireBreath:fire(dt)
     --so this should pretty much make it so the animation plays... and then also create a hitbox for the enemies
-    self.flameAnim:setState("startup")
+
+    --consume fuel - 1 per second?
 end
 
 
 --checks if out of ammo and sets a flag to true
 function FireBreath:outOfAmmo()
-    if self.fuel == 0 then
+    if self.fuel <= 0 then
         self.outOfAmmoFlag = true
+        print("out of ammo")
+        self.fuel = 0
+        self.breathing = false
     else
         self.outOfAmmoFlag = false
     end
 end
 
 function FireBreath:update(dt)
+    --consume ammo
+    if self.breathing == true then
+        self.fuel = self.fuel - 2*dt
+    end
+
     --checks if its out of ammo
     self:outOfAmmo()
     --flame anim position
 	self.flameAnim:setPosition(player.x-6, player.y-35)
     self.flameAnim:update(dt)
+    print(self.breathing)
 end
 
 function FireBreath:draw()
-    --ammo counter for dev purposes
-    if self.outOfAmmoFlag == false then
-        love.graphics.print(self.fuel,player.x+7,player.y+15)
+    
+    if self.outOfAmmoFlag == false and self.breathing == true then
         self.flameAnim:draw()
     end
-
+    --ammo counter for dev purposes
+    love.graphics.print(self.fuel,player.x+7,player.y+15)
     --needs exclamation mark for overheatin'
 end

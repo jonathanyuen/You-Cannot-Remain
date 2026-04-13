@@ -59,7 +59,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 -- the return statement is mandatory
 return {
 	imageSrc = "sprites/firebreath.png",
-	defaultState = "loop",
+	defaultState = "startup",
 	states = {
 		-- 1st line
 		startup = { -- the name of the state is arbitrary

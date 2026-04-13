@@ -338,6 +338,7 @@ function love.keypressed(key)
         end
 
         player:keyPressed(key)
+        player:keyReleased(key)
         mastermind:keyPressed(key)
     end
 
