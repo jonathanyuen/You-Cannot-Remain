@@ -189,6 +189,12 @@ function love.load()
     sfxPowerUp = love.audio.newSource("/sound/sfx/powerup.wav", "static")
     sfxSpit = love.audio.newSource("/sound/sfx/spit.wav", "static")
     sfxSuccessfulHit= love.audio.newSource("/sound/sfx/successfulhit.wav", "static")
+    sfxIronTailHit = love.audio.newSource("/sound/sfx/irontailcollision.wav","static")
+    sfxFireBreathDamage = love.audio.newSource("/sound/sfx/firebreathdamage.wav","static")
+    sfxFireBreathStart = love.audio.newSource("/sound/sfx/firebreath-start.wav","static")
+    sfxFireBreathLoop = love.audio.newSource("/sound/sfx/firebreath-loop.wav","static")
+    sfxFireBreathLoop:setLooping(true)
+    sfxFireBreathEnd = love.audio.newSource("/sound/sfx/firebreath-end.wav","static")
 
 
     --title screen

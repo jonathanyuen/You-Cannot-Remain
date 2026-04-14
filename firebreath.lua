@@ -43,7 +43,7 @@ function FireBreath:triggerPull()
         if self.breathing == false then
             if self.fuel > self.startingFuelCost then
                 --need new sound
-                sfxSpit:clone():play()
+                sfxFireBreathStart:clone():play()
                 self:fire()
                 self.fuel = self.fuel - self.startingFuelCost
                 self.flameAnim:setState("startup")
@@ -53,7 +53,9 @@ function FireBreath:triggerPull()
         else
             if self.fuel > self.startingFuelCost then
                 --need new sound
-                
+                Timer.after(3, function() 
+                    sfxFireBreathLoop:play() 
+                    end)
                 self:fire()
                 self.breathing = true
                 print("continuing firebreath")

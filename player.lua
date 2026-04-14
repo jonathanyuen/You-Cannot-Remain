@@ -267,6 +267,7 @@ end
 function Player:keyReleased(key)
 	if key == "space" and self.weaponEquipped["fireBreath"].equipped == true and player.inShell == false then
 		self.fireBreath.flameAnim:setState("stop")
+		
 		self.fireBreath.breathing = false
 		print("flames should stop")
 	end
@@ -285,14 +286,19 @@ function Player:update(dt)
 	self.portraitAnim:update(dt)
 
 	--fire breath (here bc you hold down a key)
-	if love.keyboard.isDown("space") and self.weaponEquipped["fireBreath"].equipped == true and player.inShell == false then
+	if self.weaponEquipped["fireBreath"].equipped == true and player.inShell == false then
+		if love.keyboard.isDown("space") then
 		print("firebreath triggered")
-		self.fireBreath:triggerPull()
-		self.anim:setState("shoot")
-	else
-		self.fireBreath.flameAnim:setState("stop")
-		self.fireBreath.breathing = false
+			self.fireBreath:triggerPull()
+			self.anim:setState("shoot")
+		else
+			self.fireBreath.flameAnim:setState("stop")
+			sfxFireBreathLoop:stop()
+			sfxFireBreathEnd:play()
+			self.fireBreath.breathing = false
+		end
 	end
+	
 
 
 	--moving left and right
