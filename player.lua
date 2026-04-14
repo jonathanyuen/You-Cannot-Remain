@@ -267,8 +267,7 @@ end
 function Player:keyReleased(key)
 	if key == "space" and self.weaponEquipped["fireBreath"].equipped == true and player.inShell == false then
 		self.fireBreath.flameAnim:setState("stop")
-		
-		self.fireBreath.breathing = false
+		self.fireBreath:changeBreathState(false)
 		print("flames should stop")
 	end
 end
@@ -293,9 +292,7 @@ function Player:update(dt)
 			self.anim:setState("shoot")
 		else
 			self.fireBreath.flameAnim:setState("stop")
-			sfxFireBreathLoop:stop()
-			sfxFireBreathEnd:play()
-			self.fireBreath.breathing = false
+			self.fireBreath:changeBreathState(false)
 		end
 	end
 	
@@ -353,8 +350,6 @@ function Player:update(dt)
 	--update player health
     self.healthAnim:update(dt)
 
-	--debug firebreath
-	print(self.fireBreath.breathing)
     
 end
 

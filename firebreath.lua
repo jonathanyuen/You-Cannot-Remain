@@ -14,7 +14,7 @@ function FireBreath:new()
     self.fuel = 100
     self.outOfAmmoFlag = false
     --flag to detect if the flame is still active aka if you're holding down the firing button
-    self.breathing = false
+    
     --flag to detect if the fire breath is initalizing - starting up the startup animations
     self.newPull = false
     self.startingFuelCost = 2
@@ -23,7 +23,8 @@ function FireBreath:new()
     self.tempThreshold = 10
     self.temp = 0
     self.overheatFlag = false
-
+    self.prevBreathingState = false
+    self.currBreathingState = false
     
 
     self.flameAnim = LoveAnimation.new('firebreathAnimations.lua')
@@ -40,24 +41,20 @@ does the calculations of whether or not a projectile is *fired*
 ]]
 function FireBreath:triggerPull()
     if self.outOfAmmoFlag == false and self.overheatFlag == false then
-        if self.breathing == false then
+        if self.currBreathingState == false then
             if self.fuel > self.startingFuelCost then
                 --need new sound
-                sfxFireBreathStart:clone():play()
                 self:fire()
                 self.fuel = self.fuel - self.startingFuelCost
                 self.flameAnim:setState("startup")
-                self.breathing = true
+                self:changeBreathState(true)
                 print("new instance of firebreath")
             end
         else
             if self.fuel > self.startingFuelCost then
                 --need new sound
-                Timer.after(3, function() 
-                    sfxFireBreathLoop:play() 
-                    end)
                 self:fire()
-                self.breathing = true
+                self:changeBreathState(true)
                 print("continuing firebreath")
             end
         end
@@ -100,15 +97,36 @@ function FireBreath:outOfAmmo()
         self.outOfAmmoFlag = true
         print("out of ammo")
         self.fuel = 0
-        self.breathing = false
+        self:changeBreathState(false)
+
     else
         self.outOfAmmoFlag = false
     end
 end
 
+function FireBreath:changeBreathState(state)
+    self.prevBreathingState = self.currBreathingState
+    self.currBreathingState = state
+end
+
 function FireBreath:update(dt)
+    --sound playing (please work)
+    if self.prevBreathingState == false and self.currBreathingState == false then
+        sfxFireBreathLoop:stop()
+        sfxFireBreathStart:stop()
+    elseif self.prevBreathingState == false and self.currBreathingState == true then
+        sfxFireBreathStart:play()
+        Timer.after(3, function()
+            sfxFireBreathLoop:play()
+        end)
+    elseif self.prevBreathingState == true and self.currBreathingState == false then
+        sfxFireBreathLoop:stop()
+        sfxFireBreathEnd:play()
+        self.flameAnim:setState("stop")
+    end
+
     --consume ammo
-    if self.breathing == true then
+    if self.currBreathingState == true then
         self.fuel = self.fuel - 2*dt
     end
 
@@ -117,12 +135,12 @@ function FireBreath:update(dt)
     --flame anim position
 	self.flameAnim:setPosition(player.x-6, player.y-35)
     self.flameAnim:update(dt)
-    print(self.breathing)
+    print(self.currBreathingState)
 end
 
 function FireBreath:draw()
     
-    if self.outOfAmmoFlag == false and self.breathing == true then
+    if self.outOfAmmoFlag == false and self.currBreathingState == true then
         self.flameAnim:draw()
     end
     --ammo counter for dev purposes
