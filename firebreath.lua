@@ -9,8 +9,9 @@ function FireBreath:new()
     --defaulted to spit config
     --weapon level
     self.equipped = 0
+    self.damage = 1
     self.level = 0
-    self.fuel = 10
+    self.fuel = 100
     self.outOfAmmoFlag = false
     --flag to detect if the flame is still active aka if you're holding down the firing button
     self.breathing = false
@@ -63,10 +64,31 @@ function FireBreath:triggerPull()
 end
 
 
-function FireBreath:fire(dt)
+function FireBreath:fire()
     --so this should pretty much make it so the animation plays... and then also create a hitbox for the enemies
+    local hbox_left = player.x - 8
+    local hbox_right = player.x + 8
+    local hbox_top = player.y - 30
+    local hbox_bottom = player.y - 2
+    for i,v in ipairs(listOfEnemies) do
+        local enemy_left = v.x 
+        local enemy_right = v.x +v.width
+        local enemy_top = v.y
+        local enemy_bottom = v.y + v.height
 
-    --consume fuel - 1 per second?
+        if  enemy_right > hbox_left
+        and enemy_left < hbox_right
+        and enemy_bottom > hbox_top
+        and enemy_top < hbox_bottom then
+            self:damageCalc(i,v)
+        end
+    end
+end
+
+function FireBreath:damageCalc(enemyIndex,enemy)
+    --include damage scaling here
+    --damage is adjusted because its calculated by like... frame?? we'll see how this works
+    enemy:takeDmg((self.damage + player.dmg)/50)
 end
 
 
