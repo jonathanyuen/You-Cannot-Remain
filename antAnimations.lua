@@ -77,7 +77,6 @@ return {
 			offsetY = 16,
 			frameW = 16,
 			frameH = 16,
-			nextState = "walking",
 			switchDelay = 0.1
 		}
 	}

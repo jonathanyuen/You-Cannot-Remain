@@ -8,10 +8,11 @@ local reloadTimer = Timer.new()
 function FireBreath:new()
     --defaulted to spit config
     --weapon level
+    self.hitstun = 0.2
     self.equipped = 0
     self.damage = 1
     self.level = 0
-    self.fuel = 100
+    self.fuel = 250
     self.outOfAmmoFlag = false
     --flag to detect if the flame is still active aka if you're holding down the firing button
     
@@ -20,7 +21,7 @@ function FireBreath:new()
     self.startingFuelCost = 2
     
     --exclamation mark when it hits lower?
-    self.tempThreshold = 10
+    self.tempThreshold = 5
     self.temp = 0
     self.overheatFlag = false
     self.prevBreathingState = false
@@ -87,7 +88,7 @@ end
 function FireBreath:damageCalc(enemyIndex,enemy)
     --include damage scaling here
     --damage is adjusted because its calculated by like... frame?? we'll see how this works
-    enemy:takeDmg((self.damage + player.dmg)/50)
+    enemy:takeDmg((self.damage + player.dmg)/50,"fireBreath")
 end
 
 
@@ -125,6 +126,32 @@ function FireBreath:update(dt)
         self.flameAnim:setState("stop")
     end
 
+    --temp check
+    if self.currBreathingState == false then
+        if self.temp >= 1 then
+            self.temp = self.temp - .5 *dt
+        else
+            self.temp = 0
+        end
+    else
+        if self.temp >= self.tempThreshold then
+            --overheat!
+            self.overheatFlag = true
+            Timer.after(5, function ()
+                self.overheatFlag = false
+            end)
+        else
+            self.temp = self.temp + 1 * dt
+            if self.temp <= self.tempThreshold - 3 then
+                --danger zone
+                
+            end
+        end
+        
+    end
+    print("flameBreath temp: " .. self.temp)
+    print("overheat flag: " .. tostring(self.overheatFlag))
+
     --consume ammo
     if self.currBreathingState == true then
         self.fuel = self.fuel - 2*dt
@@ -135,7 +162,6 @@ function FireBreath:update(dt)
     --flame anim position
 	self.flameAnim:setPosition(player.x-6, player.y-35)
     self.flameAnim:update(dt)
-    print(self.currBreathingState)
 end
 
 function FireBreath:draw()

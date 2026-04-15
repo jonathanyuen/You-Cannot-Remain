@@ -19,20 +19,49 @@ function Ant:new(lvl,spawnX,spawnY)
 end
 
 --handles damage
-function Ant:takeDmg(dmgNum)
-	--play sfx 
-	sfxSuccessfulHit:clone():play()
+function Ant:takeDmg(dmgNum,type)
+	--damaged animation
+	self.anim:setState("damaged")
+	--play sfx
+	if type == "spit" then
+		sfxSuccessfulHit:clone():play()
+		
+		--freeze position for duration
+		self.hitStunned = true
+		
+		--expire the hitstun
+		Timer.after(player.spitter.hitstun,function() 
+			self.hitStunned = false
+			self.anim:setState("walking")
+		end)
+	elseif type == "tail" then
+		Timer.after(.1, function ()
+			sfxIronTailHit:clone():play()
+		end)
+		--freeze position for duration
+		self.hitStunned = true
+		
+		--expire the hitstun
+		Timer.after(player.ironTail.hitstun,function() 
+			self.hitStunned = false
+			self.anim:setState("walking")
+		end)
+	elseif type == "fireBreath" then
+		sfxFireBreathDamage:clone():play()
+		--freeze position for duration
+		self.hitStunned = true
+		
+		--expire the hitstun
+		Timer.after(player.fireBreath.hitstun,function() 
+			self.hitStunned = false
+			self.anim:setState("walking")
+		end)
+	end
 
 	--health reduction
 	self.health = self.health - dmgNum
 
-	--damaged animation
-	self.anim:setState("damaged")
-	--freeze position for duration
-	self.hitStunned = true
 	
-	--expire the hitstun
-	Timer.after(.7,function() self.hitStunned = false end)
 end
 
 --checks Collisions

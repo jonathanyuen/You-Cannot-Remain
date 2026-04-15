@@ -285,7 +285,7 @@ function Player:update(dt)
 	self.portraitAnim:update(dt)
 
 	--fire breath (here bc you hold down a key)
-	if self.weaponEquipped["fireBreath"].equipped == true and player.inShell == false then
+	if self.weaponEquipped["fireBreath"].equipped == true and player.inShell == false and player.fireBreath.overheatFlag == false then
 		if love.keyboard.isDown("space") then
 		print("firebreath triggered")
 			self.fireBreath:triggerPull()

@@ -5,6 +5,7 @@ function IronTail:new()
     IronTail.super.new(self)
     
     self.level = 0
+    self.hitstun = 1.2
  
     self.damage = 1
     self.fireRate = 1.5
@@ -69,7 +70,7 @@ end
 
 function IronTail:damageCalc(enemyIndex,enemy)
     --include damage scaling here
-    enemy:takeDmg(self.damage + player.dmg)
+    enemy:takeDmg(self.damage + player.dmg,"tail")
     if enemy:isDead() == true then
         --refill ammo
         player.spitter.ammoLeft = player.spitter.ammoLeft + 2

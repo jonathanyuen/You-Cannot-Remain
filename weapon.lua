@@ -11,6 +11,7 @@ function Weapon:new()
     self.level = 0
     self.maxCapacity = 4
     self.clip = self.maxCapacity
+    self.hitstun = 0.2
     --not including what's in the clip already
     self.ammoLeft = 4
     self.outOfAmmoFlag = false
