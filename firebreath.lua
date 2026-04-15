@@ -112,15 +112,15 @@ end
 
 function FireBreath:update(dt)
     --sound playing (please work)
-    if self.prevBreathingState == false and self.currBreathingState == false then
+    if self.prevBreathingState == false and self.currBreathingState == false and self.overheatFlag == false then
         sfxFireBreathLoop:stop()
         sfxFireBreathStart:stop()
-    elseif self.prevBreathingState == false and self.currBreathingState == true then
+    elseif self.prevBreathingState == false and self.currBreathingState == true and self.overheatFlag == false then
         sfxFireBreathStart:play()
         Timer.after(3, function()
             sfxFireBreathLoop:play()
         end)
-    elseif self.prevBreathingState == true and self.currBreathingState == false then
+    elseif self.prevBreathingState == true and self.currBreathingState == false and self.overheatFlag == false then
         sfxFireBreathLoop:stop()
         sfxFireBreathEnd:play()
         self.flameAnim:setState("stop")
@@ -137,6 +137,9 @@ function FireBreath:update(dt)
         if self.temp >= self.tempThreshold then
             --overheat!
             self.overheatFlag = true
+            sfxFireBreathStart:stop()
+            sfxFireBreathLoop:stop()
+            self.flameAnim:setState("stop")
             Timer.after(5, function ()
                 self.overheatFlag = false
             end)
@@ -147,7 +150,6 @@ function FireBreath:update(dt)
                 
             end
         end
-        
     end
     print("flameBreath temp: " .. self.temp)
     print("overheat flag: " .. tostring(self.overheatFlag))
@@ -166,10 +168,11 @@ end
 
 function FireBreath:draw()
     
-    if self.outOfAmmoFlag == false and self.currBreathingState == true then
+    if self.outOfAmmoFlag == false and self.currBreathingState == true and self.overheatFlag == false then
         self.flameAnim:draw()
     end
     --ammo counter for dev purposes
     love.graphics.print(self.fuel,player.x+7,player.y+15)
+    love.graphics.print(self.temp .. "/" .. self.tempThreshold,player.x+2,player.y+22)
     --needs exclamation mark for overheatin'
 end

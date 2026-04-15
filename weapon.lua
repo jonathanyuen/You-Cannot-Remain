@@ -105,6 +105,11 @@ function Weapon:fireBullet()
     if self.activeReloadSuccessFlag == 0 then
         table.insert(listOfSpitBullets, Spit(player.x+5, player.y))
         self.clip = self.clip - 1
+        if player.fireBreath.temp >= 1 then
+            player.fireBreath.temp = player.fireBreath.temp - .5
+        else
+            player.fireBreath.temp = 0
+        end
     elseif self.activeReloadSuccessFlag == 1 then
         table.insert(listOfSpitBullets, Spit(player.x+7, player.y))
         table.insert(listOfSpitBullets, Spit(player.x+3, player.y))
