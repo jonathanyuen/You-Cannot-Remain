@@ -7,12 +7,13 @@ function Ant:new(lvl,spawnX,spawnY)
 	self.speed = 6
 	self.anim = LoveAnimation.new('antAnimations.lua')
 	self.deathAnimation = LoveAnimation.new('deathAnimations.lua')
-	self.health = lvl+1
+	self.health = lvl+2
 	self.height = 16
 	self.width = 16
 	self.deathLocationX = self.x
 	self.deathLocationY = self.y
 	self.newlyDead = true
+	self.deathValue = 50
 	self.readyToClean = 5
 	self.collisionDmg = 1
 	self.hitStunned = false
@@ -132,7 +133,8 @@ function Ant:update(dt)
 		self.y = -1000
 		self.newlyDead = false
 		mastermind.enemyKillCount = mastermind.enemyKillCount+1
-		scoring.counterAntsKilled = scoring.counterAntsKilled + 1
+		scoring.counterAntsKilled = scoring.counterAntsKilled + 50
+		scoreboard:updateTicker("Ant Killed", self.deathValue)
 
 	elseif self:isDead() == true and self.newlyDead == false then
 		self.deathAnimation:update(dt)

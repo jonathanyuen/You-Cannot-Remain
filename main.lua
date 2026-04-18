@@ -12,6 +12,8 @@ require "spit"
 require "animation"
 require "mastermind"
 require "powerups"
+require "dialogue"
+require "scoreboard"
 
 
 local push = require "push"
@@ -21,15 +23,7 @@ local windowWidth, windowHeight = love.window.getDesktopDimensions()
 
 collisionInstance = 0
 
---scoring
-scoreGainRate = 1
-score = 0
-scoring = {
-    counterAntsKilled = 0,
-    counterActiveReloadSuccess = 0,
-    flagBulletsMissed = false,
-    flagActiveReloadMissed = false
-}
+
 
 
 --palette of colors
@@ -215,6 +209,7 @@ function love.load()
     print (love.graphics.getBackgroundColor())
     mastermind = Mastermind()
     player = Player()
+    scoreboard = Scoreboard()
 
 
     --arrays
@@ -576,7 +571,6 @@ function love.update(dt)
         }
 
         ]]
-        score = (scoring.counterAntsKilled + scoring.counterActiveReloadSuccess) * scoreGainRate
 
         --update scroll background
         u = u-4*dt
@@ -654,7 +648,7 @@ function love.draw()
 
         --draw mango
         player:draw()
-
+        scoreboard:draw()
         
 
         --draw enemies

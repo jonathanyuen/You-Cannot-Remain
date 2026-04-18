@@ -128,6 +128,7 @@ function FireBreath:update(dt)
 
     --temp check
     if self.currBreathingState == false then
+        print("cooling off")
         if self.temp >= 1 then
             self.temp = self.temp - .5 *dt
         else

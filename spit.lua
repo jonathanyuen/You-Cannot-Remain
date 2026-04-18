@@ -47,6 +47,7 @@ function Spit:checkCollision(obj)
         if player.item25Flag == true and obj.health <= self.damage then
             score = score + 1
         end
+
         --decrease health
         obj:takeDmg(self.damage,"spit")
         

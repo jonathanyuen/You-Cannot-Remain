@@ -17,6 +17,8 @@ function Player:new()
 	self.healthAnim:setState("three")
 	self.healthAnim:setPosition(22,142)
 
+	self.activeReloadSuccessPointValue = 10
+
 	--amt of time it takes to come out of shell when dmg'd
 	self.recoveryTime = 2
 
@@ -105,20 +107,20 @@ function Player:statUp(stat, upgradeAmt)
     		pspdStatLevelAnim:setState("six")
     	end
 	elseif stat == "spd" then
-		self.speed = self.speed + 50*upgradeAmt
-		self.baseSpd = self.baseSpd + 50 * upgradeAmt
+		self.speed = self.speed + 10*upgradeAmt
+		self.baseSpd = self.baseSpd + 10 * upgradeAmt
 		spdStatUpChevronAnim:setState("active")
-		if self.speed == 50 + 50*1 then
+		if self.speed == 35 + 10*1 then
     		spdStatLevelAnim:setState("one")
-    	elseif self.speed == 50 + 50*2 then
+    	elseif self.speed == 35 + 10*2 then
     		spdStatLevelAnim:setState("two")
-    	elseif self.speed == 50 + 50*3 then
+    	elseif self.speed == 35 + 10*3 then
     		spdStatLevelAnim:setState("three")
-    	elseif self.speed == 50 + 50*4 then
+    	elseif self.speed == 35 + 10*4 then
     		spdStatLevelAnim:setState("four")
-    	elseif self.speed == 50 + 50*5 then
+    	elseif self.speed == 35 + 10*5 then
     		spdStatLevelAnim:setState("five")
-    	elseif self.speed == 50 + 50*6 then
+    	elseif self.speed == 35 + 10*6 then
     		spdStatLevelAnim:setState("six")
     	end
 	elseif stat == "dmg" then
@@ -254,6 +256,7 @@ function Player:keyPressed(key)
 		self.portraitAnim:setState("activeReloadSuccess")
 		self.spitter.activeReloadSuccessFlag = 1
 		scoring.counterActiveReloadSuccess = scoring.counterActiveReloadSuccess + 1
+		scoreboard:updateTicker("Active Reload", self.activeReloadSuccessPointValue)
 		self.reloadTimerForPlayer:after(5, function() 
 			print(self.spitter.activeReloadSuccessFlag)
 			self.portraitAnim:setState("idle")
