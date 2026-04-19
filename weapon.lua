@@ -8,6 +8,7 @@ function Weapon:new()
     --defaulted to spit config
     --Spit weapon level
     self.equipped = 0
+    self.damage = 0
     self.level = 0
     self.maxCapacity = 4
     self.clip = self.maxCapacity

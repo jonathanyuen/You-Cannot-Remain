@@ -5,7 +5,7 @@ function Spit:new(x,y)
     self.x = x
     self.y = y
     self.speed = 50 + player.pspd*100
-    self.damage = 1 + player.dmg
+    self.damage = 1 + player.dmg + player.spitter.damage
 
     self.width = 1+ player.rad
     self.height = 1+player.rad
@@ -45,7 +45,7 @@ function Spit:checkCollision(obj)
 
         --give extra renown for a kill
         if player.item25Flag == true and obj.health <= self.damage then
-            score = score + 1
+            scoreboard:updateTicker("Spit Kill Bonus", 10)
         end
 
         --decrease health

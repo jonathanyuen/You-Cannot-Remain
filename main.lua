@@ -14,6 +14,7 @@ require "mastermind"
 require "powerups"
 require "dialogue"
 require "scoreboard"
+require "merchant"
 
 
 local push = require "push"
@@ -51,7 +52,6 @@ local game = {
 --holds buttons for different states
 local buttons = {
     menu_state = {},
-    merchant_state = {},
     pause_state = {},
     ended_state = {}
 }
@@ -130,6 +130,7 @@ end
 function love.load()
 
     love.window.setTitle("You Cannot Remain")
+
     
 
     love.graphics.setDefaultFilter("nearest","nearest")
@@ -163,8 +164,6 @@ function love.load()
     tailImage = love.graphics.newImage("/sprites/irontail.png")
     flameBreathImage = love.graphics.newImage("/sprites/fireBreathIcon.png")
 
-    --backdrop for merchant
-    merchantBackground = love.graphics.newImage("/sprites/merchant-bg.png")
 
     
     --load the music
@@ -210,7 +209,8 @@ function love.load()
     mastermind = Mastermind()
     player = Player()
     scoreboard = Scoreboard()
-
+    --initialize merchant
+    merchant = Merchant()
 
     --arrays
     listOfEnemies = {}
@@ -222,6 +222,7 @@ function love.load()
     deathScreenAnim = LoveAnimation.new("deathScreenAnimations.lua")
     deathScreenAnim:setPosition(0,0)
 
+    
 
     --MAIN MENU
     --buttons!
@@ -255,18 +256,7 @@ function love.load()
     table.insert(buttons.pause_state, buttons.pause_state.quit_game)
 
 
-    --Merchant Buttons
-    buttons.merchant_state.item1 = button("Item 1 (5)", item1Select, nil, 50,13)
-    buttons.merchant_state.item2 = button("Item 2 (5)", item2Select, nil, 50,13)
-    buttons.merchant_state.item3 = button("Item 3 (5)", item3Select, nil, 50,13)
-    buttons.merchant_state.blindBox = button("BLIND BOX (2)", blindBoxSelect, nil, 50,13)
-    buttons.merchant_state.extraEgg = button("EXTRA EGG (5)", extraEggSelect, nil, 50,13)
-
-    table.insert(buttons.merchant_state, buttons.merchant_state.item1)
-    table.insert(buttons.merchant_state, buttons.merchant_state.item2)
-    table.insert(buttons.merchant_state, buttons.merchant_state.item3)
-    table.insert(buttons.merchant_state, buttons.merchant_state.blindBox)
-    table.insert(buttons.merchant_state, buttons.merchant_state.extraEgg)
+    
 
 
     --figure out where/how to do this so its not just in load?
@@ -306,7 +296,6 @@ function love.load()
     --keep track of what is selected using buttons.menu_state array index - "play" by default
     selectedMenuButton = buttons.menu_state[1]
     selectedPauseButton = buttons.pause_state[1]
-    selectedMerchantButton = buttons.merchant_state[1]
 
 
     --timer just to help debug
@@ -386,46 +375,46 @@ function love.keypressed(key)
         --initial option selection
         -----option selection
         if  (love.keyboard.isDown("return") == true) or (love.keyboard.isDown("space")) then
-            selectedMerchantButton:pressed()
+            merchant.selectedMerchantButton:pressed()
             sfxButtonSelect:play()
         end
 
         --option navigation
         if love.keyboard.isDown("down") == true then
-            if selectedMerchantButton == buttons.merchant_state[1] then
+            if merchant.selectedMerchantButton == merchant.buttons[1] then
                 sfxButtonNav:clone():play()
-                selectedMerchantButton = buttons.merchant_state[2]
+                merchant.selectedMerchantButton = merchant.buttons[2]
                 menuCursorAnim:setPosition(selectedMerchantButton.button_x-1,selectedMerchantButton.button_y+3)
-            elseif selectedMerchantButton == buttons.merchant_state[2] then
+            elseif selectedMerchantButton == buttons[2] then
                 sfxButtonNav:clone():play()
-                selectedMerchantButton = buttons.merchant_state[3]
+                selectedMerchantButton = merchant.buttons[3]
                 menuCursorAnim:setPosition(selectedMerchantButton.button_x-1,selectedMerchantButton.button_y+3)
-            elseif selectedMerchantButton == buttons.merchant_state[3] then
+            elseif selectedMerchantButton == buttons[3] then
                 sfxButtonNav:clone():play()
-                selectedMerchantButton = buttons.merchant_state[4]
-                menuCursorAnim:setPosition(selectedMerchantButton.button_x-1,selectedMerchantButton.button_y+3)
-            elseif selectedMerchantButton == buttons.merchant_state[4] then
+                selectedMerchantButton = merchant.buttons[4]
+                menuCursorAnim:setPosition(merchant.selectedMerchantButton.button_x-1,merchant.selectedMerchantButton.button_y+3)
+            elseif merchant.selectedMerchantButton == merchant.buttons[4] then
                 sfxButtonNav:clone():play()
-                selectedMerchantButton = buttons.merchant_state[5]
-                menuCursorAnim:setPosition(selectedMerchantButton.button_x-1,selectedMerchantButton.button_y+3)
+                merchant.selectedMerchantButton = merchant.buttons[5]
+                menuCursorAnim:setPosition(merchant.selectedMerchantButton.button_x-1,merchant.selectedMerchantButton.button_y+3)
             end
         elseif love.keyboard.isDown("up") == true then
-            if selectedMerchantButton == buttons.merchant_state[5] then
+            if merchant.selectedMerchantButton == merchant.buttons[5] then
                 sfxButtonNav:clone():play()
-                selectedMerchantButton = buttons.merchant_state[4]
-                menuCursorAnim:setPosition(selectedMerchantButton.button_x-1, selectedMerchantButton.button_y+3)
-            elseif selectedMerchantButton == buttons.merchant_state[4] then
+                merchant.selectedMerchantButton = merchant.buttons[4]
+                menuCursorAnim:setPosition(merchant.selectedMerchantButton.button_x-1, merchant.selectedMerchantButton.button_y+3)
+            elseif merchant.selectedMerchantButton == merchant.buttons[4] then
                 sfxButtonNav:clone():play()
-                selectedMerchantButton = buttons.merchant_state[3]
-                menuCursorAnim:setPosition(selectedMerchantButton.button_x-1, selectedMerchantButton.button_y+3)
-            elseif selectedMerchantButton == buttons.merchant_state[3] then
+                merchant.selectedMerchantButton = merchant.buttons[3]
+                menuCursorAnim:setPosition(merchant.selectedMerchantButton.button_x-1, merchant.selectedMerchantButton.button_y+3)
+            elseif merchant.selectedMerchantButton == merchant.buttons[3] then
                 sfxButtonNav:clone():play()
-                selectedMerchantButton = buttons.merchant_state[2]
-                menuCursorAnim:setPosition(selectedMerchantButton.button_x-1, selectedMerchantButton.button_y+3)
-            elseif selectedMerchantButton == buttons.merchant_state[2] then
+                merchant.selectedMerchantButton = merchant.buttons[2]
+                menuCursorAnim:setPosition(merchant.selectedMerchantButton.button_x-1, merchant.selectedMerchantButton.button_y+3)
+            elseif merchant.selectedMerchantButton == merchant.buttons[2] then
                 sfxButtonNav:clone():play()
-                selectedMerchantButton = buttons.merchant_state[1]
-                menuCursorAnim:setPosition(selectedMerchantButton.button_x-1, selectedMerchantButton.button_y+3)
+                merchant.selectedMerchantButton = merchant.buttons[1]
+                menuCursorAnim:setPosition(merchant.selectedMerchantButton.button_x-1, merchant.selectedMerchantButton.button_y+3)
             end
         end
         --secondary option selection
@@ -478,6 +467,7 @@ function love.update(dt)
     --merchant
     if game.state["merchant"] == true then
         menuCursorAnim:update(dt)
+        merchant:update(dt)
     end
 
     --menuuu
@@ -595,20 +585,7 @@ function love.draw()
 
     --if game.state is merchant
     if game.state["merchant"] then
-        love.graphics.draw(merchantBackground,0,0)
-        buttons.merchant_state.item1:draw(10, 119, 0, 0)
-        buttons.merchant_state.item2:draw(10, 129, 0, 0)
-        buttons.merchant_state.item3:draw(10, 139, 0, 0)
-        buttons.merchant_state.blindBox:draw(10, 149, 0, 0)
-        buttons.merchant_state.extraEgg:draw(10, 159, 0, 0)
-        menuCursorAnim:draw()
-
-         --draw score
-        love.graphics.setFont(renownFont)
-        ---colored printing scores and whatnot... still haven't done calcs yet either
-        love.graphics.print({colorPalette.red,"RENOWN "},227,171)
-        love.graphics.print({colorPalette.fauxWhite,string.format("%04d",score)},285,171)
-        love.graphics.setFont(font)
+        merchant:draw()
     end
 
     --if game.state is menu

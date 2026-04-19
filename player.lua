@@ -59,14 +59,18 @@ function Player:new()
 	self.equipment = Equipment()
 
 	--item specific flags
+	--active reload success replenishes ammo
+	self.item8Flag = false
 	--- on dmg, get a random power up
 	self.item21Flag = false
-	--spit kills give +1 renown
+	--spit kills give more renown
 	self.item25Flag = false
-	--tail kills give +1 renown
+	--tail kills give more renown
 	self.item26Flag = false
-	--shield 1 hit
+	--fire kills give more renown
 	self.item27Flag = false
+	--shield 1 hit
+	self.item29Flag = false
 	--bullet passthrough
 	self.item39Flag = false
 end
@@ -162,9 +166,9 @@ end
 
 function Player:takeDmg(dmgNum)
 	--item 27 -- block 1 damage
-	if player.item27Flag == true then
+	if player.item29Flag == true then
 		dmgNum = dmgNum - 1
-		player.item27Flag = false
+		player.item29Flag = false
 	end
 
 	self.health = self.health - dmgNum
@@ -254,6 +258,11 @@ function Player:keyPressed(key)
 	if self.spitter.outOfAmmoFlag == false and self.spitter.activeReloadCursorXPos >= 4 and self.spitter.activeReloadCursorXPos <= 7 and love.keyboard.isDown("space") and player.inShell == false then
 		sfxActiveReloadSuccess:play()
 		self.portraitAnim:setState("activeReloadSuccess")
+
+		if item8Flag == true then
+			self.spitter.ammoLeft = self.spitter.ammoLeft + 2
+		end
+
 		self.spitter.activeReloadSuccessFlag = 1
 		scoring.counterActiveReloadSuccess = scoring.counterActiveReloadSuccess + 1
 		scoreboard:updateTicker("Active Reload", self.activeReloadSuccessPointValue)

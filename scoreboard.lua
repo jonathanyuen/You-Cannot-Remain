@@ -37,7 +37,7 @@ function Scoreboard:updateTicker(feat,pointValue)
     --feat is what's done, pointValue is how much it's worth
     -- ex. feat could be active Reload success, point value of that could be like 10 
     -- goal is for this method to update the ticker that's drawn above Renown
-    local toBeAdded = feat .. " +".. pointValue
+    local toBeAdded = feat .. " +".. pointValue*scoreGainRate
 
     --if statement cases
     --[[
@@ -68,24 +68,24 @@ function Scoreboard:draw(dt)
     local tickerSize = self:getSize()
 
     if tickerSize == 1 then
-        love.graphics.print({scoreboardColorPalette.white,self.ticker[1]},222,162)
+        love.graphics.print({scoreboardColorPalette.white,self.ticker[1]},225,162)
         
     elseif tickerSize == 2 then
         for i=1, 2 do
             if i == 2 then
-                love.graphics.print({scoreboardColorPalette.white,self.ticker[i]},222,162)
+                love.graphics.print({scoreboardColorPalette.white,self.ticker[i]},225,162)
             elseif i ==1 then
-                love.graphics.print({scoreboardColorPalette.lightGrey,self.ticker[i]},222,162 - 7)
+                love.graphics.print({scoreboardColorPalette.lightGrey,self.ticker[i]},225,162 - 7)
             end
         end
     elseif tickerSize == 3 then
         for i=1, 3 do
             if i == 3 then
-                love.graphics.print({scoreboardColorPalette.white,self.ticker[i]},222,162)
+                love.graphics.print({scoreboardColorPalette.white,self.ticker[i]},225,162)
             elseif i ==2 then
-                love.graphics.print({scoreboardColorPalette.lightGrey,self.ticker[i]},222,162 - 7)
+                love.graphics.print({scoreboardColorPalette.lightGrey,self.ticker[i]},225,162 - 7)
             elseif i == 1 then
-                love.graphics.print({scoreboardColorPalette.grey,self.ticker[i]},222,162 - 14)
+                love.graphics.print({scoreboardColorPalette.grey,self.ticker[i]},225,162 - 14)
             end
         end
     elseif tickerSize == 4 then

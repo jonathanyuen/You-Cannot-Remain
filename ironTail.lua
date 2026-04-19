@@ -11,6 +11,9 @@ function IronTail:new()
     self.fireRate = 1.5
     self.swinging = false
 
+    self.hitboxExtensionVert = 0
+    self.hitboxExtensionHori = 0
+
 
     --array to keep the targets who are being calculate for their hit
     self.attackSuccessFlag = {}
@@ -28,9 +31,9 @@ function IronTail:smackTail()
 
     sfxIronTailSwipe:clone():play()
 
-    local hbox_left = player.x
-    local hbox_right = player.x + 16
-    local hbox_top = player.y - 8
+    local hbox_left = player.x - self.hitboxExtensionHori
+    local hbox_right = player.x + 16 + self.hitboxExtensionHori
+    local hbox_top = player.y - 8 - self.hitboxExtensionVert
     local hbox_bottom = player.y
 
     for i,v in ipairs(listOfEnemies) do
@@ -77,7 +80,7 @@ function IronTail:damageCalc(enemyIndex,enemy)
 
         --item26--give bonus renown on kill
         if player.item26Flag == true then
-            score = score + 1
+            scoreboard:updateTicker("Tail Kill Bonus",10)
         end
 
         for i,v in ipairs(player.weaponEquipped) do

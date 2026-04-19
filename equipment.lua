@@ -70,8 +70,12 @@ function Equipment:updateMango()
 			--enemies are covered in oil... take more flame damage
 		elseif v.id == 2 then
 			--knockback
-		elseif v.id == 4 then
+		elseif v.id == 3 then
 			--increases odds of rarities with blind box drops
+		elseif v.id == 4 then
+			--tail weapon range and damage goes up
+			player.ironTail.hitboxExtensionVert = player.ironTail.hitboxExtensionVert + 3
+			player.ironTail.damage = player.ironTail.damage + 1
 		elseif v.id == 5 then
 			--one item in next shop is free			
 		elseif v.id == 6 then
@@ -79,15 +83,19 @@ function Equipment:updateMango()
 		elseif v.id == 7 then
 			--active reload is easier
 			--easier
+
 		elseif v.id == 8 then
 			--active reload success replenishes one ammo
-
+			player.item8Flag = true
 		elseif v.id == 9 then
 			--tail increases length
+			player.ironTail.hitboxExtensionVert = player.ironTail.hitboxExtensionVert + 3
 		elseif v.id == 10 then
 			--tail increases width
+			player.ironTail.hitboxExtensionHori = player.ironTail.hitboxExtensionHori + 3
 		elseif v.id == 11 then
 			--flamethrower gets more fuel
+			player.fireBreath.fuel = player.fireBreath.fuel + 10
 		elseif v.id == 12 then
 			--hp up 1 
 			print(player.health)
@@ -98,6 +106,7 @@ function Equipment:updateMango()
 			player.spitter.maxCapacity = player.spitter.maxCapacity + 20
 		elseif v.id == 14 then
 			--flamethrower ammo up 20
+			player.fireBreath.fuel = player.fireBreath.fuel + 20
 		elseif v.id == 15 then
 			--lightning ammo up 5
 		elseif v.id == 16 then
@@ -114,7 +123,7 @@ function Equipment:updateMango()
 			player:statUp("rad",1)
 		elseif v.id == 20 then
 			--renown gain rate x1.25
-			scoreGainRate = 1
+			scoreGainRate = 1.25
 		elseif v.id == 21 then
 			--gain a random power up when you take damage
 			player.item21Flag = true
@@ -132,11 +141,12 @@ function Equipment:updateMango()
 			player.item26Flag = true
 		elseif v.id == 27 then
 			--enemy fire kills +1 renown
+			player.item27Flag = false
 		elseif v.id == 28 then
 			--enemy lightning kills +1 renown
 		elseif v.id == 29 then
 			--block 1 damage
-			player.item27Flag = true
+			player.item29Flag = true
 		elseif v.id == 30 then
 			--next enemy you kill explodes on death, effect resets every five seconds
 		elseif v.id == 31 then
@@ -148,8 +158,12 @@ function Equipment:updateMango()
 			--first blind box after getting this item is free
 		elseif v.id == 34 then
 			--clip size -1, damage up 2
+			player.spitter.maxCapacity = player.spitter.maxCapacity - 1
+			player.spitter.damage = player.spitter.damage + 2
 		elseif v.id == 35 then
 			--pspd -1, rad +1
+			player.pspd = player.pspd - 1
+			player.rad = player.rad + 1
 		elseif v.id == 36 then
 			--lore drops happen more frequently
 		elseif v.id == 37 then
@@ -244,28 +258,26 @@ function Equipment:updateMango()
 		elseif v.id == 80 then
 			--spit poisons enemies - making them explode upon death
 		elseif v.id == 81 then
-			--choose a weapon, you can only use that one, but it's fully upgraded
-		elseif v.id == 82 then
 			--when you're out of ammo, you replenish using renown instead
-		elseif v.id == 83 then
+		elseif v.id == 82 then
 			--lightning keeps striking upon successful active reload, if failed, weapon is disabled for 5 seconds
-		elseif v.id == 84 then
+		elseif v.id == 83 then
 			--mango becomes intangible
-		elseif v.id == 85 then
+		elseif v.id == 84 then
 			--when lightning bolt is equipped, collisions stun enemies for 2 seconds
-		elseif v.id == 86 then
+		elseif v.id == 85 then
 			--when enemies get close to you, they move slower
-		elseif v.id == 87 then
+		elseif v.id == 86 then
 			--kills no longer count to renown, but go to the next altar
-		elseif v.id == 88 then
+		elseif v.id == 87 then
 			--you get one reroll permanently for each blind box
-		elseif v.id == 89 then
+		elseif v.id == 88 then
 			--whenever mango moves, its by a spinning shell that moves 10% faster than normal
-		elseif v.id == 90 then
+		elseif v.id == 19 then
 			--you can only keep one item of your choice
-		elseif v.id == 91 then
+		elseif v.id == 90 then
 			--lightning chains to nearby enemies
-		elseif v.id == 92 then
+		elseif v.id == 91 then
 			--familiar stays near you, firing spit automatically - spit upgrades apply to them as well	
 		end
 	end

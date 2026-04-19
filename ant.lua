@@ -48,6 +48,9 @@ function Ant:takeDmg(dmgNum,type)
 			self.anim:setState("walking")
 		end)
 	elseif type == "fireBreath" then
+		if dmgNum > self.health then
+			scoreboard:updateTicker("Fire Kill Bonus", 10)
+		end
 		sfxFireBreathDamage:clone():play()
 		--freeze position for duration
 		self.hitStunned = true
