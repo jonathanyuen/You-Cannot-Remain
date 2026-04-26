@@ -73,6 +73,12 @@ function Player:new()
 	self.item29Flag = false
 	--bullet passthrough
 	self.item39Flag = false
+	--renown based dmg bonus
+	self.item53Flag = false
+	--slows everyone down 30%
+	self.item61Flag = false
+	--additional spit stream
+	self.item79Flag = false
 end
 
 

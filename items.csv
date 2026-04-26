@@ -1,11 +1,5 @@
 id,name,effect,description text,rarity
-1,gas,bullets cover enemies in oil,"Prices are always going up, these days...",everyday
-2,horsepower,adds knockback to your weapons,,everyday
-3,good luck charm,increases odds of rarities with blind box drops,,everyday
 4,massive tail,tail weapon range and damage goes up,,everyday
-5,coupon,one item in next shop is free,,everyday
-6,bogo,two items are buy one get one free,,everyday
-7,rooster hat,active reload is easier,,everyday
 8,lucky watch,active reload success replenishes one ammo,,everyday
 9,slinky,tail increases length,,everyday
 10,big meal,tail increases width,,everyday
@@ -13,38 +7,21 @@ id,name,effect,description text,rarity
 12,sunnyside egg,hp up 1,,everyday
 13,big gulp,gives 20 spit ammo,,everyday
 14,bulk peppers,gives 20 chili peppers,,everyday
-15,runic bucket,gives runic marks,,everyday
 16,turt kwon do,dmg up 1,,everyday
 17,lucky shoes,spd up 1,,everyday
 18,aerodynamics,pspd up 1,,everyday
 19,jawbreakers,rad up 1,,everyday
 20,ring light,increases renown gain rate x.25,,everyday
 21,handcuffs,gain a random power up when you take dmg,,everyday
-22,voucher,you get one reroll for a blind box,,everyday
-23,coupon,first item bought in the shop is discounted 20%,,everyday
-24,secret manual,add 1 clip size to a chosen weapon,,everyday
 25,Rizzo,enemy spit kills +1 renown,"follows you around, filming",everyday
 26,Rocco,enemy tail kills +1 renown,"follows you around, writing",everyday
 27,Rippo,enemy fire kills +1 renown,"follows you around, taking pictures",everyday
-28,Reggo,enemy lightning kills +1 renown,"follows you around, interviewing",everyday
 29,cheap shield,block 1 damage,,everyday
-30,dynamite,"next enemy you kill explodes on death, effect resets every five seconds",,everyday
 31,treadmill,shell recovery time reduced,,everyday
-32,holy pamphlet,altar donations accessible via start menu,,everyday
-33,free box,first blind box after getting this item is free,,everyday
 34,backed up,"clip size -1, damage up 2",,everyday
 35,slowdown,"pspd -1, rad +1",,everyday
-36,nerd glasses,lore drops happen more frequently,,everyday
-37,cannonball,"dmg +1, rad +1, recoil/knockback added",,everyday
 38,fast hands,reload speed increased,,everyday
-39,ghost flu,bullets pass through enemies,,odd
-40,sub-zero charm,bullets freeze enemies,,odd
 41,4th dimensional charm,infinite clip but slower firerate,,odd
-42,hyperbolic timer,increases proficiency gain rate by 100%,,odd
-43,thorns,enemies take damage whenever they contact mango,,odd
-44,hawk's legend,"every time you swap weapons, you do a 1 second flip animation and gain +5 renown",,odd
-45,church hat,renown donations to the altar are worth triple,,odd
-46,famas,burst fire spit,,odd
 47,tomato,hp up 3,,odd
 48,paid ad,gives 20 renown,,odd
 49,barbell,dmg up 2,,odd
@@ -52,42 +29,13 @@ id,name,effect,description text,rarity
 51,chewing gum,pspd up2,,odd
 52,vitamins,rad up 2,,odd
 53,press release,increases damage based on renown - 5 renown = 1 dmg,,odd
-54,hold the line,"friend spawns at the edge, prevents one enemy from passing by the line",,odd
-55,last wish,keep one item your next run,,odd
-56,contingency,taking an egg's worth of damage explodes all enemies spawned in,,remarkable
 57,extended mag,all ammo based weapons have +2 clip size,,remarkable
-58,anemia,colliding with enemies freezes them for 2 seconds,,remarkable
-59,mushroom,makes you 20% bigger,,remarkable
-60,bubble,bubble that shields you for 5 hits,,remarkable
 61,stopwatch,everyone moves 30% slower,,remarkable
-62,purge,removes an item of your choice,,remarkable
 63,good deed,add 50 Renown,,remarkable
-64,refusal of service,next shop is unavailable,,remarkable
-65,small mushroom,mango is 20% smaller,,remarkable
-66,rewards card,blind boxes stay the same price and don't scale up,,remarkable
-67,drone,spit homes towards enemies,,remarkable
-68,vuvuzela,spit shoots out in a cone,,remarkable
-69,lightning rod,lightning strikes twice,,remarkable
 70,healing pot,hp up 6,,remarkable
-71,bat with nails,power ups can be instant killed by tail,,remarkable
 72,squat rack,dmg up 3,,remarkable
 73,adrenaline shot,spd up 3,,remarkable
 74,research,pspd up 3,,remarkable
 75,isotope,rad up 3,,remarkable
 76,century egg,all stats up,Some say this egg is over a hundred years old.,remarkable
-78,high roller's shades,first blind box is always free,,aberrant
-79,icarus wings,grants flight - mango can fly over enemies instead of colliding with them,Just don't get them too hot.,aberrant
-80,water jug,adds an additional stream of spit for spitter,,aberrant
-81,cyanide pill,spit poisons enemies - making them explode upon death,,aberrant
-82,ring of commitment,"choose a weapon, you can only use that one, but it's fully upgraded",,aberrant
-83,chocolate coin,"when you're out of ammo, you replenish using renown instead",,aberrant
-84,generator,"lightning keeps striking upon successful active reload, if failed, weapon is disabled for 5 seconds",,aberrant
-85,tombstone,mango becomes intangible,,aberrant
-86,taser,"when lightning bolt is equipped, collisions stun enemies for 2 seconds",,aberrant
-87,luigi's hat,"when enemies get close to you, they move slower",,aberrant
-88,holy wallet,"kills no longer count to renown, but go to the next altar",,aberrant
-93,whale,you get one reroll permanently for each blind box,,deviant
-89,nitro gear,"whenever mango moves, its by a spinning shell that moves 10% faster than normal",,bizarre
-90,shell shrink,you can only keep one item of your choice,,bizarre
-91,lightning bolt,lightning chains to nearby enemies,,bizarre
-92,child,"familiar stays near you, firing spit automatically - spit upgrades apply to them as well",,bizarre
+79,water jug,adds an additional stream of spit for spitter,,aberrant

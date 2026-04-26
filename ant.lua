@@ -5,6 +5,9 @@ function Ant:new(lvl,spawnX,spawnY)
 	self.x = spawnX
 	self.y = spawnY
 	self.speed = 6
+	if player.item61Flag == true then
+		self.speed = self.speed*.7
+	end
 	self.anim = LoveAnimation.new('antAnimations.lua')
 	self.deathAnimation = LoveAnimation.new('deathAnimations.lua')
 	self.health = lvl+2
