@@ -384,14 +384,14 @@ function love.keypressed(key)
             if merchant.selectedMerchantButton == merchant.buttons[1] then
                 sfxButtonNav:clone():play()
                 merchant.selectedMerchantButton = merchant.buttons[2]
-                menuCursorAnim:setPosition(selectedMerchantButton.button_x-1,selectedMerchantButton.button_y+3)
-            elseif selectedMerchantButton == buttons[2] then
+                menuCursorAnim:setPosition(merchant.selectedMerchantButton.button_x-1,merchant.selectedMerchantButton.button_y+3)
+            elseif merchant.selectedMerchantButton == merchant.buttons[2] then
                 sfxButtonNav:clone():play()
-                selectedMerchantButton = merchant.buttons[3]
-                menuCursorAnim:setPosition(selectedMerchantButton.button_x-1,selectedMerchantButton.button_y+3)
-            elseif selectedMerchantButton == buttons[3] then
+                merchant.selectedMerchantButton = merchant.buttons[3]
+                menuCursorAnim:setPosition(merchant.selectedMerchantButton.button_x-1,merchant.selectedMerchantButton.button_y+3)
+            elseif merchant.selectedMerchantButton == merchant.buttons[3] then
                 sfxButtonNav:clone():play()
-                selectedMerchantButton = merchant.buttons[4]
+                merchant.selectedMerchantButton = merchant.buttons[4]
                 menuCursorAnim:setPosition(merchant.selectedMerchantButton.button_x-1,merchant.selectedMerchantButton.button_y+3)
             elseif merchant.selectedMerchantButton == merchant.buttons[4] then
                 sfxButtonNav:clone():play()

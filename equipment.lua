@@ -33,6 +33,8 @@ function loadCsvFile(filename)
 end
 --load in items from csv file
 local csv = loadCsvFile("items.csv")
+
+
 --test: looks through and unpacks the csv. Identifies based off the "id" column, and prints out the relevant ones... useful!!
     --[[
     local equipped id = 8
@@ -53,6 +55,16 @@ function Equipment:addItem(id)
 		end
 	end
 	table.insert(self.equippedItemList, tempItem)
+end
+
+function Equipment:returnItem(id)
+	for row, values in ipairs(csv) do
+		if unpack(values,1) == id then
+			local tempItem = Item(unpack(values))
+			print (tempItem.name .. " returned")
+		end
+	end
+	return tempItem
 end
 
 function Equipment:removeItem(id)
