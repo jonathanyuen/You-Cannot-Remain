@@ -6,6 +6,7 @@ equipment = Equipment()
 
 local button = require "Button"
 
+local purchasingFlag = 0
 
 --backdrop for merchant
 local merchantBackground = love.graphics.newImage("/sprites/merchant-bg.png")
@@ -15,16 +16,60 @@ local blindBoxIdle = love.graphics.newImage("/sprites/blind-box-idle.png")
 local blindBoxRevealAnim = LoveAnimation.new("blindBoxAnimations.lua")
 blindBoxRevealAnim:setPosition(0,0)
 
+--costs for the items
+local item1Cost = 0
+local item2Cost = 0
+local item3Cost = 0
+local blindBoxCost = 0
+local extraEggCost = 0
+
+function Merchant:select(selection)
+	--this function needs to somehow lock the player into the purchase decision, until player selects "no"
+	purchasingFlag = selection
+end
+
+function Merchant:purchaseDecision(decision)
+	--this function handles if a player says "yes" or "no" to purchasing an item
+	if purchasingFlag ~= 0 then
+		if decision == 0 then
+			purchasingFlag = 0
+		elseif decision == 1 then
+			if purchasingFlag == 1 then
+				if score >= self.item1.cost then
+					equipment:addItem(self.item1.id)
+				end
+			elseif purchasingFlag == 2 then
+				if score >= self.item2.cost then
+					equipment:addItem(self.item2.id)
+				end
+			elseif purchasingFlag == 3 then
+				if score >= self.item3.cost then
+					equipment:addItem(self.item3.id)
+				end
+			elseif purchasingFlag == 4 then
+				if score >= self.blindBox.cost then
+					equipment:addItem(self.blindBox.id)
+				end
+			elseif purchasingFlag == 5 then
+				if score >= self.item5.cost then
+					--add some health
+				end
+			end
+			purchasingFlag = 0
+		end
+	end
+end
+
 function Merchant:new()
 	self.buttons = {}
 	self.decisionButtons = {}
 	--Merchant Buttons
 	--second argument is a function without (), but you gotta write it!
-    self.buttons.item1 = button("Item 1 (5)", item1Select, nil, 50,13)
-    self.buttons.item2 = button("Item 2 (5)", item2Select, nil, 50,13)
-    self.buttons.item3 = button("Item 3 (5)", item3Select, nil, 50,13)
-    self.buttons.blindBox = button("BLIND BOX (2)", blindBoxSelect, nil, 50,13)
-    self.buttons.extraEgg = button("EXTRA EGG (5)", extraEggSelect, nil, 50,13)
+    self.buttons.item1 = button("Item 1 (" .. item1Cost .. ")", select, 1, 50,13)
+    self.buttons.item2 = button("Item 2 (" .. item2Cost .. ")", select, 2, 50,13)
+    self.buttons.item3 = button("Item 3 (" .. item3Cost .. ")", select, 3, 50,13)
+    self.buttons.blindBox = button("BLIND BOX (" .. blindBoxCost .. ")", select, 4, 50,13)
+    self.buttons.extraEgg = button("EXTRA EGG (" .. extraEggCost .. ")", select, 5, 50,13)
 
     table.insert(self.buttons, self.buttons.item1)
     table.insert(self.buttons, self.buttons.item2)
@@ -32,8 +77,8 @@ function Merchant:new()
     table.insert(self.buttons, self.buttons.blindBox)
     table.insert(self.buttons, self.buttons.extraEgg)
 
-	self.decisionButtons.yes = button("YES",decisionYes, nil, 20, 13)
-	self.decisionButtons.no = button("NO", decisionNo, nil, 20,13)
+	self.decisionButtons.yes = button("YES", purchaseDecision, 1, 20, 13)
+	self.decisionButtons.no = button("NO", purchaseDecision, 0, 20,13)
 
 	self.ItemsList = {}
 
