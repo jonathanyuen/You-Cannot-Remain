@@ -62,9 +62,10 @@ function Equipment:returnItem(id)
 		if unpack(values,1) == id then
 			local tempItem = Item(unpack(values))
 			print (tempItem.name .. " returned")
+			return tempItem
 		end
 	end
-	return tempItem
+	
 end
 
 function Equipment:removeItem(id)

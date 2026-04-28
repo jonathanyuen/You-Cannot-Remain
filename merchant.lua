@@ -7,6 +7,7 @@ equipment = Equipment()
 local button = require "Button"
 
 local purchasingFlag = 0
+local blindBoxPurchaseCounter = 0
 
 --backdrop for merchant
 local merchantBackground = love.graphics.newImage("/sprites/merchant-bg.png")
@@ -86,6 +87,12 @@ function Merchant:new()
 	self.selectedDecisionButton = self.decisionButtons[1]
 
 	--special stats
+
+	--items
+	self.item1 = nil
+	self.item2 = nil
+	self.item3 = nil
+	self.blindBox = nil
 	
 	
 	
@@ -111,10 +118,31 @@ function Merchant:openShop()
 	self:makeItemsUnique(item3Num,blindBoxNum)
 
 	self.item1 = equipment:returnItem(item1Num)
+	print("item 1 will be " .. self.item1.name)
 	self.item2 = equipment:returnItem(item2Num)
+	print("item 2 will be " .. self.item2.name)
 	self.item3 = equipment:returnItem(item3Num)
+	print("item 3 will be " .. self.item3.name)
 	self.blindBox = equipment:returnItem(blindBoxNum)
+	print("blindbox item will be " .. self.blindBox.name)
 
+	item1Cost = self:getItemCost(self.item1)
+	item2Cost = self:getItemCost(self.item2)
+	item3Cost = self:getItemCost(self.item3)
+	blindBoxCost = 100 * (1 + blindBoxPurchaseCounter)
+
+end
+
+function Merchant:getItemCost(item)
+	if item.rarity == "everyday" then
+		return 1 * mastermind.level * 20
+	elseif item.rarity == "odd" then
+		return 2 * mastermind.level * 20
+	elseif item.rarity == "remarkable" then
+		return 5 * mastermind.level * 20
+	elseif item.rarity == "aberrant" then
+		return 10 * mastermind.level * 20
+	end
 end
 
 function Merchant:makeItemsUnique(h, j)
@@ -157,7 +185,7 @@ function Merchant:draw()
 		love.graphics.draw(blindBoxIdle,0,0)
 
 		--display writing
-		love.graphics.printf("Unknown glyphs cover the top of the box's wrapping.",136,23,66,'center')
+		love.graphics.printf({colorPalette.fauxWhite, "Unknown glyphs cover the top of the box's wrapping."},136,23,66,'center')
 
 		--
 	elseif self.selectedMerchantButton == self.buttons[5] then

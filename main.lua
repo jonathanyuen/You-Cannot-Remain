@@ -64,6 +64,7 @@ function startMerchant()
     print ("merchant started")
     game.state["running"] = false
     game.state["merchant"] = true
+    merchant:openShop()
 end
 
 --start the game
@@ -85,6 +86,8 @@ local function startNewGame()
     listOfEnemies = {}
     listOfSpitBullets = {}
     listOfPowerups = {}
+
+    merchant = Merchant()
 
     --initialize enemies and powerups 
     mastermind:spawn()

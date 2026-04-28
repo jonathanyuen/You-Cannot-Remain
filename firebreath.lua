@@ -49,14 +49,14 @@ function FireBreath:triggerPull()
                 self.fuel = self.fuel - self.startingFuelCost
                 self.flameAnim:setState("startup")
                 self:changeBreathState(true)
-                print("new instance of firebreath")
+                --("new instance of firebreath")
             end
         else
             if self.fuel > self.startingFuelCost then
                 --need new sound
                 self:fire()
                 self:changeBreathState(true)
-                print("continuing firebreath")
+                --print("continuing firebreath")
             end
         end
     end
@@ -96,7 +96,7 @@ end
 function FireBreath:outOfAmmo()
     if self.fuel <= 0 then
         self.outOfAmmoFlag = true
-        print("out of ammo")
+        --print("out of ammo")
         self.fuel = 0
         self:changeBreathState(false)
 
@@ -128,7 +128,7 @@ function FireBreath:update(dt)
 
     --temp check
     if self.currBreathingState == false then
-        print("cooling off")
+        --print("cooling off")
         if self.temp >= 1 then
             self.temp = self.temp - .5 *dt
         else
@@ -152,8 +152,8 @@ function FireBreath:update(dt)
             end
         end
     end
-    print("flameBreath temp: " .. self.temp)
-    print("overheat flag: " .. tostring(self.overheatFlag))
+    --print("flameBreath temp: " .. self.temp)
+    --print("overheat flag: " .. tostring(self.overheatFlag))
 
     --consume ammo
     if self.currBreathingState == true then
