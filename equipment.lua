@@ -61,6 +61,9 @@ function Equipment:returnItem(id)
 	for row, values in ipairs(csv) do
 		if unpack(values,1) == id then
 			local tempItem = Item(unpack(values))
+			for i=1, 5 do
+				print (tempItem[i])
+			end
 			print (tempItem.name .. " returned")
 			return tempItem
 		end

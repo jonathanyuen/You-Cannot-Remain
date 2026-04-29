@@ -66,13 +66,13 @@ function Merchant:new()
 	self.decisionButtons = {}
 	--Merchant Buttons
 	--second argument is a function without (), but you gotta write it!
-    self.buttons.item1 = button("Item 1 (" .. item1Cost .. ")", select, 1, 50,13)
-    self.buttons.item2 = button("Item 2 (" .. item2Cost .. ")", select, 2, 50,13)
-    self.buttons.item3 = button("Item 3 (" .. item3Cost .. ")", select, 3, 50,13)
-    self.buttons.blindBox = button("BLIND BOX (" .. blindBoxCost .. ")", select, 4, 50,13)
-    self.buttons.extraEgg = button("EXTRA EGG (" .. extraEggCost .. ")", select, 5, 50,13)
+    self.buttons.item1 = button("Item 1", select, 1, 50,13)
+    self.buttons.item2 = button("Item 2", select, 2, 50,13)
+    self.buttons.item3 = button("Item 3", select, 3, 50,13)
+    self.buttons.blindBox = button("BLIND BOX", select, 4, 50,13)
+    self.buttons.extraEgg = button("EXTRA EGG", select, 5, 50,13)
 
-    table.insert(self.buttons, self.buttons.item1)
+	table.insert(self.buttons, self.buttons.item1)
     table.insert(self.buttons, self.buttons.item2)
     table.insert(self.buttons, self.buttons.item3)
     table.insert(self.buttons, self.buttons.blindBox)
@@ -108,24 +108,27 @@ function Merchant:openShop()
 	item3 = random
 	blindBox = random
 	]]
-
-	local item1Num = love.math.random(1,40)
-	local item2Num = love.math.random(1,40)
+	
+	--making sure there aren't duplicates
+	local item1Num = self:rollItem()
+	local item2Num = self:rollItem()
 	self:makeItemsUnique(item1Num,item2Num)
-	local item3Num = love.math.random(1,40)
+	local item3Num = self:rollItem()
 	self:makeItemsUnique(item2Num,item3Num)
-	local blindBoxNum = love.math.random(1,40)
+	local blindBoxNum = self:rollItem()
 	self:makeItemsUnique(item3Num,blindBoxNum)
 
+	--set the shop items
 	self.item1 = equipment:returnItem(item1Num)
-	print("item 1 will be " .. self.item1.name)
+	print("item 1 will be " .. self.item1.name .. " - rarity: " .. self.item1.rarity)
 	self.item2 = equipment:returnItem(item2Num)
-	print("item 2 will be " .. self.item2.name)
+	print("item 2 will be " .. self.item2.name .. " - rarity: " .. self.item2.rarity)
 	self.item3 = equipment:returnItem(item3Num)
-	print("item 3 will be " .. self.item3.name)
+	print("item 3 will be " .. self.item3.name .. " - rarity: " .. self.item3.rarity)
 	self.blindBox = equipment:returnItem(blindBoxNum)
-	print("blindbox item will be " .. self.blindBox.name)
+	print("blindbox item will be " .. self.blindBox.name .. " - rarity: " .. self.blindBox.rarity)
 
+	--determine cost of items
 	item1Cost = self:getItemCost(self.item1)
 	item2Cost = self:getItemCost(self.item2)
 	item3Cost = self:getItemCost(self.item3)
@@ -133,21 +136,40 @@ function Merchant:openShop()
 
 end
 
+--determines cost of items through parsing rarity strings and giving them values
 function Merchant:getItemCost(item)
 	if item.rarity == "everyday" then
-		return 1 * mastermind.level * 20
+		return 1 * (mastermind.level+1) * 20
 	elseif item.rarity == "odd" then
-		return 2 * mastermind.level * 20
+		return 2 * (mastermind.level+1) * 20
 	elseif item.rarity == "remarkable" then
-		return 5 * mastermind.level * 20
+		return 5 * (mastermind.level+1) * 20
 	elseif item.rarity == "aberrant" then
-		return 10 * mastermind.level * 20
+		return 10 * (mastermind.level+1) * 20
+	end
+end
+
+function Merchant:rollItem()
+	local everydayPctg = 50
+	local oddPctg = 30
+	local remarkablePctg = 15
+	local aberrantPctg = 5
+
+	local randomNum = math.random(1,100)
+	if randomNum <= everydayPctg then
+		return math.random(1,22)
+	elseif randomNum <= everydayPctg + oddPctg then
+		return math.random(23,30)
+	elseif randomNum <= everydayPctg + oddPctg + remarkablePctg then
+		return math.random(31,39)
+	elseif randomNum <= everydayPctg + oddPctg + remarkablePctg + aberrantPctg then
+		return 40
 	end
 end
 
 function Merchant:makeItemsUnique(h, j)
 	while h == j do
-		j = math.random(1,40)
+		j = self:rollItem()
 	end
 end
 

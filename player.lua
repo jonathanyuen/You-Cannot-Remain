@@ -273,7 +273,7 @@ function Player:keyPressed(key)
 		scoring.counterActiveReloadSuccess = scoring.counterActiveReloadSuccess + 1
 		scoreboard:updateTicker("Active Reload", self.activeReloadSuccessPointValue)
 		self.reloadTimerForPlayer:after(5, function() 
-			print(self.spitter.activeReloadSuccessFlag)
+			--print(self.spitter.activeReloadSuccessFlag)
 			self.portraitAnim:setState("idle")
 			self.spitter.activeReloadSuccessFlag = 0
 			self.reloadTimerForPlayer:clear()
@@ -286,7 +286,7 @@ function Player:keyReleased(key)
 	if key == "space" and self.weaponEquipped["fireBreath"].equipped == true and player.inShell == false then
 		self.fireBreath.flameAnim:setState("stop")
 		self.fireBreath:changeBreathState(false)
-		print("flames should stop")
+		--print("flames should stop")
 	end
 end
 
@@ -305,7 +305,7 @@ function Player:update(dt)
 	--fire breath (here bc you hold down a key)
 	if self.weaponEquipped["fireBreath"].equipped == true and player.inShell == false and player.fireBreath.overheatFlag == false then
 		if love.keyboard.isDown("space") then
-		print("firebreath triggered")
+		--print("firebreath triggered")
 			self.fireBreath:triggerPull()
 			self.anim:setState("shoot")
 		else

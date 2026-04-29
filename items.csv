@@ -1,41 +1,41 @@
 id,name,effect,description text,rarity
-1,massive tail,tail weapon range and damage goes up,,everyday
-2,lucky watch,active reload success replenishes one ammo,,everyday
-3,slinky,tail increases length,,everyday
-4,big meal,tail increases width,,everyday
-5,curry,flamethrower gets more fuel,,everyday
-6,sunnyside egg,hp up 1,,everyday
-7,big gulp,gives 20 spit ammo,,everyday
-8,bulk peppers,gives 20 chili peppers,,everyday
-9,turt kwon do,dmg up 1,,everyday
-10,lucky shoes,spd up 1,,everyday
-11,aerodynamics,pspd up 1,,everyday
-12,jawbreakers,rad up 1,,everyday
-13,ring light,increases renown gain rate x.25,,everyday
-14,handcuffs,gain a random power up when you take dmg,,everyday
-15,Rizzo,enemy spit kills +1 renown,"follows you around, filming",everyday
-16,Rocco,enemy tail kills +1 renown,"follows you around, writing",everyday
-17,Rippo,enemy fire kills +1 renown,"follows you around, taking pictures",everyday
-18,cheap shield,block 1 damage,,everyday
-19,treadmill,shell recovery time reduced,,everyday
-20,backed up,"clip size -1, damage up 2",,everyday
-21,slowdown,"pspd -1, rad +1",,everyday
-22,fast hands,reload speed increased,,everyday
-23,4th dimensional charm,infinite clip but slower firerate,,odd
-24,tomato,hp up 3,,odd
-25,paid ad,gives 20 renown,,odd
-26,barbell,dmg up 2,,odd
-27,ankle weights,spd up 2,,odd
-28,chewing gum,pspd up2,,odd
-29,vitamins,rad up 2,,odd
-30,press release,increases damage based on renown - 5 renown = 1 dmg,,odd
-31,extended mag,all ammo based weapons have +2 clip size,,remarkable
-32,stopwatch,everyone moves 30% slower,,remarkable
-33,good deed,add 50 Renown,,remarkable
-34,healing pot,hp up 6,,remarkable
-35,squat rack,dmg up 3,,remarkable
-36,adrenaline shot,spd up 3,,remarkable
-37,research,pspd up 3,,remarkable
-38,isotope,rad up 3,,remarkable
+1,massive tail,tail weapon range and damage goes up,tbd,everyday
+2,lucky watch,active reload success replenishes one ammo,tbd,everyday
+3,slinky,tail increases length,tbd,everyday
+4,big meal,tail increases width,tbd,everyday
+5,curry,flamethrower gets more fuel,tbd,everyday
+6,sunnyside egg,hp up 1,tbd,everyday
+7,big gulp,gives 20 spit ammo,tbd,everyday
+8,bulk peppers,gives 20 chili peppers,tbd,everyday
+9,turt kwon do,dmg up 1,tbd,everyday
+10,lucky shoes,spd up 1,tbd,everyday
+11,aerodynamics,pspd up 1,tbd,everyday
+12,jawbreakers,rad up 1,tbd,everyday
+13,ring light,increases renown gain rate x.25,tbd,everyday
+14,handcuffs,gain a random power up when you take dmg,tbd,everyday
+15,Rizzo,enemy spit kills +1 renown,follows you around filming,everyday
+16,Rocco,enemy tail kills +1 renown,follows you around writing,everyday
+17,Rippo,enemy fire kills +1 renown,follows you around taking pictures,everyday
+18,cheap shield,block 1 damage,tbd,everyday
+19,treadmill,shell recovery time reduced,tbd,everyday
+20,backed up,clip size -1 & damage up 2,tbd,everyday
+21,slowdown,pspd -1 & rad +1,tbd,everyday
+22,fast hands,reload speed increased,tbd,everyday
+23,4th dimensional charm,infinite clip but slower firerate,tbd,odd
+24,tomato,hp up 3,tbd,odd
+25,paid ad,gives 20 renown,tbd,odd
+26,barbell,dmg up 2,tbd,odd
+27,ankle weights,spd up 2,tbd,odd
+28,chewing gum,pspd up2,tbd,odd
+29,vitamins,rad up 2,tbd,odd
+30,press release,increases damage based on renown - 5 renown = 1 dmg,tbd,odd
+31,extended mag,all ammo based weapons have +2 clip size,tbd,remarkable
+32,stopwatch,everyone moves 30% slower,tbd,remarkable
+33,good deed,add 50 Renown,tbd,remarkable
+34,healing pot,hp up 6,tbd,remarkable
+35,squat rack,dmg up 3,tbd,remarkable
+36,adrenaline shot,spd up 3,tbd,remarkable
+37,research,pspd up 3,tbd,remarkable
+38,isotope,rad up 3,tbd,remarkable
 39,century egg,all stats up,Some say this egg is over a hundred years old.,remarkable
-40,water jug,adds an additional stream of spit for spitter,,aberrant
+40,water jug,adds an additional stream of spit for spitter,tbd,aberrant

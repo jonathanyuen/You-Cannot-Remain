@@ -61,7 +61,7 @@ local buttons = {
 
 --merchant (global)
 function startMerchant()
-    print ("merchant started")
+    --print ("merchant started")
     game.state["running"] = false
     game.state["merchant"] = true
     merchant:openShop()
@@ -208,7 +208,7 @@ function love.load()
     
     local r,g,b = love.math.colorFromBytes(33,33,35)
     love.graphics.setBackgroundColor(r, g, b,1)
-    print (love.graphics.getBackgroundColor())
+    --print (love.graphics.getBackgroundColor())
     mastermind = Mastermind()
     player = Player()
     scoreboard = Scoreboard()
@@ -326,7 +326,7 @@ function love.keypressed(key)
 
         if player.spitter.activeReloadInstance == 1 and player.spitter.activeReloadCursorXPos < 4 or player.spitter.activeReloadCursorXPos > 7 then
             if key == "space" then
-                print("nope")
+                --print("nope")
                 scoring.flagActiveReloadMissed = true
                 player.spitter.activeReloadSuccessFlag= -1
             end
