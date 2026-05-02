@@ -143,6 +143,9 @@ function love.load()
 
     --renown font
     renownFont = love.graphics.newFont("/fonts/NotJamChunky8.ttf", 8)
+
+    --merchant heading font
+    itemHeadingFont = love.graphics.newFont("/fonts/NotJamOldStyle11.ttf",11)
     --ui
     --[[
     note that ui left side is: 102x180
@@ -379,6 +382,7 @@ function love.keypressed(key)
         -----option selection
         if  (love.keyboard.isDown("return") == true) or (love.keyboard.isDown("space")) then
             merchant.selectedMerchantButton:pressed()
+            print(merchant.selectedMerchantButton.text)
             sfxButtonSelect:play()
         end
 

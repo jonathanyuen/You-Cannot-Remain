@@ -24,12 +24,13 @@ local item3Cost = 0
 local blindBoxCost = 0
 local extraEggCost = 0
 
-function Merchant:select(selection)
+local function optionSelect(selection)
 	--this function needs to somehow lock the player into the purchase decision, until player selects "no"
 	purchasingFlag = selection
+	print ("item " .. purchasingFlag .. " selected.")
 end
 
-function Merchant:purchaseDecision(decision)
+local function purchaseDecision(decision)
 	--this function handles if a player says "yes" or "no" to purchasing an item
 	if purchasingFlag ~= 0 then
 		if decision == 0 then
@@ -52,7 +53,7 @@ function Merchant:purchaseDecision(decision)
 					equipment:addItem(self.blindBox.id)
 				end
 			elseif purchasingFlag == 5 then
-				if score >= self.item5.cost then
+				if score >= 200 then
 					--add some health
 				end
 			end
@@ -66,11 +67,11 @@ function Merchant:new()
 	self.decisionButtons = {}
 	--Merchant Buttons
 	--second argument is a function without (), but you gotta write it!
-    self.buttons.item1 = button("Item 1", select, 1, 50,13)
-    self.buttons.item2 = button("Item 2", select, 2, 50,13)
-    self.buttons.item3 = button("Item 3", select, 3, 50,13)
-    self.buttons.blindBox = button("BLIND BOX", select, 4, 50,13)
-    self.buttons.extraEgg = button("EXTRA EGG", select, 5, 50,13)
+    self.buttons.item1 = button("Item 1", optionSelect, 1, 50,13)
+    self.buttons.item2 = button("Item 2", optionSelect, 2, 50,13)
+    self.buttons.item3 = button("Item 3", optionSelect, 3, 50,13)
+    self.buttons.blindBox = button("BLIND BOX", optionSelect, 4, 50,13)
+    self.buttons.extraEgg = button("EXTRA EGG", optionSelect, 5, 50,13)
 
 	table.insert(self.buttons, self.buttons.item1)
     table.insert(self.buttons, self.buttons.item2)
@@ -78,7 +79,7 @@ function Merchant:new()
     table.insert(self.buttons, self.buttons.blindBox)
     table.insert(self.buttons, self.buttons.extraEgg)
 
-	self.decisionButtons.yes = button("YES", purchaseDecision, 1, 20, 13)
+	self.decisionButtons.yes = button("YES", purchaseDecision, 1 , 20, 13)
 	self.decisionButtons.no = button("NO", purchaseDecision, 0, 20,13)
 
 	self.ItemsList = {}
@@ -193,11 +194,23 @@ function Merchant:draw()
 		--display an item card
 		love.graphics.draw(itemCardBackground, 123, 8)
 		if self.selectedMerchantButton == self.buttons[1] then
-		
+			love.graphics.setFont(itemHeadingFont)
+			love.graphics.printf({colorPalette.fauxWhite, self.item1.name},138,78,66,'center')
+			--reset font
+			love.graphics.setFont(font)
+			love.graphics.printf({colorPalette.fauxWhite, "COST: " .. self:getItemCost(self.item1)},138,108,66,'center')
 		elseif self.selectedMerchantButton == self.buttons[2] then
-
+			love.graphics.setFont(itemHeadingFont)
+			love.graphics.printf({colorPalette.fauxWhite, self.item2.name},138,78,66,'center')
+			--reset font
+			love.graphics.setFont(font)
+			love.graphics.printf({colorPalette.fauxWhite, "COST: " .. self:getItemCost(self.item2)},138,108,66,'center')
 		elseif self.selectedMerchantButton == self.buttons[3] then
-
+			love.graphics.setFont(itemHeadingFont)
+			love.graphics.printf({colorPalette.fauxWhite, self.item3.name},138,78,66,'center')
+			--reset font
+			love.graphics.setFont(font)
+			love.graphics.printf({colorPalette.fauxWhite, "COST: " .. self:getItemCost(self.item3)},138,108,66,'center')
 		end
 	elseif self.selectedMerchantButton == self.buttons[4] then
 		--display blind box background!
