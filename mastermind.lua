@@ -37,8 +37,8 @@ end
 --nextLevel is basically the spawn function? may be redundant
 function Mastermind:nextLevel(lvl)
 
-	for i = 1, (5 * (lvl + 1)) do
-		table.insert(listOfEnemies,Ant((lvl+10),math.random(120,200),-6*i))
+	for i = 1, (5 * (lvl + 2)) do
+		table.insert(listOfEnemies,Ant(lvl,math.random(120,200),-6*i))
 		print ("ant for wave " .. i .. " created")
 	end
 

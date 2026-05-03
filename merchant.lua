@@ -7,7 +7,6 @@ equipment = Equipment()
 local button = require "Button"
 
 purchasingFlag = 0
-decidingToPurchase = false
 local blindBoxPurchaseCounter = 0
 
 confirmationCursorAnim = LoveAnimation.new("menuCursorAnimations.lua")
@@ -26,7 +25,7 @@ blindBoxRevealAnim:setPosition(0,0)
 local function optionSelect(selection)
 	--this function needs to somehow lock the player into the purchase decision, until player selects "no" 
 	purchasingFlag = selection
-	print(purchasingFlag)
+	print("purchasing flag after selection: " .. purchasingFlag)
 end
 
 local function purchaseDecision(decision)
@@ -66,6 +65,7 @@ local function purchaseDecision(decision)
 				end
 			end
 			purchasingFlag = 0
+			print("purchase decision triggered")
 		end
 	end
 end
@@ -190,7 +190,7 @@ end
 
 
 function Merchant:update(dt)
-	print(score )
+	print("current purchasing flag: " .. purchasingFlag)
 end
 
 function Merchant:draw()
@@ -229,8 +229,7 @@ function Merchant:draw()
 
 		-- purchasing
 		if purchasingFlag ~= 0 then
-			print("as of printing, purchasing flag is: " .. tostring(purchasingFlag))
-
+			print("decision dialogue should display")
 			menuCursorAnim:draw()
 
 			love.graphics.setFont(pixelPurlFont)

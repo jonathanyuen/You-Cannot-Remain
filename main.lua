@@ -384,15 +384,22 @@ function love.keypressed(key)
     if game.state["merchant"] then
         --initial option selection
         -----option selection
-        if  (love.keyboard.isDown("return") == true) or (love.keyboard.isDown("space")) and purchasingFlag == 0 and decidingToPurchase == false then
+        if  (love.keyboard.isDown("return") == true) or (love.keyboard.isDown("space")) and purchasingFlag == 0 then
             merchant.selectedMerchantButton:pressed()
             print(merchant.selectedMerchantButton.text)
-            decidingToPurchase = true
             sfxButtonSelect:play()
+        --purchase selection
+        elseif (love.keyboard.isDown("return") == true) or (love.keyboard.isDown("space")) and purchasingFlag ~= 0 then
+            --debug test with button P 
+            merchant.selectedDecisionButton:pressed()
+            purchasingFlag = 0
+            sfxButtonSelect:play()
+            --maybe a kaching noise would be good
+           
         end
 
         --purchase navigation
-        if love.keyboard.isDown("left") == true and decidingToPurchase == true then
+        if love.keyboard.isDown("left") == true then
             if merchant.selectedDecisionButton == merchant.decisionButtons[1] then
                 --can't move more left...
             elseif merchant.selectedDecisionButton == merchant.decisionButtons[2] then
@@ -401,7 +408,7 @@ function love.keypressed(key)
                 merchant.selectedDecisionButton = merchant.decisionButtons[1]
                 confirmationCursorAnim:setPosition(merchant.selectedDecisionButton.button_x-1, merchant.selectedDecisionButton.button_y+3)
             end
-        elseif love.keyboard.isDown("right") == true and decidingToPurchase == true then
+        elseif love.keyboard.isDown("right") == true then
             if merchant.selectedDecisionButton == merchant.decisionButtons[2] then
                 --can't move more right...
             elseif merchant.selectedDecisionButton == merchant.decisionButtons[1] then
@@ -412,17 +419,7 @@ function love.keypressed(key)
             end
         end
 
-        --purchase selection
-        if decidingToPurchase == true and purchasingFlag ~= 0 then
-            --debug test with button P 
-            if (love.keyboard.isDown("p") == true) then
-                merchant.selectedDecisionButton:pressed()
-                decidingToPurchase = false
-                purchasingFlag = 0
-                sfxButtonSelect:play()
-                --maybe a kaching noise would be good
-            end
-        end
+        
         
 
         --option navigation
