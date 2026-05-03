@@ -63,6 +63,8 @@ local buttons = {
 function startMerchant()
     --print ("merchant started")
     game.state["running"] = false
+    game.state["pause"] = false
+    game.state["ended"] = false
     game.state["merchant"] = true
     menuCursorAnim:setPosition(merchant.selectedMerchantButton.button_x-1, merchant.selectedMerchantButton.button_y+3)
     merchant:openShop()
@@ -320,8 +322,6 @@ end
 
 
 function love.keypressed(key)
-
-
     if game.state["running"] then
         --what happens when you press pause
         if love.keyboard.isDown("p") == true or love.keyboard.isDown("escape") == true then
@@ -384,7 +384,7 @@ function love.keypressed(key)
     if game.state["merchant"] then
         --initial option selection
         -----option selection
-        if  (love.keyboard.isDown("return") == true) or (love.keyboard.isDown("space")) then
+        if  (love.keyboard.isDown("return") == true) or (love.keyboard.isDown("space")) and purchasingFlag == 0 and decidingToPurchase == false then
             merchant.selectedMerchantButton:pressed()
             print(merchant.selectedMerchantButton.text)
             decidingToPurchase = true
@@ -413,10 +413,12 @@ function love.keypressed(key)
         end
 
         --purchase selection
-        if decidingToPurchase == true then
-            if (love.keyboard.isDown("return") == true) or (love.keyboard.isDown("space")) then
+        if decidingToPurchase == true and purchasingFlag ~= 0 then
+            --debug test with button P 
+            if (love.keyboard.isDown("p") == true) then
                 merchant.selectedDecisionButton:pressed()
                 decidingToPurchase = false
+                purchasingFlag = 0
                 sfxButtonSelect:play()
                 --maybe a kaching noise would be good
             end

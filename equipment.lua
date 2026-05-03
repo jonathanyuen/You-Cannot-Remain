@@ -48,13 +48,17 @@ local csv = loadCsvFile("items.csv")
 --searches through items.csv for the item via id - once found, turns it into an Item object, adds it to the list of equipped Items!
 --works! yay!
 function Equipment:addItem(id)
+	local tempItem
 	for row, values in ipairs(csv) do
 		if unpack(values,1) == id then
-			local tempItem = Item(unpack(values))
+			tempItem = Item(unpack(values))
+			table.insert(self.equippedItemList, tempItem)
 			print (tempItem.name .. " added")
 		end
 	end
-	table.insert(self.equippedItemList, tempItem)
+	for i,v in ipairs(self.equippedItemList) do
+		print(v.name)
+	end
 end
 
 function Equipment:returnItem(id)

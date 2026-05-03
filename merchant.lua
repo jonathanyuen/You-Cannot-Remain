@@ -38,18 +38,27 @@ local function purchaseDecision(decision)
 			if purchasingFlag == 1 then
 				if score >= merchant.item1Cost then
 					equipment:addItem(merchant.item1.id)
+					print(merchant.item1Cost)
+					score = score - merchant.item1Cost
+					print ("item 1 - " .. merchant.item1.name .. " added!")
 				end
 			elseif purchasingFlag == 2 then
 				if score >= merchant.item2Cost then
 					equipment:addItem(merchant.item2.id)
+					score = score - merchant.item2Cost
+					print ("item 1 - " .. merchant.item1.name .. " added!")
 				end
 			elseif purchasingFlag == 3 then
 				if score >= merchant.item3Cost then
 					equipment:addItem(merchant.item3.id)
+					score = score - merchant.item3Cost
+					print ("item 1 - " .. merchant.item1.name .. " added!")
 				end
 			elseif purchasingFlag == 4 then
 				if score >= merchant.blindBoxCost then
 					equipment:addItem(merchant.blindBox.id)
+					score = score - merchant.blindBoxCost
+					print ("item 1 - " .. merchant.item1.name .. " added!")
 				end
 			elseif purchasingFlag == 5 then
 				if score >= 200 then
@@ -145,13 +154,13 @@ end
 --determines cost of items through parsing rarity strings and giving them values
 function Merchant:getItemCost(item)
 	if item.rarity == "everyday" then
-		return 1 * (mastermind.level+1) * 20
+		return 1 * (mastermind.level+1) * 200
 	elseif item.rarity == "odd" then
-		return 2 * (mastermind.level+1) * 20
+		return 2 * (mastermind.level+1) * 200
 	elseif item.rarity == "remarkable" then
-		return 5 * (mastermind.level+1) * 20
+		return 5 * (mastermind.level+1) * 200
 	elseif item.rarity == "aberrant" then
-		return 10 * (mastermind.level+1) * 20
+		return 10 * (mastermind.level+1) * 200
 	end
 end
 
@@ -181,7 +190,7 @@ end
 
 
 function Merchant:update(dt)
-
+	print(score )
 end
 
 function Merchant:draw()
@@ -203,19 +212,19 @@ function Merchant:draw()
 			love.graphics.printf({colorPalette.fauxWhite, self.item1.name},138,78,66,'center')
 			--reset font
 			love.graphics.setFont(font)
-			love.graphics.printf({colorPalette.fauxWhite, "COST: " .. self:getItemCost(self.item1)},138,108,66,'center')
+			love.graphics.printf({colorPalette.fauxWhite, "COST: " .. self.item1Cost},138,108,66,'center')
 		elseif self.selectedMerchantButton == self.buttons[2] then
 			love.graphics.setFont(itemHeadingFont)
 			love.graphics.printf({colorPalette.fauxWhite, self.item2.name},138,78,66,'center')
 			--reset font
 			love.graphics.setFont(font)
-			love.graphics.printf({colorPalette.fauxWhite, "COST: " .. self:getItemCost(self.item2)},138,108,66,'center')
+			love.graphics.printf({colorPalette.fauxWhite, "COST: " .. self.item2Cost},138,108,66,'center')
 		elseif self.selectedMerchantButton == self.buttons[3] then
 			love.graphics.setFont(itemHeadingFont)
 			love.graphics.printf({colorPalette.fauxWhite, self.item3.name},138,78,66,'center')
 			--reset font
 			love.graphics.setFont(font)
-			love.graphics.printf({colorPalette.fauxWhite, "COST: " .. self:getItemCost(self.item3)},138,108,66,'center')
+			love.graphics.printf({colorPalette.fauxWhite, "COST: " .. self.item3Cost},138,108,66,'center')
 		end
 
 		-- purchasing
