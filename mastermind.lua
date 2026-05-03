@@ -38,7 +38,7 @@ end
 function Mastermind:nextLevel(lvl)
 
 	for i = 1, (5 * (lvl + 1)) do
-		table.insert(listOfEnemies,Ant(lvl,math.random(120,200),-16*i))
+		table.insert(listOfEnemies,Ant((lvl+10),math.random(120,200),-6*i))
 		print ("ant for wave " .. i .. " created")
 	end
 

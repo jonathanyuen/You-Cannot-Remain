@@ -6,8 +6,12 @@ equipment = Equipment()
 
 local button = require "Button"
 
-local purchasingFlag = 0
+purchasingFlag = 0
+decidingToPurchase = false
 local blindBoxPurchaseCounter = 0
+
+confirmationCursorAnim = LoveAnimation.new("menuCursorAnimations.lua")
+confirmationCursorAnim:setPosition(142, 137)
 
 --backdrop for merchant
 local merchantBackground = love.graphics.newImage("/sprites/merchant-bg.png")
@@ -17,17 +21,12 @@ local blindBoxIdle = love.graphics.newImage("/sprites/blind-box-idle.png")
 local blindBoxRevealAnim = LoveAnimation.new("blindBoxAnimations.lua")
 blindBoxRevealAnim:setPosition(0,0)
 
---costs for the items
-local item1Cost = 0
-local item2Cost = 0
-local item3Cost = 0
-local blindBoxCost = 0
-local extraEggCost = 0
+
 
 local function optionSelect(selection)
-	--this function needs to somehow lock the player into the purchase decision, until player selects "no"
+	--this function needs to somehow lock the player into the purchase decision, until player selects "no" 
 	purchasingFlag = selection
-	print ("item " .. purchasingFlag .. " selected.")
+	print(purchasingFlag)
 end
 
 local function purchaseDecision(decision)
@@ -37,20 +36,20 @@ local function purchaseDecision(decision)
 			purchasingFlag = 0
 		elseif decision == 1 then
 			if purchasingFlag == 1 then
-				if score >= self.item1.cost then
-					equipment:addItem(self.item1.id)
+				if score >= merchant.item1Cost then
+					equipment:addItem(merchant.item1.id)
 				end
 			elseif purchasingFlag == 2 then
-				if score >= self.item2.cost then
-					equipment:addItem(self.item2.id)
+				if score >= merchant.item2Cost then
+					equipment:addItem(merchant.item2.id)
 				end
 			elseif purchasingFlag == 3 then
-				if score >= self.item3.cost then
-					equipment:addItem(self.item3.id)
+				if score >= merchant.item3Cost then
+					equipment:addItem(merchant.item3.id)
 				end
 			elseif purchasingFlag == 4 then
-				if score >= self.blindBox.cost then
-					equipment:addItem(self.blindBox.id)
+				if score >= merchant.blindBoxCost then
+					equipment:addItem(merchant.blindBox.id)
 				end
 			elseif purchasingFlag == 5 then
 				if score >= 200 then
@@ -82,6 +81,9 @@ function Merchant:new()
 	self.decisionButtons.yes = button("YES", purchaseDecision, 1 , 20, 13)
 	self.decisionButtons.no = button("NO", purchaseDecision, 0, 20,13)
 
+	table.insert(self.decisionButtons, self.decisionButtons.yes)
+	table.insert(self.decisionButtons, self.decisionButtons.no)
+
 	self.ItemsList = {}
 
 	self.selectedMerchantButton = self.buttons[1]
@@ -94,6 +96,13 @@ function Merchant:new()
 	self.item2 = nil
 	self.item3 = nil
 	self.blindBox = nil
+
+	--costs for the items
+	self.item1Cost = 0
+	self.item2Cost = 0
+	self.item3Cost = 0
+	self.blindBoxCost = 0
+	self.extraEggCost = 0
 	
 	
 	
@@ -121,19 +130,15 @@ function Merchant:openShop()
 
 	--set the shop items
 	self.item1 = equipment:returnItem(item1Num)
-	print("item 1 will be " .. self.item1.name .. " - rarity: " .. self.item1.rarity)
 	self.item2 = equipment:returnItem(item2Num)
-	print("item 2 will be " .. self.item2.name .. " - rarity: " .. self.item2.rarity)
 	self.item3 = equipment:returnItem(item3Num)
-	print("item 3 will be " .. self.item3.name .. " - rarity: " .. self.item3.rarity)
 	self.blindBox = equipment:returnItem(blindBoxNum)
-	print("blindbox item will be " .. self.blindBox.name .. " - rarity: " .. self.blindBox.rarity)
 
 	--determine cost of items
-	item1Cost = self:getItemCost(self.item1)
-	item2Cost = self:getItemCost(self.item2)
-	item3Cost = self:getItemCost(self.item3)
-	blindBoxCost = 100 * (1 + blindBoxPurchaseCounter)
+	self.item1Cost = self:getItemCost(self.item1)
+	self.item2Cost = self:getItemCost(self.item2)
+	self.item3Cost = self:getItemCost(self.item3)
+	self.blindBoxCost = 100 * (1 + blindBoxPurchaseCounter)
 
 end
 
@@ -211,6 +216,21 @@ function Merchant:draw()
 			--reset font
 			love.graphics.setFont(font)
 			love.graphics.printf({colorPalette.fauxWhite, "COST: " .. self:getItemCost(self.item3)},138,108,66,'center')
+		end
+
+		-- purchasing
+		if purchasingFlag ~= 0 then
+			print("as of printing, purchasing flag is: " .. tostring(purchasingFlag))
+
+			menuCursorAnim:draw()
+
+			love.graphics.setFont(pixelPurlFont)
+			love.graphics.printf({colorPalette.red, "BUY?"}, 140, 130, 66, 'center')
+			love.graphics.setFont(font)
+
+			--decision buttons
+			self.decisionButtons.no:draw(170, 140, 0, 0)
+			self.decisionButtons.yes:draw(140, 140, 0, 0)
 		end
 	elseif self.selectedMerchantButton == self.buttons[4] then
 		--display blind box background!

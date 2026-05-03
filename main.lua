@@ -64,6 +64,7 @@ function startMerchant()
     --print ("merchant started")
     game.state["running"] = false
     game.state["merchant"] = true
+    menuCursorAnim:setPosition(merchant.selectedMerchantButton.button_x-1, merchant.selectedMerchantButton.button_y+3)
     merchant:openShop()
 end
 
@@ -146,6 +147,9 @@ function love.load()
 
     --merchant heading font
     itemHeadingFont = love.graphics.newFont("/fonts/NotJamOldStyle11.ttf",11)
+
+    --Decision header font
+    pixelPurlFont = love.graphics.newFont("/fonts/PixelPurl.ttf", 16)
     --ui
     --[[
     note that ui left side is: 102x180
@@ -383,42 +387,91 @@ function love.keypressed(key)
         if  (love.keyboard.isDown("return") == true) or (love.keyboard.isDown("space")) then
             merchant.selectedMerchantButton:pressed()
             print(merchant.selectedMerchantButton.text)
+            decidingToPurchase = true
             sfxButtonSelect:play()
         end
+
+        --purchase navigation
+        if love.keyboard.isDown("left") == true and decidingToPurchase == true then
+            if merchant.selectedDecisionButton == merchant.decisionButtons[1] then
+                --can't move more left...
+            elseif merchant.selectedDecisionButton == merchant.decisionButtons[2] then
+                --move left
+                sfxButtonNav:clone():play()
+                merchant.selectedDecisionButton = merchant.decisionButtons[1]
+                confirmationCursorAnim:setPosition(merchant.selectedDecisionButton.button_x-1, merchant.selectedDecisionButton.button_y+3)
+            end
+        elseif love.keyboard.isDown("right") == true and decidingToPurchase == true then
+            if merchant.selectedDecisionButton == merchant.decisionButtons[2] then
+                --can't move more right...
+            elseif merchant.selectedDecisionButton == merchant.decisionButtons[1] then
+                --move right
+                sfxButtonNav:clone():play()
+                merchant.selectedDecisionButton = merchant.decisionButtons[2]
+                confirmationCursorAnim:setPosition(merchant.selectedDecisionButton.button_x-1, merchant.selectedDecisionButton.button_y+3)
+            end
+        end
+
+        --purchase selection
+        if decidingToPurchase == true then
+            if (love.keyboard.isDown("return") == true) or (love.keyboard.isDown("space")) then
+                merchant.selectedDecisionButton:pressed()
+                decidingToPurchase = false
+                sfxButtonSelect:play()
+                --maybe a kaching noise would be good
+            end
+        end
+        
 
         --option navigation
         if love.keyboard.isDown("down") == true then
             if merchant.selectedMerchantButton == merchant.buttons[1] then
+                purchasingFlag = 0
+                print(purchasingFlag)
                 sfxButtonNav:clone():play()
                 merchant.selectedMerchantButton = merchant.buttons[2]
                 menuCursorAnim:setPosition(merchant.selectedMerchantButton.button_x-1,merchant.selectedMerchantButton.button_y+3)
             elseif merchant.selectedMerchantButton == merchant.buttons[2] then
+                purchasingFlag = 0
+                print(purchasingFlag)
                 sfxButtonNav:clone():play()
                 merchant.selectedMerchantButton = merchant.buttons[3]
                 menuCursorAnim:setPosition(merchant.selectedMerchantButton.button_x-1,merchant.selectedMerchantButton.button_y+3)
             elseif merchant.selectedMerchantButton == merchant.buttons[3] then
+                purchasingFlag = 0
+                print(purchasingFlag)
                 sfxButtonNav:clone():play()
                 merchant.selectedMerchantButton = merchant.buttons[4]
                 menuCursorAnim:setPosition(merchant.selectedMerchantButton.button_x-1,merchant.selectedMerchantButton.button_y+3)
             elseif merchant.selectedMerchantButton == merchant.buttons[4] then
+                purchasingFlag = 0
+                print(purchasingFlag)
                 sfxButtonNav:clone():play()
                 merchant.selectedMerchantButton = merchant.buttons[5]
                 menuCursorAnim:setPosition(merchant.selectedMerchantButton.button_x-1,merchant.selectedMerchantButton.button_y+3)
             end
         elseif love.keyboard.isDown("up") == true then
             if merchant.selectedMerchantButton == merchant.buttons[5] then
+                purchasingFlag = 0
+                print(purchasingFlag)
                 sfxButtonNav:clone():play()
                 merchant.selectedMerchantButton = merchant.buttons[4]
                 menuCursorAnim:setPosition(merchant.selectedMerchantButton.button_x-1, merchant.selectedMerchantButton.button_y+3)
             elseif merchant.selectedMerchantButton == merchant.buttons[4] then
+                purchasingFlag = 0
+                print(purchasingFlag)
                 sfxButtonNav:clone():play()
                 merchant.selectedMerchantButton = merchant.buttons[3]
                 menuCursorAnim:setPosition(merchant.selectedMerchantButton.button_x-1, merchant.selectedMerchantButton.button_y+3)
             elseif merchant.selectedMerchantButton == merchant.buttons[3] then
+                purchasingFlag = 0
+                print(purchasingFlag)
                 sfxButtonNav:clone():play()
                 merchant.selectedMerchantButton = merchant.buttons[2]
                 menuCursorAnim:setPosition(merchant.selectedMerchantButton.button_x-1, merchant.selectedMerchantButton.button_y+3)
             elseif merchant.selectedMerchantButton == merchant.buttons[2] then
+                purchasingFlag = 0
+                print(purchasingFlag)
                 sfxButtonNav:clone():play()
                 merchant.selectedMerchantButton = merchant.buttons[1]
                 menuCursorAnim:setPosition(merchant.selectedMerchantButton.button_x-1, merchant.selectedMerchantButton.button_y+3)
