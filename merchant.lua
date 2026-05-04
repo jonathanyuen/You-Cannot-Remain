@@ -40,6 +40,7 @@ local function purchaseDecision(decision)
 					print(merchant.item1Cost)
 					score = score - merchant.item1Cost
 					print ("item 1 - " .. merchant.item1.name .. " added!")
+					merchant.buttons.item1 = button("ITEM 1 - SOLD OUT", nil, nil, 50,13)
 				end
 			elseif purchasingFlag == 2 then
 				if score >= merchant.item2Cost then
@@ -75,9 +76,9 @@ function Merchant:new()
 	self.decisionButtons = {}
 	--Merchant Buttons
 	--second argument is a function without (), but you gotta write it!
-    self.buttons.item1 = button("Item 1", optionSelect, 1, 50,13)
-    self.buttons.item2 = button("Item 2", optionSelect, 2, 50,13)
-    self.buttons.item3 = button("Item 3", optionSelect, 3, 50,13)
+    self.buttons.item1 = button("ITEM 1", optionSelect, 1, 50,13)
+    self.buttons.item2 = button("ITEM 2", optionSelect, 2, 50,13)
+    self.buttons.item3 = button("ITEM 3", optionSelect, 3, 50,13)
     self.buttons.blindBox = button("BLIND BOX", optionSelect, 4, 50,13)
     self.buttons.extraEgg = button("EXTRA EGG", optionSelect, 5, 50,13)
 
@@ -230,7 +231,7 @@ function Merchant:draw()
 		-- purchasing
 		if purchasingFlag ~= 0 then
 			print("decision dialogue should display")
-			menuCursorAnim:draw()
+			confirmationCursorAnim:draw()
 
 			love.graphics.setFont(pixelPurlFont)
 			love.graphics.printf({colorPalette.red, "BUY?"}, 140, 130, 66, 'center')
