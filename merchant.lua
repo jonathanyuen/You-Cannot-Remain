@@ -10,7 +10,7 @@ purchasingFlag = 0
 local blindBoxPurchaseCounter = 0
 
 confirmationCursorAnim = LoveAnimation.new("menuCursorAnimations.lua")
-confirmationCursorAnim:setPosition(142, 137)
+confirmationCursorAnim:setPosition(140, 145)
 
 --backdrop for merchant
 local merchantBackground = love.graphics.newImage("/sprites/merchant-bg.png")
@@ -41,28 +41,38 @@ local function purchaseDecision(decision)
 					score = score - merchant.item1Cost
 					print ("item 1 - " .. merchant.item1.name .. " added!")
 					merchant.buttons.item1 = button("ITEM 1 - SOLD OUT", nil, nil, 50,13)
+					--add a kaching sound after all of them
+				else
+					--can't afford dialogue pops up and denied SFX plays
 				end
 			elseif purchasingFlag == 2 then
 				if score >= merchant.item2Cost then
 					equipment:addItem(merchant.item2.id)
 					score = score - merchant.item2Cost
 					print ("item 1 - " .. merchant.item1.name .. " added!")
+					merchant.buttons.item1 = button("ITEM 2 - SOLD OUT", nil, nil, 50,13)
+					--add a kaching sound after all of them
+				else
+					--can't afford dialogue pops up and denied SFX plays
 				end
 			elseif purchasingFlag == 3 then
 				if score >= merchant.item3Cost then
 					equipment:addItem(merchant.item3.id)
 					score = score - merchant.item3Cost
 					print ("item 1 - " .. merchant.item1.name .. " added!")
+					merchant.buttons.item1 = button("ITEM 3 - SOLD OUT", nil, nil, 50,13)
+					--add a kaching sound after all of them
+				else
+					--can't afford dialogue pops up and denied SFX plays
 				end
 			elseif purchasingFlag == 4 then
 				if score >= merchant.blindBoxCost then
 					equipment:addItem(merchant.blindBox.id)
 					score = score - merchant.blindBoxCost
 					print ("item 1 - " .. merchant.item1.name .. " added!")
-				end
-			elseif purchasingFlag == 5 then
-				if score >= 200 then
-					--add some health
+					--add a kaching sound after all of them
+				else
+					--can't afford dialogue pops up and denied SFX plays
 				end
 			end
 			purchasingFlag = 0
@@ -80,13 +90,13 @@ function Merchant:new()
     self.buttons.item2 = button("ITEM 2", optionSelect, 2, 50,13)
     self.buttons.item3 = button("ITEM 3", optionSelect, 3, 50,13)
     self.buttons.blindBox = button("BLIND BOX", optionSelect, 4, 50,13)
-    self.buttons.extraEgg = button("EXTRA EGG", optionSelect, 5, 50,13)
+    self.buttons.quitShop = button("EXIT SHOP", endMerchant, nil, 50,13)
 
 	table.insert(self.buttons, self.buttons.item1)
     table.insert(self.buttons, self.buttons.item2)
     table.insert(self.buttons, self.buttons.item3)
     table.insert(self.buttons, self.buttons.blindBox)
-    table.insert(self.buttons, self.buttons.extraEgg)
+    table.insert(self.buttons, self.buttons.quitShop)
 
 	self.decisionButtons.yes = button("YES", purchaseDecision, 1 , 20, 13)
 	self.decisionButtons.no = button("NO", purchaseDecision, 0, 20,13)
@@ -201,7 +211,7 @@ function Merchant:draw()
 	self.buttons.item2:draw(10, 129, 0, 0)
 	self.buttons.item3:draw(10, 139, 0, 0)
 	self.buttons.blindBox:draw(10, 149, 0, 0)
-	self.buttons.extraEgg:draw(10, 159, 0, 0)
+	self.buttons.quitShop:draw(10, 159, 0, 0)
 	menuCursorAnim:draw()
 
 	--display depending on what is selected

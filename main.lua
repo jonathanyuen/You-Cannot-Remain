@@ -70,6 +70,15 @@ function startMerchant()
     merchant:openShop()
 end
 
+--transition from merchant state to game state
+function endMerchant()
+    game.state["running"] = true
+    game.state["pause"] = false
+    game.state["ended"] = false
+    game.state["merchant"] = false
+    print("merchant ended")
+end
+
 --start the game
 local function startNewGame()
     game.state["menu"] = false
@@ -390,11 +399,9 @@ function love.keypressed(key)
             sfxButtonSelect:play()
         --purchase selection
         elseif (love.keyboard.isDown("return") == true) or (love.keyboard.isDown("space")) and purchasingFlag ~= 0 then
-            --debug test with button P 
             merchant.selectedDecisionButton:pressed()
             purchasingFlag = 0
-            sfxButtonSelect:play()
-            --maybe a kaching noise would be good
+            
            
         end
 

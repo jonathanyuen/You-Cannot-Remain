@@ -36,13 +36,9 @@ function Spit:checkCollision(obj)
         --spit hit!
 
         --get rid of spit bullet
-        if player.item39Flag == false then
-            self.dead = true
-        else
-            Timer.after(4, function()
-                self.dead = true
-            end)
-        end
+        
+        self.dead = true
+       
         
 
         --give extra renown for a kill

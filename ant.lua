@@ -5,7 +5,7 @@ function Ant:new(lvl,spawnX,spawnY)
 	self.x = spawnX
 	self.y = spawnY
 	self.speed = 10
-	if player.item61Flag == true then
+	if player.item32Flag == true then
 		self.speed = self.speed*.7
 	end
 	self.anim = LoveAnimation.new('antAnimations.lua')
@@ -28,6 +28,12 @@ function Ant:takeDmg(dmgNum,type)
 	self.anim:setState("damaged")
 	--play sfx
 	if type == "spit" then
+		if dmgNum > self.health then
+			if player.item15Flag == true then
+				scoreboard:updateTicker("Spit Kill Bonus", 10)
+			end
+			mastermind:killCheck()
+		end
 		sfxSuccessfulHit:clone():play()
 		
 		--freeze position for duration
@@ -39,6 +45,12 @@ function Ant:takeDmg(dmgNum,type)
 			self.anim:setState("walking")
 		end)
 	elseif type == "tail" then
+		if dmgNum > self.health then
+			if self.item16Flag == true then
+				scoreboard:updateTicker("Tail Kill Bonus", 10)
+			end
+			mastermind:killCheck()
+		end
 		Timer.after(.1, function ()
 			sfxIronTailHit:clone():play()
 		end)
@@ -52,7 +64,11 @@ function Ant:takeDmg(dmgNum,type)
 		end)
 	elseif type == "fireBreath" then
 		if dmgNum > self.health then
-			scoreboard:updateTicker("Fire Kill Bonus", 10)
+			if player.item17Flag == true then
+				scoreboard:updateTicker("Fire Kill Bonus", 10)
+
+			end
+			mastermind:killCheck()
 		end
 		sfxFireBreathDamage:clone():play()
 		--freeze position for duration
@@ -140,7 +156,7 @@ function Ant:update(dt)
 		self.newlyDead = false
 		mastermind.enemyKillCount = mastermind.enemyKillCount+1
 		scoring.counterAntsKilled = scoring.counterAntsKilled + 50
-		scoreboard:updateTicker("Ant Killed", self.deathValue)
+		scoreboard:updateTicker("Enemy slain", self.deathValue)
 
 	elseif self:isDead() == true and self.newlyDead == false then
 		self.deathAnimation:update(dt)

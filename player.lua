@@ -31,6 +31,7 @@ function Player:new()
 	--upgradable stats
 	self.health = 3
 	self.dmg = 0 
+	self.baseDmg = 0
 	self.rad = 0
 	self.pspd = 0
 	self.baseSpd = 35
@@ -60,25 +61,21 @@ function Player:new()
 
 	--item specific flags
 	--active reload success replenishes ammo
-	self.item8Flag = false
+	self.item2Flag = false
 	--- on dmg, get a random power up
-	self.item21Flag = false
+	self.item14Flag = false
 	--spit kills give more renown
-	self.item25Flag = false
+	self.item15Flag = false
 	--tail kills give more renown
-	self.item26Flag = false
+	self.item16Flag = false
 	--fire kills give more renown
-	self.item27Flag = false
-	--shield 1 hit
-	self.item29Flag = false
-	--bullet passthrough
-	self.item39Flag = false
+	self.item17Flag = false
 	--renown based dmg bonus
-	self.item53Flag = false
+	self.item30Flag = false
 	--slows everyone down 30%
-	self.item61Flag = false
+	self.item32Flag = false
 	--additional spit stream
-	self.item79Flag = false
+	self.item40Flag = false
 end
 
 
@@ -181,8 +178,8 @@ function Player:takeDmg(dmgNum)
 	sfxHPDown:play()
 	
 
-	--item 21 logic - providing a power up upon damage
-	if item21Flag == true and self.health > 0 then
+	--item 14 logic - providing a power up upon damage
+	if self.item14Flag == true and self.health > 0 then
 		local rngType = math.random(1,4)
 		if rngType == 1 then
 			player:statUp("dmg",1)
@@ -265,7 +262,7 @@ function Player:keyPressed(key)
 		sfxActiveReloadSuccess:play()
 		self.portraitAnim:setState("activeReloadSuccess")
 
-		if item8Flag == true then
+		if self.item2Flag == true then
 			self.spitter.ammoLeft = self.spitter.ammoLeft + 2
 		end
 
@@ -291,6 +288,11 @@ function Player:keyReleased(key)
 end
 
 function Player:update(dt)
+	--renown damage - item 30
+	if self.item30Flag == true then
+		self.dmg = self.baseDmg + (score/100)
+	end
+
 	--update clock
 	self.reloadTimerForPlayer:update(dt)
 	--update weapons
