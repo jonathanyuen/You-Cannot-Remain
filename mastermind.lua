@@ -39,7 +39,7 @@ end
 --nextLevel is basically the spawn function? may be redundant
 function Mastermind:nextLevel(lvl)
 
-	for i = 1, (5 * (lvl + 2)) do
+	for i = 1, (5 * (lvl+1)) do
 		table.insert(listOfEnemies,Ant(lvl,math.random(120,200),-6*i))
 		print ("ant for wave " .. i .. " created")
 	end
@@ -105,7 +105,7 @@ end
 
 function Mastermind:killCheck()
 	print("killCount: " .. self.enemyKillCount)
-	if self.enemyKillCount % 5 == 0 then
+	if self.enemyKillCount ~= 0 and self.enemyKillCount % 5 == 0 then
 		startMerchant()
 		print("merchant started from mastermind")
 		self:setLevel(self.level + 1)

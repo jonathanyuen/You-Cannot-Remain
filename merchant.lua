@@ -50,7 +50,7 @@ local function purchaseDecision(decision)
 					equipment:addItem(merchant.item2.id)
 					score = score - merchant.item2Cost
 					print ("item 1 - " .. merchant.item1.name .. " added!")
-					merchant.buttons.item1 = button("ITEM 2 - SOLD OUT", nil, nil, 50,13)
+					merchant.buttons.item2 = button("ITEM 2 - SOLD OUT", nil, nil, 50,13)
 					--add a kaching sound after all of them
 				else
 					--can't afford dialogue pops up and denied SFX plays
@@ -60,7 +60,7 @@ local function purchaseDecision(decision)
 					equipment:addItem(merchant.item3.id)
 					score = score - merchant.item3Cost
 					print ("item 1 - " .. merchant.item1.name .. " added!")
-					merchant.buttons.item1 = button("ITEM 3 - SOLD OUT", nil, nil, 50,13)
+					merchant.buttons.item3 = button("ITEM 3 - SOLD OUT", nil, nil, 50,13)
 					--add a kaching sound after all of them
 				else
 					--can't afford dialogue pops up and denied SFX plays
