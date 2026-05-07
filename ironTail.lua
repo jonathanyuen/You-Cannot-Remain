@@ -48,6 +48,7 @@ function IronTail:smackTail()
         and enemy_bottom > hbox_top
         and enemy_top < hbox_bottom then
             self:damageCalc(i,v)
+            freeze_game(.25)
         end
     end
 
@@ -63,6 +64,7 @@ function IronTail:smackTail()
         and enemy_bottom > hbox_top
         and enemy_top < hbox_bottom then
             v:takeDmg(10000)
+            freeze_game(.1)
             player.spitter.ammoLeft = player.spitter.ammoLeft + 16
         end
     end
