@@ -1,7 +1,5 @@
 Mastermind = Object:extend()
 
-hasShopped = false
-
 function Mastermind:new()
 	self.level = 0
 	self.enemyKillCount = 0
@@ -41,7 +39,7 @@ function Mastermind:nextLevel(lvl)
 
 	for i = 1, (5 * (lvl+1)) do
 		table.insert(listOfEnemies,Ant(lvl,math.random(120,200),-6*i))
-		print ("ant for wave " .. i .. " created")
+		table.insert(listOfEnemies,Ant(lvl,math.random(120,200),-6*i))
 	end
 
 	for i = 0,lvl do
@@ -105,7 +103,8 @@ end
 
 function Mastermind:killCheck()
 	print("killCount: " .. self.enemyKillCount)
-	if self.enemyKillCount ~= 0 and self.enemyKillCount % 5 == 0 then
+	print("killcount for next level: " .. (((2.5*self.level) ^ 2)+(2.5 * self.level)))
+	if self.enemyKillCount ~= 0 and self.enemyKillCount >= ((((2.5*self.level) ^ 2)+(2.5 * self.level)) + 1) then
 		startMerchant()
 		print("merchant started from mastermind")
 		self:setLevel(self.level + 1)

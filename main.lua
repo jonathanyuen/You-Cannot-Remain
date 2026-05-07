@@ -76,7 +76,7 @@ function endMerchant()
     game.state["pause"] = false
     game.state["ended"] = false
     game.state["merchant"] = false
-    print("merchant ended")
+    --print("merchant ended")
 end
 
 --start the game

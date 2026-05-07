@@ -142,11 +142,9 @@ function Merchant:openShop()
 	--making sure there aren't duplicates
 	local item1Num = self:rollItem()
 	local item2Num = self:rollItem()
-	self:makeItemsUnique(item1Num,item2Num)
 	local item3Num = self:rollItem()
-	self:makeItemsUnique(item2Num,item3Num)
 	local blindBoxNum = self:rollItem()
-	self:makeItemsUnique(item3Num,blindBoxNum)
+	self:makeItemsUnique(item1Num,item2Num,item3Num,blindBoxNum)
 
 	--set the shop items
 	self.item1 = equipment:returnItem(item1Num)
@@ -165,13 +163,13 @@ end
 --determines cost of items through parsing rarity strings and giving them values
 function Merchant:getItemCost(item)
 	if item.rarity == "everyday" then
-		return 1 * (mastermind.level+1) * 200
+		return 1 * (mastermind.level+.5) * 200
 	elseif item.rarity == "odd" then
-		return 2 * (mastermind.level+1) * 200
+		return 2 * (mastermind.level+.5) * 200
 	elseif item.rarity == "remarkable" then
-		return 5 * (mastermind.level+1) * 200
+		return 5 * (mastermind.level+.5) * 200
 	elseif item.rarity == "aberrant" then
-		return 10 * (mastermind.level+1) * 200
+		return 10 * (mastermind.level+.5) * 200
 	end
 end
 
@@ -193,15 +191,25 @@ function Merchant:rollItem()
 	end
 end
 
-function Merchant:makeItemsUnique(h, j)
-	while h == j do
+function Merchant:makeItemsUnique(h, i, j, k)
+	while h == j or h == i or h == k do
+		h = self:rollItem()
+	end
+	while j == h or j == i or j == k do
 		j = self:rollItem()
 	end
+	while i == h or i == j or i == k do
+		i = self:rollItem()
+	end
+	while k == h or k == i or k == j do
+		j = self:rollItem()
+	end
+	print("item 1: " .. h .. "\nitem2: " .. i .. "\nitem3: " .. j .. "\nblind box: " .. k)
 end
 
 
 function Merchant:update(dt)
-	print("current purchasing flag: " .. purchasingFlag)
+	
 end
 
 function Merchant:draw()
