@@ -20,8 +20,7 @@ function Mastermind:spawn()
 	--Ants
 	--level indicator
 	if self.level == 0 then
-		for i = 0, 5 do
-			table.insert(listOfEnemies,Ant(self.level,math.random(120,200),0-(math.random(12,20)*i)))
+		for i = 0, 10 do
 			table.insert(listOfEnemies,Ant(self.level,math.random(120,200),0-(math.random(12,20)*i)))
 		end
 	end
@@ -38,9 +37,9 @@ end
 --nextLevel is basically the spawn function? may be redundant
 function Mastermind:nextLevel(lvl)
 
-	for i = 1, (10 * (lvl+1)) do
-		table.insert(listOfEnemies,Ant(lvl,math.random(120,200),0-(math.random(4,12)*i)))
-		table.insert(listOfEnemies,Ant(lvl,math.random(120,200),0-(math.random(4,12)*i)))
+	for i = 1, (6 * (lvl+1)) do
+		table.insert(listOfEnemies,Ant(lvl,math.random(120,200),0-(math.random(4,16)*i)))
+		table.insert(listOfEnemies,Ant(lvl,math.random(120,200),0-(math.random(4,16)*i)))
 	end
 
 	for i = 0,lvl do
