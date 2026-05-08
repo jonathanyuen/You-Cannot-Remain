@@ -8,9 +8,11 @@ function Weapon:new()
     --defaulted to spit config
     --Spit weapon level
     self.equipped = 0
+    self.damage = 0
     self.level = 0
     self.maxCapacity = 4
     self.clip = self.maxCapacity
+    self.hitstun = 0.2
     --not including what's in the clip already
     self.ammoLeft = 4
     self.outOfAmmoFlag = false
@@ -102,11 +104,29 @@ end
 
 function Weapon:fireBullet()
     if self.activeReloadSuccessFlag == 0 then
-        table.insert(listOfSpitBullets, Spit(player.x+5, player.y))
+        
+        if player.item40Flag == true then
+            table.insert(listOfSpitBullets, Spit(player.x+7, player.y))
+            table.insert(listOfSpitBullets, Spit(player.x+3, player.y))
+        else
+            table.insert(listOfSpitBullets, Spit(player.x+5, player.y))
+        end
         self.clip = self.clip - 1
+        if player.fireBreath.temp >= 1 then
+            player.fireBreath.temp = player.fireBreath.temp - .5
+        else
+            player.fireBreath.temp = 0
+        end
     elseif self.activeReloadSuccessFlag == 1 then
-        table.insert(listOfSpitBullets, Spit(player.x+7, player.y))
-        table.insert(listOfSpitBullets, Spit(player.x+3, player.y))
+        if player.item40Flag == true then
+            table.insert(listOfSpitBullets, Spit(player.x+9, player.y))
+            table.insert(listOfSpitBullets, Spit(player.x+6, player.y))
+            table.insert(listOfSpitBullets, Spit(player.x+3, player.y))
+        else
+            table.insert(listOfSpitBullets, Spit(player.x+7, player.y))
+            table.insert(listOfSpitBullets, Spit(player.x+3, player.y))
+        end
+        
         self.clip = self.clip - 1
     end
 end

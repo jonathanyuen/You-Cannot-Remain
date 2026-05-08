@@ -7,11 +7,14 @@ Timer = require "timer"
 require "weapon"
 require "player"
 require "ant"
-require "irontail"
+require "ironTail"
 require "spit"
 require "animation"
 require "mastermind"
 require "powerups"
+require "dialogue"
+require "scoreboard"
+require "merchant"
 
 
 local push = require "push"
@@ -19,16 +22,11 @@ local button = require "Button"
 local gameWidth, gameHeight = 320,180
 local windowWidth, windowHeight = love.window.getDesktopDimensions()
 
+game_is_frozen = false
+
 collisionInstance = 0
 
---scoring
-score = 0
-scoring = {
-    counterAntsKilled = 0,
-    counterActiveReloadSuccess = 0,
-    flagBulletsMissed = false,
-    flagActiveReloadMissed = false
-}
+
 
 
 --palette of colors
@@ -56,16 +54,41 @@ local game = {
 --holds buttons for different states
 local buttons = {
     menu_state = {},
-    merchant_state = {},
     pause_state = {},
     ended_state = {}
 }
 
+
+
+function freeze_game(secs)
+    game_is_frozen = true
+    Timer.after(secs, function()
+        game_is_frozen = false
+    end)
+end
+
 --merchant (global)
 function startMerchant()
-    print ("merchant started")
+    --print ("merchant started")
     game.state["running"] = false
+    game.state["pause"] = false
+    game.state["ended"] = false
     game.state["merchant"] = true
+    --freeze game to reduce spam affecting shop
+    freeze_game(1)
+    menuCursorAnim:setPosition(merchant.selectedMerchantButton.button_x-1, merchant.selectedMerchantButton.button_y+3)
+    merchant:openShop()
+end
+
+--transition from merchant state to game state
+function endMerchant()
+    game.state["running"] = true
+    game.state["pause"] = false
+    game.state["ended"] = false
+    game.state["merchant"] = false
+
+    equipment:updateMango() --adds effects from items!
+    --print("merchant ended")
 end
 
 --start the game
@@ -87,6 +110,8 @@ local function startNewGame()
     listOfEnemies = {}
     listOfSpitBullets = {}
     listOfPowerups = {}
+
+    merchant = Merchant()
 
     --initialize enemies and powerups 
     mastermind:spawn()
@@ -122,16 +147,17 @@ local function deathScreen()
    
 end
 
-
-
 local function resumeGame()
     game.state["pause"] = false
     game.state["running"] = true
 end
 
+
+
 function love.load()
 
     love.window.setTitle("You Cannot Remain")
+
     
 
     love.graphics.setDefaultFilter("nearest","nearest")
@@ -141,6 +167,12 @@ function love.load()
 
     --renown font
     renownFont = love.graphics.newFont("/fonts/NotJamChunky8.ttf", 8)
+
+    --merchant heading font
+    itemHeadingFont = love.graphics.newFont("/fonts/NotJamOldStyle11.ttf",11)
+
+    --Decision header font
+    pixelPurlFont = love.graphics.newFont("/fonts/PixelPurl.ttf", 16)
     --ui
     --[[
     note that ui left side is: 102x180
@@ -163,8 +195,10 @@ function love.load()
     --weapons image
     spitImage = love.graphics.newImage("/sprites/spit.png")
     tailImage = love.graphics.newImage("/sprites/irontail.png")
+    flameBreathImage = love.graphics.newImage("/sprites/fireBreathIcon.png")
 
 
+    
     --load the music
     songStageOne = love.audio.newSource("/sound/music/stage 1.mp3", "stream")
 
@@ -181,6 +215,18 @@ function love.load()
     sfxPowerUp = love.audio.newSource("/sound/sfx/powerup.wav", "static")
     sfxSpit = love.audio.newSource("/sound/sfx/spit.wav", "static")
     sfxSuccessfulHit= love.audio.newSource("/sound/sfx/successfulhit.wav", "static")
+    sfxIronTailHit = love.audio.newSource("/sound/sfx/irontailcollision.wav","static")
+    sfxIronTailHit:setVolume(1.5)
+    sfxFireBreathDamage = love.audio.newSource("/sound/sfx/firebreathdamage.wav","static")
+    sfxFireBreathDamage:setVolume(1.1)
+    sfxFireBreathStart = love.audio.newSource("/sound/sfx/firebreath-start.wav","static")
+    sfxFireBreathStart:setVolume(.2)
+    sfxFireBreathLoop = love.audio.newSource("/sound/sfx/firebreath-loop.wav","static")
+    sfxFireBreathLoop:setVolume(.2)
+    sfxFireBreathLoop:setLooping(true)
+    sfxFireBreathEnd = love.audio.newSource("/sound/sfx/firebreath-end.wav","static")
+    sfxFireBreathEnd:setVolume(.2)
+
 
 
     --title screen
@@ -192,10 +238,12 @@ function love.load()
     
     local r,g,b = love.math.colorFromBytes(33,33,35)
     love.graphics.setBackgroundColor(r, g, b,1)
-    print (love.graphics.getBackgroundColor())
+    --print (love.graphics.getBackgroundColor())
     mastermind = Mastermind()
     player = Player()
-
+    scoreboard = Scoreboard()
+    --initialize merchant
+    merchant = Merchant()
 
     --arrays
     listOfEnemies = {}
@@ -207,6 +255,7 @@ function love.load()
     deathScreenAnim = LoveAnimation.new("deathScreenAnimations.lua")
     deathScreenAnim:setPosition(0,0)
 
+    
 
     --MAIN MENU
     --buttons!
@@ -240,8 +289,7 @@ function love.load()
     table.insert(buttons.pause_state, buttons.pause_state.quit_game)
 
 
-    --Merchant Buttons
-    --buttons.merchant_state.
+    
 
 
     --figure out where/how to do this so its not just in load?
@@ -288,216 +336,326 @@ function love.load()
         secondCounter = secondCounter+1
         print (secondCounter .. " seconds elapsed =======================================") 
     end)
+    
+
 end
+
+
 
 function love.keypressed(key)
-
-
-    if game.state["running"] then
+    if game_is_frozen == false then
+        if game.state["running"] then
         --what happens when you press pause
-        if love.keyboard.isDown("p") == true or love.keyboard.isDown("escape") == true then
-            menuCursorAnim:setPosition(138,53)
-            game.state["running"] = false
-            game.state["pause"] = true
-            game.state["menu"] = false
-        end
-
-        if player.spitter.activeReloadInstance == 1 and player.spitter.activeReloadCursorXPos < 4 or player.spitter.activeReloadCursorXPos > 7 then
-            if key == "space" then
-                print("nope")
-                scoring.flagActiveReloadMissed = true
-                player.spitter.activeReloadSuccessFlag= -1
-            end
-        end
-
-        if love.keyboard.isDown("q") == true and player.inShell == false then
-            player:cycleWeapon()
-        end
-
-        player:keyPressed(key)
-        mastermind:keyPressed(key)
-    end
-
-    --main menu nav
-    if game.state["menu"] then
-    -----option selection
-        if  (love.keyboard.isDown("return") == true) or (love.keyboard.isDown("space")) then
-            selectedMenuButton:pressed()
-            sfxButtonSelect:play()
-        end
-
-        --option navigation
-        if love.keyboard.isDown("down") == true then
-            if selectedMenuButton == buttons.menu_state[1] then
-                sfxButtonNav:clone():play()
-                selectedMenuButton = buttons.menu_state[2]
-                menuCursorAnim:setPosition(selectedMenuButton.button_x-1,selectedMenuButton.button_y+3)
-            elseif selectedMenuButton == buttons.menu_state[2] then
-                sfxButtonNav:clone():play()
-                selectedMenuButton = buttons.menu_state[3]
-                menuCursorAnim:setPosition(selectedMenuButton.button_x-1,selectedMenuButton.button_y+3)
-            end
-        elseif love.keyboard.isDown("up") == true then
-            if selectedMenuButton == buttons.menu_state[2] then
-                sfxButtonNav:clone():play()
-                selectedMenuButton = buttons.menu_state[1]
-                menuCursorAnim:setPosition(selectedMenuButton.button_x-1, selectedMenuButton.button_y+3)
-            elseif selectedMenuButton == buttons.menu_state[3] then
-                sfxButtonNav:clone():play()
-                selectedMenuButton = buttons.menu_state[2]
-                menuCursorAnim:setPosition(selectedMenuButton.button_x-1, selectedMenuButton.button_y+3)
-            end
-        end
-    end
-
-    --pause menu nav
-    if game.state["pause"] then
-        -----option selection
-        if  (love.keyboard.isDown("return") == true) or (love.keyboard.isDown("space")) then
-            selectedPauseButton:pressed()
-            sfxButtonSelect:play()
-
-        end
-
-        --option navigation
-        if love.keyboard.isDown("down") == true then
-            if selectedPauseButton == buttons.pause_state[1] then
-                sfxButtonNav:clone():play()
-                selectedPauseButton = buttons.pause_state[2]
-                menuCursorAnim:setPosition(selectedPauseButton.button_x-1,selectedPauseButton.button_y+3)
-            elseif selectedPauseButton == buttons.pause_state[2] then
-                sfxButtonNav:clone():play()
-                selectedPauseButton = buttons.pause_state[3]
-                menuCursorAnim:setPosition(selectedPauseButton.button_x-1,selectedPauseButton.button_y+3)
-            elseif selectedPauseButton == buttons.pause_state[3] then
-                sfxButtonNav:clone():play()
-                selectedPauseButton = buttons.pause_state[4]
-                menuCursorAnim:setPosition(selectedPauseButton.button_x-1,selectedPauseButton.button_y+3)
-            end
-        elseif love.keyboard.isDown("up") == true then
-            if selectedPauseButton == buttons.pause_state[2] then
-                sfxButtonNav:clone():play()
-                selectedPauseButton = buttons.pause_state[1]
-                menuCursorAnim:setPosition(selectedPauseButton.button_x-1, selectedPauseButton.button_y+3)
-            elseif selectedPauseButton == buttons.pause_state[3] then
-                sfxButtonNav:clone():play()
-                selectedPauseButton = buttons.pause_state[2]
-                menuCursorAnim:setPosition(selectedPauseButton.button_x-1, selectedPauseButton.button_y+3)
-            elseif selectedPauseButton == buttons.pause_state[4] then
-                sfxButtonNav:clone():play()
-                selectedPauseButton = buttons.pause_state[3]
-                menuCursorAnim:setPosition(selectedPauseButton.button_x-1, selectedPauseButton.button_y+3)
-            end
-        end
-    end
-end
-
-function love.update(dt)
-
-    --menuuu
-    if game.state["menu"] == true then
-        menuCursorAnim:update(dt)        
-    end
-
-    ---game pause
-    if game.state["pause"] == true then
-        menuCursorAnim:update(dt)
-    end
-
-    --game runnin
-    if game.state["running"] == true then
-    
-        songStageOne:setLooping(true)
-        songStageOne:play()
-    
-
-        for i,v in ipairs(listOfEnemies) do
-            v:update(dt)
-        end
-
-        for i,v in ipairs(listOfPowerups) do
-            v:update(dt)
-        end
-
-        for i,v in ipairs(listOfSpitBullets) do 
-            v:update(dt)
-
-            --collision checking of spit bullets to enemies
-            for j,k in ipairs(listOfEnemies) do
-                v:checkCollision(k)
-                --remove dead enemies
-                if k:isDead()==true and k.readyToClean > 5 then
-                    table.remove(listOfEnemies,j)
-               end
+            if love.keyboard.isDown("p") == true or love.keyboard.isDown("escape") == true then
+                menuCursorAnim:setPosition(138,53)
+                game.state["running"] = false
+                game.state["pause"] = true
+                game.state["menu"] = false
             end
 
-            --collision checking of spit bullets to powerups
-            for j,k in ipairs(listOfPowerups) do
-                v:checkCollision(k)
-                --"redeem" completed power ups
-                if k:isDead()==true and k.readyToClean > 5 then
-                    table.remove(listOfPowerups,j)
+            if player.spitter.activeReloadInstance == 1 and player.spitter.activeReloadCursorXPos < 4 or player.spitter.activeReloadCursorXPos > 7 then
+                if key == "space" then
+                    --print("nope")
+                    scoring.flagActiveReloadMissed = true
+                    player.spitter.activeReloadSuccessFlag= -1
                 end
             end
 
+            if love.keyboard.isDown("q") == true and player.inShell == false then
+                player:cycleWeapon()
+            end
 
+            player:keyPressed(key)
+            player:keyReleased(key)
+            mastermind:keyPressed(key)
+        end
 
-            --remove 'dead' bullets
-            if v.dead then
-                table.remove(listOfSpitBullets,i)
+        --main menu nav
+        if game.state["menu"] then
+        -----option selection
+            if  (love.keyboard.isDown("return") == true) or (love.keyboard.isDown("space")) then
+                selectedMenuButton:pressed()
+                sfxButtonSelect:play()
+            end
+
+            --option navigation
+            if love.keyboard.isDown("down") == true then
+                if selectedMenuButton == buttons.menu_state[1] then
+                    sfxButtonNav:clone():play()
+                    selectedMenuButton = buttons.menu_state[2]
+                    menuCursorAnim:setPosition(selectedMenuButton.button_x-1,selectedMenuButton.button_y+3)
+                elseif selectedMenuButton == buttons.menu_state[2] then
+                    sfxButtonNav:clone():play()
+                    selectedMenuButton = buttons.menu_state[3]
+                    menuCursorAnim:setPosition(selectedMenuButton.button_x-1,selectedMenuButton.button_y+3)
+                end
+            elseif love.keyboard.isDown("up") == true then
+                if selectedMenuButton == buttons.menu_state[2] then
+                    sfxButtonNav:clone():play()
+                    selectedMenuButton = buttons.menu_state[1]
+                    menuCursorAnim:setPosition(selectedMenuButton.button_x-1, selectedMenuButton.button_y+3)
+                elseif selectedMenuButton == buttons.menu_state[3] then
+                    sfxButtonNav:clone():play()
+                    selectedMenuButton = buttons.menu_state[2]
+                    menuCursorAnim:setPosition(selectedMenuButton.button_x-1, selectedMenuButton.button_y+3)
+                end
             end
         end
-        
-        --update player
-        player:update(dt)
 
-        --update stage
-        --stageAnim:update(dt)
+        --merchant state nav
+        if game.state["merchant"] then
+            --initial option selection
+            -----option selection
+            if  (love.keyboard.isDown("return") == true) or (love.keyboard.isDown("space")) and purchasingFlag == 0 then
+                merchant.selectedMerchantButton:pressed()
+                print(merchant.selectedMerchantButton.text)
+                sfxButtonSelect:play()
+            --purchase selection
+            elseif (love.keyboard.isDown("return") == true) or (love.keyboard.isDown("space")) and purchasingFlag ~= 0 then
+                merchant.selectedDecisionButton:pressed()
+                purchasingFlag = 0
+                
+            
+            end
 
-        --update mastermind
-        mastermind:update(dt)
+            --purchase navigation
+            if love.keyboard.isDown("left") == true then
+                if merchant.selectedDecisionButton == merchant.decisionButtons[1] then
+                    --can't move more left...
+                elseif merchant.selectedDecisionButton == merchant.decisionButtons[2] then
+                    --move left
+                    sfxButtonNav:clone():play()
+                    merchant.selectedDecisionButton = merchant.decisionButtons[1]
+                    confirmationCursorAnim:setPosition(merchant.selectedDecisionButton.button_x-1, merchant.selectedDecisionButton.button_y+3)
+                end
+            elseif love.keyboard.isDown("right") == true then
+                if merchant.selectedDecisionButton == merchant.decisionButtons[2] then
+                    --can't move more right...
+                elseif merchant.selectedDecisionButton == merchant.decisionButtons[1] then
+                    --move right
+                    sfxButtonNav:clone():play()
+                    merchant.selectedDecisionButton = merchant.decisionButtons[2]
+                    confirmationCursorAnim:setPosition(merchant.selectedDecisionButton.button_x-1, merchant.selectedDecisionButton.button_y+3)
+                end
+            end
 
-        --update stats
-        dmgStatUpChevronAnim:update(dt)
-        radStatUpChevronAnim:update(dt)
-        spdStatUpChevronAnim:update(dt)
-        pspdStatUpChevronAnim:update(dt)
+            
+            
 
-        dmgStatLevelAnim:update(dt)
-        radStatLevelAnim:update(dt)
-        spdStatLevelAnim:update(dt)
-        pspdStatLevelAnim:update(dt)
-
-        --trigger death screen
-        if player.health <= 0 then
-            deathScreen()
+            --option navigation
+            if love.keyboard.isDown("down") == true then
+                if merchant.selectedMerchantButton == merchant.buttons[1] then
+                    purchasingFlag = 0
+                    print(purchasingFlag)
+                    sfxButtonNav:clone():play()
+                    merchant.selectedMerchantButton = merchant.buttons[2]
+                    menuCursorAnim:setPosition(merchant.selectedMerchantButton.button_x-1,merchant.selectedMerchantButton.button_y+3)
+                elseif merchant.selectedMerchantButton == merchant.buttons[2] then
+                    purchasingFlag = 0
+                    print(purchasingFlag)
+                    sfxButtonNav:clone():play()
+                    merchant.selectedMerchantButton = merchant.buttons[3]
+                    menuCursorAnim:setPosition(merchant.selectedMerchantButton.button_x-1,merchant.selectedMerchantButton.button_y+3)
+                elseif merchant.selectedMerchantButton == merchant.buttons[3] then
+                    purchasingFlag = 0
+                    print(purchasingFlag)
+                    sfxButtonNav:clone():play()
+                    merchant.selectedMerchantButton = merchant.buttons[4]
+                    menuCursorAnim:setPosition(merchant.selectedMerchantButton.button_x-1,merchant.selectedMerchantButton.button_y+3)
+                elseif merchant.selectedMerchantButton == merchant.buttons[4] then
+                    purchasingFlag = 0
+                    print(purchasingFlag)
+                    sfxButtonNav:clone():play()
+                    merchant.selectedMerchantButton = merchant.buttons[5]
+                    menuCursorAnim:setPosition(merchant.selectedMerchantButton.button_x-1,merchant.selectedMerchantButton.button_y+3)
+                end
+            elseif love.keyboard.isDown("up") == true then
+                if merchant.selectedMerchantButton == merchant.buttons[5] then
+                    purchasingFlag = 0
+                    print(purchasingFlag)
+                    sfxButtonNav:clone():play()
+                    merchant.selectedMerchantButton = merchant.buttons[4]
+                    menuCursorAnim:setPosition(merchant.selectedMerchantButton.button_x-1, merchant.selectedMerchantButton.button_y+3)
+                elseif merchant.selectedMerchantButton == merchant.buttons[4] then
+                    purchasingFlag = 0
+                    print(purchasingFlag)
+                    sfxButtonNav:clone():play()
+                    merchant.selectedMerchantButton = merchant.buttons[3]
+                    menuCursorAnim:setPosition(merchant.selectedMerchantButton.button_x-1, merchant.selectedMerchantButton.button_y+3)
+                elseif merchant.selectedMerchantButton == merchant.buttons[3] then
+                    purchasingFlag = 0
+                    print(purchasingFlag)
+                    sfxButtonNav:clone():play()
+                    merchant.selectedMerchantButton = merchant.buttons[2]
+                    menuCursorAnim:setPosition(merchant.selectedMerchantButton.button_x-1, merchant.selectedMerchantButton.button_y+3)
+                elseif merchant.selectedMerchantButton == merchant.buttons[2] then
+                    purchasingFlag = 0
+                    print(purchasingFlag)
+                    sfxButtonNav:clone():play()
+                    merchant.selectedMerchantButton = merchant.buttons[1]
+                    menuCursorAnim:setPosition(merchant.selectedMerchantButton.button_x-1, merchant.selectedMerchantButton.button_y+3)
+                end
+            end
+            --secondary option selection
         end
 
-        --scoring
-        --[[
+        --pause menu nav
+        if game.state["pause"] then
+            -----option selection
+            if  (love.keyboard.isDown("return") == true) or (love.keyboard.isDown("space")) then
+                selectedPauseButton:pressed()
+                sfxButtonSelect:play()
 
-        score = 0
-        scoring = {
-            counterAntsKilled = 0,
-            counterActiveReloadSuccess = 0,
-            flagBulletsMissed = false,
-            flagActiveReloadMissed = false
-        }
+            end
 
-        ]]
-        score = scoring.counterAntsKilled + scoring.counterActiveReloadSuccess
-
-        --update scroll background
-        u = u-4*dt
-        --update timer
-        
-    end
-
-    --death screen
-    if game.state["ended"] == true then
-        deathScreenAnim:update(dt)
+            --option navigation
+            if love.keyboard.isDown("down") == true then
+                if selectedPauseButton == buttons.pause_state[1] then
+                    sfxButtonNav:clone():play()
+                    selectedPauseButton = buttons.pause_state[2]
+                    menuCursorAnim:setPosition(selectedPauseButton.button_x-1,selectedPauseButton.button_y+3)
+                elseif selectedPauseButton == buttons.pause_state[2] then
+                    sfxButtonNav:clone():play()
+                    selectedPauseButton = buttons.pause_state[3]
+                    menuCursorAnim:setPosition(selectedPauseButton.button_x-1,selectedPauseButton.button_y+3)
+                elseif selectedPauseButton == buttons.pause_state[3] then
+                    sfxButtonNav:clone():play()
+                    selectedPauseButton = buttons.pause_state[4]
+                    menuCursorAnim:setPosition(selectedPauseButton.button_x-1,selectedPauseButton.button_y+3)
+                end
+            elseif love.keyboard.isDown("up") == true then
+                if selectedPauseButton == buttons.pause_state[2] then
+                    sfxButtonNav:clone():play()
+                    selectedPauseButton = buttons.pause_state[1]
+                    menuCursorAnim:setPosition(selectedPauseButton.button_x-1, selectedPauseButton.button_y+3)
+                elseif selectedPauseButton == buttons.pause_state[3] then
+                    sfxButtonNav:clone():play()
+                    selectedPauseButton = buttons.pause_state[2]
+                    menuCursorAnim:setPosition(selectedPauseButton.button_x-1, selectedPauseButton.button_y+3)
+                elseif selectedPauseButton == buttons.pause_state[4] then
+                    sfxButtonNav:clone():play()
+                    selectedPauseButton = buttons.pause_state[3]
+                    menuCursorAnim:setPosition(selectedPauseButton.button_x-1, selectedPauseButton.button_y+3)
+                end
+            end
+        end
     end
     
+end
+
+function love.update(dt)
+    if game_is_frozen == false then
+        --merchant
+        if game.state["merchant"] == true then
+            menuCursorAnim:update(dt)
+            merchant:update(dt)
+        end
+
+        --menuuu
+        if game.state["menu"] == true then
+            menuCursorAnim:update(dt)        
+        end
+
+        ---game pause
+        if game.state["pause"] == true then
+            menuCursorAnim:update(dt)
+        end
+
+        --game runnin
+        if game.state["running"] == true then
+        
+            songStageOne:setLooping(true)
+            songStageOne:play()
+        
+
+            for i,v in ipairs(listOfEnemies) do
+                v:update(dt)
+            end
+
+            for i,v in ipairs(listOfPowerups) do
+                v:update(dt)
+            end
+
+            for i,v in ipairs(listOfSpitBullets) do 
+                v:update(dt)
+
+                --collision checking of spit bullets to enemies
+                for j,k in ipairs(listOfEnemies) do
+                    v:checkCollision(k)
+                    --remove dead enemies
+                    if k:isDead()==true and k.readyToClean > 5 then
+                        table.remove(listOfEnemies,j)
+                end
+                end
+
+                --collision checking of spit bullets to powerups
+                for j,k in ipairs(listOfPowerups) do
+                    v:checkCollision(k)
+                    --"redeem" completed power ups
+                    if k:isDead()==true and k.readyToClean > 5 then
+                        table.remove(listOfPowerups,j)
+                    end
+                end
+
+
+
+                --remove 'dead' bullets
+                if v.dead then
+                    table.remove(listOfSpitBullets,i)
+                end
+            end
+            
+            --update player
+            player:update(dt)
+
+            --update stage
+            --stageAnim:update(dt)
+
+            --update mastermind
+            mastermind:update(dt)
+
+            --update stats
+            dmgStatUpChevronAnim:update(dt)
+            radStatUpChevronAnim:update(dt)
+            spdStatUpChevronAnim:update(dt)
+            pspdStatUpChevronAnim:update(dt)
+
+            dmgStatLevelAnim:update(dt)
+            radStatLevelAnim:update(dt)
+            spdStatLevelAnim:update(dt)
+            pspdStatLevelAnim:update(dt)
+
+            --trigger death screen
+            if player.health <= 0 then
+                deathScreen()
+            end
+
+            --scoring
+            --[[
+
+            score = 0
+            scoring = {
+                counterAntsKilled = 0,
+                counterActiveReloadSuccess = 0,
+                flagBulletsMissed = false,
+                flagActiveReloadMissed = false
+            }
+
+            ]]
+
+            --update scroll background
+            u = u-4*dt
+            --update timer
+            
+        end
+
+        --death screen
+        if game.state["ended"] == true then
+            deathScreenAnim:update(dt)
+        end
+        
+        
+    end
     Timer.update(dt)
 end
 
@@ -508,7 +666,10 @@ function love.draw()
     push:start()
 
 
-
+    --if game.state is merchant
+    if game.state["merchant"] then
+        merchant:draw()
+    end
 
     --if game.state is menu
     if game.state["menu"] then
@@ -541,11 +702,13 @@ function love.draw()
             love.graphics.draw(spitImage,18,70)
         elseif player.weaponEquipped["ironTail"].equipped == true then
             love.graphics.draw(tailImage,28,68)
+        elseif player.weaponEquipped["fireBreath"].equipped == true then
+            love.graphics.draw(flameBreathImage,24,76)
         end
 
         --draw mango
         player:draw()
-
+        scoreboard:draw()
         
 
         --draw enemies
@@ -566,8 +729,8 @@ function love.draw()
         --draw score
         love.graphics.setFont(renownFont)
         ---colored printing scores and whatnot... still haven't done calcs yet either
-        love.graphics.print({colorPalette.red,"RENOWN "},224,171)
-        love.graphics.print({colorPalette.fauxWhite,string.format("%04d",score)},282,171)
+        love.graphics.print({colorPalette.red,"RENOWN "},227,171)
+        love.graphics.print({colorPalette.fauxWhite,string.format("%04d",score)},285,171)
         love.graphics.setFont(font)
 
 

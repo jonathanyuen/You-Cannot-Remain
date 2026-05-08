@@ -63,7 +63,7 @@ return {
 	states = {
 		-- 1st line
 		idle = { -- the name of the state is arbitrary
-			frameCount = 19,
+			frameCount = 18,
 			offsetX = 0,
 			offsetY = 0,
 			frameW = 80,

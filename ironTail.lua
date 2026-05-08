@@ -5,8 +5,14 @@ function IronTail:new()
     IronTail.super.new(self)
     
     self.level = 0
+    self.hitstun = 1.2
  
     self.damage = 1
+    self.fireRate = 1.5
+    self.swinging = false
+
+    self.hitboxExtensionVert = 0
+    self.hitboxExtensionHori = 0
 
 
     --array to keep the targets who are being calculate for their hit
@@ -25,9 +31,9 @@ function IronTail:smackTail()
 
     sfxIronTailSwipe:clone():play()
 
-    local hbox_left = player.x
-    local hbox_right = player.x + 16
-    local hbox_top = player.y - 8
+    local hbox_left = player.x - self.hitboxExtensionHori
+    local hbox_right = player.x + 16 + self.hitboxExtensionHori
+    local hbox_top = player.y - 8 - self.hitboxExtensionVert
     local hbox_bottom = player.y
 
     for i,v in ipairs(listOfEnemies) do
@@ -42,6 +48,7 @@ function IronTail:smackTail()
         and enemy_bottom > hbox_top
         and enemy_top < hbox_bottom then
             self:damageCalc(i,v)
+            freeze_game(.25)
         end
     end
 
@@ -57,6 +64,7 @@ function IronTail:smackTail()
         and enemy_bottom > hbox_top
         and enemy_top < hbox_bottom then
             v:takeDmg(10000)
+            freeze_game(.1)
             player.spitter.ammoLeft = player.spitter.ammoLeft + 16
         end
     end
@@ -67,9 +75,15 @@ end
 
 function IronTail:damageCalc(enemyIndex,enemy)
     --include damage scaling here
-    enemy:takeDmg(self.damage + player.dmg)
+    enemy:takeDmg(self.damage + player.dmg,"tail")
     if enemy:isDead() == true then
+        --refill ammo
         player.spitter.ammoLeft = player.spitter.ammoLeft + 2
+
+        --item26--give bonus renown on kill
+        if player.item26Flag == true then
+            scoreboard:updateTicker("Tail Kill Bonus",10)
+        end
 
         for i,v in ipairs(player.weaponEquipped) do
             print (v)

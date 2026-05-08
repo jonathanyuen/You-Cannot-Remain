@@ -58,25 +58,34 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 -- the return statement is mandatory
 return {
-	imageSrc = "sprites/ant.png",
-	defaultState = "walking",
+	imageSrc = "sprites/firebreath.png",
+	defaultState = "startup",
 	states = {
 		-- 1st line
-		walking = { -- the name of the state is arbitrary
-			frameCount = 2,
+		startup = { -- the name of the state is arbitrary
+			frameCount = 3,
 			offsetX = 0,
 			offsetY = 0,
-			frameW = 16,
-			frameH = 16,
-			nextState = "walking",
-			switchDelay = 0.4
+			frameW = 31,
+			frameH = 29,
+			nextState = "loop",
+			switchDelay = 0.1
 		},
-		damaged = { -- the name of the state is arbitrary
-			frameCount = 2,
+		loop = { -- the name of the state is arbitrary
+			frameCount = 3,
 			offsetX = 0,
-			offsetY = 16,
-			frameW = 16,
-			frameH = 16,
+			offsetY = 29,
+			frameW = 31,
+			frameH = 29,
+			nextState = "loop",
+			switchDelay = 0.1
+		},
+		stop = { -- the name of the state is arbitrary
+			frameCount = 4,
+			offsetX = 0,
+			offsetY = 58,
+			frameW = 31,
+			frameH = 29,
 			switchDelay = 0.1
 		}
 	}

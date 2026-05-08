@@ -1,5 +1,7 @@
 Player = Object:extend()
 require "spitWeapon"
+require "equipment"
+require "firebreath"
 
 
 function Player:new()
@@ -14,6 +16,9 @@ function Player:new()
 	self.healthAnim = LoveAnimation.new('healthAnimations.lua')
 	self.healthAnim:setState("three")
 	self.healthAnim:setPosition(22,142)
+
+	self.activeReloadSuccessPointValue = 10
+
 	--amt of time it takes to come out of shell when dmg'd
 	self.recoveryTime = 2
 
@@ -26,9 +31,10 @@ function Player:new()
 	--upgradable stats
 	self.health = 3
 	self.dmg = 0 
+	self.baseDmg = 0
 	self.rad = 0
 	self.pspd = 0
-	self.baseSpd = 50
+	self.baseSpd = 35
 	self.speed = 35
 	self.tailDmg = 1
 
@@ -45,9 +51,31 @@ function Player:new()
 	--what weapons are equipped/available to be equipped
 	self.spitter = SpitWeapon()
 	self.ironTail = IronTail()
+	self.fireBreath = FireBreath()
 	self.weaponEquipped = {
-		spitter = self.spitter, ironTail = self.ironTail
+		spitter = self.spitter, ironTail = self.ironTail, fireBreath = self.fireBreath
 	}
+
+	--items
+	self.equipment = Equipment()
+
+	--item specific flags
+	--active reload success replenishes ammo
+	self.item2Flag = false
+	--- on dmg, get a random power up
+	self.item14Flag = false
+	--spit kills give more renown
+	self.item15Flag = false
+	--tail kills give more renown
+	self.item16Flag = false
+	--fire kills give more renown
+	self.item17Flag = false
+	--renown based dmg bonus
+	self.item30Flag = false
+	--slows everyone down 30%
+	self.item32Flag = false
+	--additional spit stream
+	self.item40Flag = false
 end
 
 
@@ -55,9 +83,15 @@ function Player:cycleWeapon()
 	if self.weaponEquipped["spitter"].equipped == true then
 		self.weaponEquipped["spitter"].equipped = false
 		self.weaponEquipped["ironTail"].equipped = true
+		self.weaponEquipped["fireBreath"].equipped = false
 	elseif self.weaponEquipped["ironTail"].equipped == true then
+		self.weaponEquipped["spitter"].equipped = false
+		self.weaponEquipped["ironTail"].equipped = false
+		self.weaponEquipped["fireBreath"].equipped = true
+	elseif self.weaponEquipped["fireBreath"].equipped == true then
 		self.weaponEquipped["spitter"].equipped = true
 		self.weaponEquipped["ironTail"].equipped = false
+		self.weaponEquipped["fireBreath"].equipped = false
 	end
 end
 
@@ -80,20 +114,20 @@ function Player:statUp(stat, upgradeAmt)
     		pspdStatLevelAnim:setState("six")
     	end
 	elseif stat == "spd" then
-		self.speed = self.speed + 50*upgradeAmt
-		self.baseSpd = self.baseSpd + 50 * upgradeAmt
+		self.speed = self.speed + 10*upgradeAmt
+		self.baseSpd = self.baseSpd + 10 * upgradeAmt
 		spdStatUpChevronAnim:setState("active")
-		if self.speed == 50 + 50*1 then
+		if self.speed == 35 + 10*1 then
     		spdStatLevelAnim:setState("one")
-    	elseif self.speed == 50 + 50*2 then
+    	elseif self.speed == 35 + 10*2 then
     		spdStatLevelAnim:setState("two")
-    	elseif self.speed == 50 + 50*3 then
+    	elseif self.speed == 35 + 10*3 then
     		spdStatLevelAnim:setState("three")
-    	elseif self.speed == 50 + 50*4 then
+    	elseif self.speed == 35 + 10*4 then
     		spdStatLevelAnim:setState("four")
-    	elseif self.speed == 50 + 50*5 then
+    	elseif self.speed == 35 + 10*5 then
     		spdStatLevelAnim:setState("five")
-    	elseif self.speed == 50 + 50*6 then
+    	elseif self.speed == 35 + 10*6 then
     		spdStatLevelAnim:setState("six")
     	end
 	elseif stat == "dmg" then
@@ -134,9 +168,31 @@ function Player:statUp(stat, upgradeAmt)
 end
 
 function Player:takeDmg(dmgNum)
+	--item 27 -- block 1 damage
+	if player.item29Flag == true then
+		dmgNum = dmgNum - 1
+		player.item29Flag = false
+	end
+
 	self.health = self.health - dmgNum
 	sfxHPDown:play()
 	
+
+	--item 14 logic - providing a power up upon damage
+	if self.item14Flag == true and self.health > 0 then
+		local rngType = math.random(1,4)
+		if rngType == 1 then
+			player:statUp("dmg",1)
+		elseif rngType == 2 then
+			player:statUp("spd",5)
+		elseif rngType == 3 then
+			player:statUp("pspd",1)
+		elseif rngType == 4 then
+			player:statUp("rad",1)
+		end
+	end
+
+	--play health anim
 	if self.health == 9 then
         self.healthAnim:setState("nine")
     elseif player.health == 8 then
@@ -177,16 +233,26 @@ function Player:getHit()
 end
 
 function Player:keyPressed(key)
-	--firing
+	--firing weapons
+
+	--spitter
 	if love.keyboard.isDown("space") and self.weaponEquipped["spitter"].equipped == true and player.inShell == false and self.spitter.outOfAmmoFlag == false then
 		self.spitter:triggerPull()
 	end
 
-	if love.keyboard.isDown("space") and self.weaponEquipped["ironTail"].equipped == true and player.inShell == false then
+	--fireBreath
+	
+	
+
+	--ironTail
+	if love.keyboard.isDown("space") and self.weaponEquipped["ironTail"].equipped == true and player.inShell == false and self.ironTail.swinging == false then
+		self.ironTail.swinging = true
 		Timer.after(.1, function()
 			self.ironTail:smackTail()
-
-
+			self.anim:setState("melee")
+		end)
+		Timer.after(self.ironTail.fireRate, function()
+			self.ironTail.swinging = false
 		end)
 		
 	end
@@ -195,10 +261,16 @@ function Player:keyPressed(key)
 	if self.spitter.outOfAmmoFlag == false and self.spitter.activeReloadCursorXPos >= 4 and self.spitter.activeReloadCursorXPos <= 7 and love.keyboard.isDown("space") and player.inShell == false then
 		sfxActiveReloadSuccess:play()
 		self.portraitAnim:setState("activeReloadSuccess")
+
+		if self.item2Flag == true then
+			self.spitter.ammoLeft = self.spitter.ammoLeft + 2
+		end
+
 		self.spitter.activeReloadSuccessFlag = 1
 		scoring.counterActiveReloadSuccess = scoring.counterActiveReloadSuccess + 1
+		scoreboard:updateTicker("Active Reload", self.activeReloadSuccessPointValue)
 		self.reloadTimerForPlayer:after(5, function() 
-			print(self.spitter.activeReloadSuccessFlag)
+			--print(self.spitter.activeReloadSuccessFlag)
 			self.portraitAnim:setState("idle")
 			self.spitter.activeReloadSuccessFlag = 0
 			self.reloadTimerForPlayer:clear()
@@ -207,16 +279,43 @@ function Player:keyPressed(key)
 	end
 end
 
+function Player:keyReleased(key)
+	if key == "space" and self.weaponEquipped["fireBreath"].equipped == true and player.inShell == false then
+		self.fireBreath.flameAnim:setState("stop")
+		self.fireBreath:changeBreathState(false)
+		--print("flames should stop")
+	end
+end
+
 function Player:update(dt)
+	--renown damage - item 30
+	if self.item30Flag == true then
+		self.dmg = self.baseDmg + (score/100)
+	end
+
 	--update clock
 	self.reloadTimerForPlayer:update(dt)
 	--update weapons
 	self.spitter:update(dt)
 	self.ironTail:update(dt)
+	self.fireBreath:update(dt)
 
 	--portrait animation
 	self.portraitAnim:setPosition(229,10)
 	self.portraitAnim:update(dt)
+
+	--fire breath (here bc you hold down a key)
+	if self.weaponEquipped["fireBreath"].equipped == true and player.inShell == false and player.fireBreath.overheatFlag == false then
+		if love.keyboard.isDown("space") then
+		--print("firebreath triggered")
+			self.fireBreath:triggerPull()
+			self.anim:setState("shoot")
+		else
+			self.fireBreath.flameAnim:setState("stop")
+			self.fireBreath:changeBreathState(false)
+		end
+	end
+	
 
 
 	--moving left and right
@@ -254,12 +353,13 @@ function Player:update(dt)
 		self.y = 160
 	end
 
-	--animations
+	--mango animations
 	if love.keyboard.isDown("space") and self.weaponEquipped["spitter"].equipped == true and self.inShell == false then
 		self.anim:setState("shoot")
 	end
 
-	if love.keyboard.isDown("space") and self.weaponEquipped["ironTail"].equipped == true and player.inShell == false then
+
+	if love.keyboard.isDown("space") and self.weaponEquipped["ironTail"].equipped == true and player.inShell == false and self.weaponEquipped["ironTail"].swinging == false then
 		self.anim:setState("melee")
 	end
 
@@ -269,7 +369,6 @@ function Player:update(dt)
 
 	--update player health
     self.healthAnim:update(dt)
-
 
     
 end
@@ -295,9 +394,11 @@ function Player:draw()
     self.healthAnim:draw()
 
     --draw weapon associated graphics under mango
-	if self.weaponEquipped["spitter"].equipped == true and player.inShell == false then
+	if self.weaponEquipped["spitter"].equipped == true then
 		self.spitter:draw()
-	elseif self.weaponEquipped["ironTail"].equipped == true and player.inShell == false then
+	elseif self.weaponEquipped["ironTail"].equipped == true then
     	self.ironTail:draw()
-    end
+	elseif self.weaponEquipped["fireBreath"].equipped == true then
+		self.fireBreath:draw()
+	end
 end

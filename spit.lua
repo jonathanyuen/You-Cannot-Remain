@@ -5,8 +5,7 @@ function Spit:new(x,y)
     self.x = x
     self.y = y
     self.speed = 50 + player.pspd*100
-    self.damage = 1 + player.dmg
-
+    self.damage = 1 + player.dmg + player.spitter.damage
     self.width = 1+ player.rad
     self.height = 1+player.rad
     self.rad = 1+player.rad
@@ -31,10 +30,15 @@ function Spit:checkCollision(obj)
     and self_left < obj_right
     and self_bottom > obj_top
     and self_top < obj_bottom then
+        --spit hit!
+
+        --get rid of spit bullet
+        
         self.dead = true
 
         --decrease health
-        obj:takeDmg(self.damage)
+        obj:takeDmg(self.damage,"spit")
+        
     else
         scoring.flagBulletsMissed = true
     end

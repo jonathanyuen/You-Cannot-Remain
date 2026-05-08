@@ -4,35 +4,87 @@ function Ant:new(lvl,spawnX,spawnY)
 	--coordinates/attributes
 	self.x = spawnX
 	self.y = spawnY
-	self.speed = 6
+	self.speed = 4+(.25*lvl)
+	if player.item32Flag == true then
+		self.speed = self.speed*.7
+	end
 	self.anim = LoveAnimation.new('antAnimations.lua')
 	self.deathAnimation = LoveAnimation.new('deathAnimations.lua')
-	self.health = lvl+1
+	self.health = (lvl/2)+1
 	self.height = 16
 	self.width = 16
 	self.deathLocationX = self.x
 	self.deathLocationY = self.y
 	self.newlyDead = true
+	self.deathValue = 50
 	self.readyToClean = 5
 	self.collisionDmg = 1
 	self.hitStunned = false
 end
 
 --handles damage
-function Ant:takeDmg(dmgNum)
-	--play sfx 
-	sfxSuccessfulHit:clone():play()
+function Ant:takeDmg(dmgNum,type)
+	--damaged animation
+	self.anim:setState("damaged")
+	--play sfx
+	if type == "spit" then
+		if dmgNum >= self.health then
+			if player.item15Flag == true then
+				scoreboard:updateTicker("Spit Kill Bonus", 10)
+			end
+			
+		end
+		sfxSuccessfulHit:clone():play()
+		
+		--freeze position for duration
+		self.hitStunned = true
+		
+		--expire the hitstun
+		Timer.after(player.spitter.hitstun,function() 
+			self.hitStunned = false
+			self.anim:setState("walking")
+		end)
+	elseif type == "tail" then
+		if dmgNum >= self.health then
+			if self.item16Flag == true then
+				scoreboard:updateTicker("Tail Kill Bonus", 10)
+			end
+			
+		end
+		Timer.after(.1, function ()
+			sfxIronTailHit:clone():play()
+		end)
+		--freeze position for duration
+		self.hitStunned = true
+		
+		--expire the hitstun
+		Timer.after(player.ironTail.hitstun,function() 
+			self.hitStunned = false
+			self.anim:setState("walking")
+		end)
+	elseif type == "fireBreath" then
+		if dmgNum >= self.health then
+			if player.item17Flag == true then
+				scoreboard:updateTicker("Fire Kill Bonus", 10)
+
+			end
+			
+		end
+		sfxFireBreathDamage:clone():play()
+		--freeze position for duration
+		self.hitStunned = true
+		
+		--expire the hitstun
+		Timer.after(player.fireBreath.hitstun,function() 
+			self.hitStunned = false
+			self.anim:setState("walking")
+		end)
+	end
 
 	--health reduction
 	self.health = self.health - dmgNum
 
-	--damaged animation
-	self.anim:setState("damaged")
-	--freeze position for duration
-	self.hitStunned = true
 	
-	--expire the hitstun
-	Timer.after(.7,function() self.hitStunned = false end)
 end
 
 --checks Collisions
@@ -103,7 +155,9 @@ function Ant:update(dt)
 		self.y = -1000
 		self.newlyDead = false
 		mastermind.enemyKillCount = mastermind.enemyKillCount+1
-		scoring.counterAntsKilled = scoring.counterAntsKilled + 1
+		scoring.counterAntsKilled = scoring.counterAntsKilled + 50
+		scoreboard:updateTicker("Enemy slain", self.deathValue)
+		mastermind:killCheck()
 
 	elseif self:isDead() == true and self.newlyDead == false then
 		self.deathAnimation:update(dt)

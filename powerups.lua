@@ -89,7 +89,8 @@ function Powerup:update(dt)
 		end
 
 		--dead so update score
-		score = score + 1
+		scoreboard:updateTicker("Blessing Obtained",10)
+		scoring.blessingsObtained = scoring.blessingsObtained + 1
 
 	elseif self:isDead() == true and self.newlyDead == false then
 		self.deathAnimation:update(dt)
