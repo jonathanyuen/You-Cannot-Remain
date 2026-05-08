@@ -21,7 +21,8 @@ function Mastermind:spawn()
 	--level indicator
 	if self.level == 0 then
 		for i = 0, 5 do
-			table.insert(listOfEnemies,Ant(self.level,math.random(120,200),0-(16*i)))
+			table.insert(listOfEnemies,Ant(self.level,math.random(120,200),0-(math.random(12,20)*i)))
+			table.insert(listOfEnemies,Ant(self.level,math.random(120,200),0-(math.random(12,20)*i)))
 		end
 	end
 end
@@ -37,9 +38,9 @@ end
 --nextLevel is basically the spawn function? may be redundant
 function Mastermind:nextLevel(lvl)
 
-	for i = 1, (5 * (lvl+1)) do
-		table.insert(listOfEnemies,Ant(lvl,math.random(120,200),-6*i))
-		table.insert(listOfEnemies,Ant(lvl,math.random(120,200),-6*i))
+	for i = 1, (10 * (lvl+1)) do
+		table.insert(listOfEnemies,Ant(lvl,math.random(120,200),0-(math.random(4,12)*i)))
+		table.insert(listOfEnemies,Ant(lvl,math.random(120,200),0-(math.random(4,12)*i)))
 	end
 
 	for i = 0,lvl do
@@ -103,8 +104,8 @@ end
 
 function Mastermind:killCheck()
 	print("killCount: " .. self.enemyKillCount)
-	print("killcount for next level: " .. (((2.5*self.level) ^ 2)+(2.5 * self.level)))
-	if self.enemyKillCount ~= 0 and self.enemyKillCount >= ((((2.5*self.level) ^ 2)+(2.5 * self.level)) + 1) then
+	print("killcount for next level: " .. ((((2.5*(self.level+1)) ^ 2)+(2.5 * (self.level+1)))))
+	if self.enemyKillCount ~= 0 and self.enemyKillCount >= ((((2.5*(self.level+1)) ^ 2)+(2.5 * (self.level+1)))) then
 		startMerchant()
 		print("merchant started from mastermind")
 		self:setLevel(self.level + 1)

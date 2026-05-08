@@ -7,7 +7,7 @@ Timer = require "timer"
 require "weapon"
 require "player"
 require "ant"
-require "irontail"
+require "ironTail"
 require "spit"
 require "animation"
 require "mastermind"
@@ -86,6 +86,8 @@ function endMerchant()
     game.state["pause"] = false
     game.state["ended"] = false
     game.state["merchant"] = false
+
+    equipment:updateMango() --adds effects from items!
     --print("merchant ended")
 end
 
