@@ -70,6 +70,8 @@ function Player:new()
 	self.item16Flag = false
 	--fire kills give more renown
 	self.item17Flag = false
+	--block 1 instance of damage
+	self.item18Flag = false
 	--renown based dmg bonus
 	self.item30Flag = false
 	--slows everyone down 30%
@@ -169,9 +171,9 @@ end
 
 function Player:takeDmg(dmgNum)
 	--item 27 -- block 1 damage
-	if player.item29Flag == true then
-		dmgNum = dmgNum - 1
-		player.item29Flag = false
+	if player.item18Flag == true then
+		dmgNum = 0
+		player.item18Flag = false
 	end
 
 	self.health = self.health - dmgNum

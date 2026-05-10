@@ -226,6 +226,8 @@ function love.load()
     sfxFireBreathLoop:setLooping(true)
     sfxFireBreathEnd = love.audio.newSource("/sound/sfx/firebreath-end.wav","static")
     sfxFireBreathEnd:setVolume(.2)
+    sfx_kaching = love.audio.newSource("/sound/sfx/roblox-cash-register.mp3","static")
+    sfx_broke = love.audio.newSource("/sound/sfx/too-broke.wav","static")
 
 
 

@@ -41,9 +41,11 @@ local function purchaseDecision(decision)
 					score = score - merchant.item1Cost
 					print ("item 1 - " .. merchant.item1.name .. " added!")
 					merchant.buttons.item1 = button("ITEM 1 - SOLD OUT", nil, nil, 50,13)
+					sfx_kaching:play()
 					--add a kaching sound after all of them
 				else
 					--can't afford dialogue pops up and denied SFX plays
+					sfx_broke:clone():play()
 				end
 			elseif purchasingFlag == 2 then
 				if score >= merchant.item2Cost then
@@ -51,9 +53,11 @@ local function purchaseDecision(decision)
 					score = score - merchant.item2Cost
 					print ("item 1 - " .. merchant.item1.name .. " added!")
 					merchant.buttons.item2 = button("ITEM 2 - SOLD OUT", nil, nil, 50,13)
+					sfx_kaching:play()
 					--add a kaching sound after all of them
 				else
 					--can't afford dialogue pops up and denied SFX plays
+					sfx_broke:clone():play()
 				end
 			elseif purchasingFlag == 3 then
 				if score >= merchant.item3Cost then
@@ -61,18 +65,22 @@ local function purchaseDecision(decision)
 					score = score - merchant.item3Cost
 					print ("item 1 - " .. merchant.item1.name .. " added!")
 					merchant.buttons.item3 = button("ITEM 3 - SOLD OUT", nil, nil, 50,13)
+					sfx_kaching:play()
 					--add a kaching sound after all of them
 				else
 					--can't afford dialogue pops up and denied SFX plays
+					sfx_broke:clone():play()
 				end
 			elseif purchasingFlag == 4 then
 				if score >= merchant.blindBoxCost then
 					equipment:addItem(merchant.blindBox.id)
 					score = score - merchant.blindBoxCost
 					print ("item 1 - " .. merchant.item1.name .. " added!")
+					sfx_kaching:play()
 					--add a kaching sound after all of them
 				else
 					--can't afford dialogue pops up and denied SFX plays
+					sfx_broke:clone():play()
 				end
 			end
 			purchasingFlag = 0

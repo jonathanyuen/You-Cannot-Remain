@@ -8,7 +8,7 @@ function IronTail:new()
     self.hitstun = 1.2
  
     self.damage = 1
-    self.fireRate = 1.5
+    self.fireRate = 1
     self.swinging = false
 
     self.hitboxExtensionVert = 0
@@ -48,7 +48,7 @@ function IronTail:smackTail()
         and enemy_bottom > hbox_top
         and enemy_top < hbox_bottom then
             self:damageCalc(i,v)
-            freeze_game(.25)
+            Timer.after(.2,function() freeze_game(.25) end)
         end
     end
 
