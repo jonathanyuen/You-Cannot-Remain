@@ -24,6 +24,9 @@ local windowWidth, windowHeight = love.window.getDesktopDimensions()
 
 game_is_frozen = false
 
+--merchant transition in play variable
+merchant_transition_is_playing = false
+
 collisionInstance = 0
 
 
@@ -64,6 +67,9 @@ function freeze_game(secs)
     game_is_frozen = true
     Timer.after(secs, function()
         game_is_frozen = false
+        if merchant_transition_is_playing == true then
+            merchant_transition_is_playing = false
+        end
     end)
 end
 
@@ -75,7 +81,9 @@ function startMerchant()
     game.state["ended"] = false
     game.state["merchant"] = true
     --freeze game to reduce spam affecting shop
-    freeze_game(1)
+    merchant_transition_is_playing = true
+    merchant_transition_anim:setState("default")
+    freeze_game(3.5)
     menuCursorAnim:setPosition(merchant.selectedMerchantButton.button_x-1, merchant.selectedMerchantButton.button_y+3)
     merchant:openShop()
 end
@@ -256,6 +264,10 @@ function love.load()
     --death screen animation setup
     deathScreenAnim = LoveAnimation.new("deathScreenAnimations.lua")
     deathScreenAnim:setPosition(0,0)
+
+    --merchant transition setup
+    merchant_transition_anim = LoveAnimation.new("merchant_transition_animation.lua")
+    merchant_transition_anim:setPosition(0,0)
 
     
 
@@ -658,6 +670,7 @@ function love.update(dt)
         
         
     end
+    merchant_transition_anim:update(dt)
     Timer.update(dt)
 end
 
@@ -671,6 +684,10 @@ function love.draw()
     --if game.state is merchant
     if game.state["merchant"] then
         merchant:draw()
+
+        if merchant_transition_is_playing == true then
+            merchant_transition_anim:draw()
+        end
     end
 
     --if game.state is menu

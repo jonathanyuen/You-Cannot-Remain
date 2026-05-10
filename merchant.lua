@@ -51,7 +51,6 @@ local function purchaseDecision(decision)
 				if score >= merchant.item2Cost then
 					equipment:addItem(merchant.item2.id)
 					score = score - merchant.item2Cost
-					print ("item 1 - " .. merchant.item1.name .. " added!")
 					merchant.buttons.item2 = button("ITEM 2 - SOLD OUT", nil, nil, 50,13)
 					sfx_kaching:play()
 					--add a kaching sound after all of them
@@ -63,7 +62,6 @@ local function purchaseDecision(decision)
 				if score >= merchant.item3Cost then
 					equipment:addItem(merchant.item3.id)
 					score = score - merchant.item3Cost
-					print ("item 1 - " .. merchant.item1.name .. " added!")
 					merchant.buttons.item3 = button("ITEM 3 - SOLD OUT", nil, nil, 50,13)
 					sfx_kaching:play()
 					--add a kaching sound after all of them
@@ -75,7 +73,6 @@ local function purchaseDecision(decision)
 				if score >= merchant.blindBoxCost then
 					equipment:addItem(merchant.blindBox.id)
 					score = score - merchant.blindBoxCost
-					print ("item 1 - " .. merchant.item1.name .. " added!")
 					sfx_kaching:play()
 					--add a kaching sound after all of them
 				else
@@ -166,6 +163,11 @@ function Merchant:openShop()
 	self.item3Cost = self:getItemCost(self.item3)
 	self.blindBoxCost = 100 * (1 + blindBoxPurchaseCounter)
 
+	--reset buttons
+	self.buttons.item1 = button("ITEM 1", optionSelect, 1, 50,13)
+    self.buttons.item2 = button("ITEM 2", optionSelect, 2, 50,13)
+    self.buttons.item3 = button("ITEM 3", optionSelect, 3, 50,13)
+
 end
 
 --determines cost of items through parsing rarity strings and giving them values
@@ -182,10 +184,10 @@ function Merchant:getItemCost(item)
 end
 
 function Merchant:rollItem()
-	local everydayPctg = 50
-	local oddPctg = 30
-	local remarkablePctg = 15
-	local aberrantPctg = 5
+	local everydayPctg = 50 - (3*mastermind.level)
+	local oddPctg = 30 + mastermind.level
+	local remarkablePctg = 15 + mastermind.level
+	local aberrantPctg = 5 + mastermind.level
 
 	local randomNum = math.random(1,100)
 	if randomNum <= everydayPctg then
