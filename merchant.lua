@@ -40,7 +40,8 @@ local function purchaseDecision(decision)
 					print(merchant.item1Cost)
 					score = score - merchant.item1Cost
 					print ("item 1 - " .. merchant.item1.name .. " added!")
-					merchant.buttons.item1 = button("ITEM 1 - SOLD OUT", nil, nil, 50,13)
+					merchant.buttons[1].text = "Item 1 - SOLD OUT"
+					merchant.buttons[1].func = nil
 					sfx_kaching:play()
 					--add a kaching sound after all of them
 				else
@@ -51,7 +52,8 @@ local function purchaseDecision(decision)
 				if score >= merchant.item2Cost then
 					equipment:addItem(merchant.item2.id)
 					score = score - merchant.item2Cost
-					merchant.buttons.item2 = button("ITEM 2 - SOLD OUT", nil, nil, 50,13)
+					merchant.buttons[2].text = "Item 2 - SOLD OUT"
+					merchant.buttons[2].func = nil					
 					sfx_kaching:play()
 					--add a kaching sound after all of them
 				else
@@ -61,8 +63,8 @@ local function purchaseDecision(decision)
 			elseif purchasingFlag == 3 then
 				if score >= merchant.item3Cost then
 					equipment:addItem(merchant.item3.id)
-					score = score - merchant.item3Cost
-					merchant.buttons.item3 = button("ITEM 3 - SOLD OUT", nil, nil, 50,13)
+					merchant.buttons[3].text = "Item 3 - SOLD OUT"
+					merchant.buttons[3].func = nil	
 					sfx_kaching:play()
 					--add a kaching sound after all of them
 				else
@@ -91,17 +93,11 @@ function Merchant:new()
 	self.decisionButtons = {}
 	--Merchant Buttons
 	--second argument is a function without (), but you gotta write it!
-    self.buttons.item1 = button("ITEM 1", optionSelect, 1, 50,13)
-    self.buttons.item2 = button("ITEM 2", optionSelect, 2, 50,13)
-    self.buttons.item3 = button("ITEM 3", optionSelect, 3, 50,13)
-    self.buttons.blindBox = button("BLIND BOX", optionSelect, 4, 50,13)
-    self.buttons.quitShop = button("EXIT SHOP", endMerchant, nil, 50,13)
-
-	table.insert(self.buttons, self.buttons.item1)
-    table.insert(self.buttons, self.buttons.item2)
-    table.insert(self.buttons, self.buttons.item3)
-    table.insert(self.buttons, self.buttons.blindBox)
-    table.insert(self.buttons, self.buttons.quitShop)
+    self.buttons[1] = button("ITEM 1", optionSelect, 1, 50,13)
+    self.buttons[2] = button("ITEM 2", optionSelect, 2, 50,13)
+    self.buttons[3] = button("ITEM 3", optionSelect, 3, 50,13)
+    self.buttons[4]= button("BLIND BOX", optionSelect, 4, 50,13)
+    self.buttons[5] = button("EXIT SHOP", endMerchant, nil, 50,13)
 
 	self.decisionButtons.yes = button("YES", purchaseDecision, 1 , 20, 13)
 	self.decisionButtons.no = button("NO", purchaseDecision, 0, 20,13)
@@ -111,8 +107,7 @@ function Merchant:new()
 
 	self.ItemsList = {}
 
-	self.selectedMerchantButton = self.buttons[1]
-	self.selectedDecisionButton = self.decisionButtons[1]
+	
 
 	--special stats
 
@@ -164,9 +159,12 @@ function Merchant:openShop()
 	self.blindBoxCost = 100 * (1 + blindBoxPurchaseCounter)
 
 	--reset buttons
-	self.buttons.item1 = button("ITEM 1", optionSelect, 1, 50,13)
-    self.buttons.item2 = button("ITEM 2", optionSelect, 2, 50,13)
-    self.buttons.item3 = button("ITEM 3", optionSelect, 3, 50,13)
+	self.buttons[1] = button("ITEM 1", optionSelect, 1, 50,13)
+    self.buttons[2] = button("ITEM 2", optionSelect, 2, 50,13)
+    self.buttons[3] = button("ITEM 3", optionSelect, 3, 50,13)
+
+	self.selectedMerchantButton = self.buttons[1]
+	self.selectedDecisionButton = self.decisionButtons[1]
 
 end
 
@@ -212,7 +210,7 @@ function Merchant:makeItemsUnique(h, i, j, k)
 		i = self:rollItem()
 	end
 	while k == h or k == i or k == j do
-		j = self:rollItem()
+		k = self:rollItem()
 	end
 	print("item 1: " .. h .. "\nitem2: " .. i .. "\nitem3: " .. j .. "\nblind box: " .. k)
 end
@@ -225,11 +223,11 @@ end
 function Merchant:draw()
 	--draw merchant background and merchant persistent first tier menu options
 	love.graphics.draw(merchantBackground,0,0)
-	self.buttons.item1:draw(10, 119, 0, 0)
-	self.buttons.item2:draw(10, 129, 0, 0)
-	self.buttons.item3:draw(10, 139, 0, 0)
-	self.buttons.blindBox:draw(10, 149, 0, 0)
-	self.buttons.quitShop:draw(10, 159, 0, 0)
+	self.buttons[1]:draw(10, 119, 0, 0)
+	self.buttons[2]:draw(10, 129, 0, 0)
+	self.buttons[3]:draw(10, 139, 0, 0)
+	self.buttons[4]:draw(10, 149, 0, 0)
+	self.buttons[5]:draw(10, 159, 0, 0)
 	menuCursorAnim:draw()
 
 	--display depending on what is selected

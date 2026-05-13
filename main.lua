@@ -22,10 +22,10 @@ local button = require "Button"
 local gameWidth, gameHeight = 320,180
 local windowWidth, windowHeight = love.window.getDesktopDimensions()
 
-game_is_frozen = false
+gameIsFrozen = false
 
 --merchant transition in play variable
-merchant_transition_is_playing = false
+merchantTransitionIsPlaying = false
 
 collisionInstance = 0
 
@@ -63,12 +63,13 @@ local buttons = {
 
 
 
-function freeze_game(secs)
-    game_is_frozen = true
+function freezeGame(secs)
+    gameIsFrozen = true
     Timer.after(secs, function()
-        game_is_frozen = false
-        if merchant_transition_is_playing == true then
-            merchant_transition_is_playing = false
+        gameIsFrozen = false
+        print("game unfrozen")
+        if merchantTransitionIsPlaying == true then
+            merchantTransitionIsPlaying = false
         end
     end)
 end
@@ -81,10 +82,10 @@ function startMerchant()
     game.state["ended"] = false
     game.state["merchant"] = true
     --freeze game to reduce spam affecting shop
-    merchant_transition_is_playing = true
-    merchant_transition_anim:setState("default")
-    freeze_game(3.5)
-    menuCursorAnim:setPosition(merchant.selectedMerchantButton.button_x-1, merchant.selectedMerchantButton.button_y+3)
+    freezeGame(3)
+    merchantTransitionIsPlaying = true
+    merchantTransitionAnim:setState("default")
+    menuCursorAnim:setPosition(10-1, 19+3)
     merchant:openShop()
 end
 
@@ -266,8 +267,8 @@ function love.load()
     deathScreenAnim:setPosition(0,0)
 
     --merchant transition setup
-    merchant_transition_anim = LoveAnimation.new("merchant_transition_animation.lua")
-    merchant_transition_anim:setPosition(0,0)
+    merchantTransitionAnim = LoveAnimation.new("merchant_transition_animation.lua")
+    merchantTransitionAnim:setPosition(0,0)
 
     
 
@@ -357,7 +358,7 @@ end
 
 
 function love.keypressed(key)
-    if game_is_frozen == false then
+    if gameIsFrozen == false then
         if game.state["running"] then
         --what happens when you press pause
             if love.keyboard.isDown("p") == true or love.keyboard.isDown("escape") == true then
@@ -558,7 +559,7 @@ function love.keypressed(key)
 end
 
 function love.update(dt)
-    if game_is_frozen == false then
+    if gameIsFrozen == false then
         --merchant
         if game.state["merchant"] == true then
             menuCursorAnim:update(dt)
@@ -669,8 +670,9 @@ function love.update(dt)
         end
         
         
+    else
+        merchantTransitionAnim:update(dt)
     end
-    merchant_transition_anim:update(dt)
     Timer.update(dt)
 end
 
@@ -685,8 +687,8 @@ function love.draw()
     if game.state["merchant"] then
         merchant:draw()
 
-        if merchant_transition_is_playing == true then
-            merchant_transition_anim:draw()
+        if merchantTransitionIsPlaying == true then
+            merchantTransitionAnim:draw()
         end
     end
 

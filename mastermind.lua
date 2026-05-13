@@ -102,8 +102,6 @@ function Mastermind:keyPressed(key)
 end
 
 function Mastermind:killCheck()
-	print("killCount: " .. self.enemyKillCount)
-	print("killcount for next level: " .. ((((2.5*(self.level+1)) ^ 2)+(2.5 * (self.level+1)))))
 	if self.enemyKillCount ~= 0 and self.enemyKillCount >= ((((2.5*(self.level+1)) ^ 2)+(2.5 * (self.level+1)))) then
 		startMerchant()
 		print("merchant started from mastermind")
