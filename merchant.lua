@@ -144,7 +144,10 @@ function Merchant:openShop()
 	local item2Num = self:rollItem()
 	local item3Num = self:rollItem()
 	local blindBoxNum = self:rollItem()
-	self:makeItemsUnique(item1Num,item2Num,item3Num,blindBoxNum)
+	item1Num = self:makeItemUnique(item1Num,item2Num,item3Num,blindBoxNum)
+	item2Num = self:makeItemUnique(item2Num, item1Num, item3Num, blindBoxNum)
+	item3Num = self:makeItemUnique(item3Num, blindBoxNum, item1Num, item2Num)
+	blindBoxNum = self:makeItemUnique(blindBoxNum, item1Num, item2Num, item3Num)
 
 	--set the shop items
 	self.item1 = equipment:returnItem(item1Num)
@@ -199,20 +202,11 @@ function Merchant:rollItem()
 	end
 end
 
-function Merchant:makeItemsUnique(h, i, j, k)
+function Merchant:makeItemUnique(h,i,j,k)
 	while h == j or h == i or h == k do
 		h = self:rollItem()
 	end
-	while j == h or j == i or j == k do
-		j = self:rollItem()
-	end
-	while i == h or i == j or i == k do
-		i = self:rollItem()
-	end
-	while k == h or k == i or k == j do
-		k = self:rollItem()
-	end
-	print("item 1: " .. h .. "\nitem2: " .. i .. "\nitem3: " .. j .. "\nblind box: " .. k)
+	return h
 end
 
 
