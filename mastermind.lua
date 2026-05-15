@@ -37,7 +37,7 @@ end
 --nextLevel is basically the spawn function? may be redundant
 function Mastermind:nextLevel(lvl)
 
-	for i = 1, (6 * (lvl+1)) do
+	for i = 1, ((6+lvl) * (lvl+1)) do
 		table.insert(listOfEnemies,Ant(lvl,math.random(120,200),0-(math.random(4,16)*i)))
 		table.insert(listOfEnemies,Ant(lvl,math.random(120,200),0-(math.random(4,16)*i)))
 	end

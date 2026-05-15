@@ -174,13 +174,13 @@ end
 --determines cost of items through parsing rarity strings and giving them values
 function Merchant:getItemCost(item)
 	if item.rarity == "everyday" then
-		return 1 * (mastermind.level+.5) * 200
+		return math.random(350,700)
 	elseif item.rarity == "odd" then
-		return 2 * (mastermind.level+.5) * 200
+		return math.random(750,1000)
 	elseif item.rarity == "remarkable" then
-		return 5 * (mastermind.level+.5) * 200
+		return math.random(1500,2500)
 	elseif item.rarity == "aberrant" then
-		return 10 * (mastermind.level+.5) * 200
+		return math.random(2500,3500)
 	end
 end
 
