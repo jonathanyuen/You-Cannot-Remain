@@ -21,6 +21,8 @@ function Weapon:new()
     self.reloadInstance = 0
     self.activeReloadTimer = 0
     self.activeReloadInstance = 0
+    self.fireRate = .5
+    self.onCooldown = false
 
     --colored text for temp active reload timer
     self.coloredText = {{184/255,181/255, 185/255},self.activeReloadTimer}
@@ -54,9 +56,13 @@ does the calculations of whether or not a projectile is *fired*
 
 ]]
 function Weapon:triggerPull()
-    if self.outOfAmmoFlag == false then
+    if self.outOfAmmoFlag == false and self.onCooldown == false then
         if self.clip > 0 and self.reloadComplete == true and self.reloadInstance == 0 and self.activeReloadInstance == 0 then
             sfxSpit:clone():play()
+            self.onCooldown = true
+            Timer.after(self.fireRate, function ()
+                self.onCooldown = false
+            end)
             self:fireBullet()
         elseif self.clip <= 0 then
             self:reload()

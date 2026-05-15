@@ -102,69 +102,21 @@ function Player:statUp(stat, upgradeAmt)
 	if stat == "pspd" then
 		self.pspd = self.pspd + 1*upgradeAmt
     	pspdStatUpChevronAnim:setState("active")
-    	if self.pspd == 1 then
-    		pspdStatLevelAnim:setState("one")
-    	elseif self.pspd == 2 then
-    		pspdStatLevelAnim:setState("two")
-    	elseif self.pspd == 3 then
-    		pspdStatLevelAnim:setState("three")
-    	elseif self.pspd == 4 then
-    		pspdStatLevelAnim:setState("four")
-    	elseif self.pspd == 5 then
-    		pspdStatLevelAnim:setState("five")
-    	elseif self.pspd == 6 then
-    		pspdStatLevelAnim:setState("six")
-    	end
+    	
 	elseif stat == "spd" then
 		self.speed = self.speed + 10*upgradeAmt
 		self.baseSpd = self.baseSpd + 10 * upgradeAmt
 		spdStatUpChevronAnim:setState("active")
-		if self.speed == 35 + 10*1 then
-    		spdStatLevelAnim:setState("one")
-    	elseif self.speed == 35 + 10*2 then
-    		spdStatLevelAnim:setState("two")
-    	elseif self.speed == 35 + 10*3 then
-    		spdStatLevelAnim:setState("three")
-    	elseif self.speed == 35 + 10*4 then
-    		spdStatLevelAnim:setState("four")
-    	elseif self.speed == 35 + 10*5 then
-    		spdStatLevelAnim:setState("five")
-    	elseif self.speed == 35 + 10*6 then
-    		spdStatLevelAnim:setState("six")
-    	end
+		
 	elseif stat == "dmg" then
 		self.dmg = self.dmg + 1*upgradeAmt
 		dmgStatUpChevronAnim:setState("active")
-		if self.dmg == 1 then
-    		dmgStatLevelAnim:setState("one")
-    	elseif self.dmg == 2 then
-    		dmgStatLevelAnim:setState("two")
-    	elseif self.dmg == 3 then
-    		dmgStatLevelAnim:setState("three")
-    	elseif self.dmg == 4 then
-    		dmgStatLevelAnim:setState("four")
-    	elseif self.dmg == 5 then
-    		dmgStatLevelAnim:setState("five")
-    	elseif self.dmg == 6 then
-    		dmgStatLevelAnim:setState("six")
-    	end
+		
     
 	elseif stat == "rad" then
 		self.rad = self.rad + 1*upgradeAmt
 		radStatUpChevronAnim:setState("active")
-		if self.rad == 1 then
-    		radStatLevelAnim:setState("one")
-    	elseif self.rad == 2 then
-    		radStatLevelAnim:setState("two")
-    	elseif self.rad == 3 then
-    		radStatLevelAnim:setState("three")
-    	elseif self.rad == 4 then
-    		radStatLevelAnim:setState("four")
-    	elseif self.rad == 5 then
-    		radStatLevelAnim:setState("five")
-    	elseif self.rad == 6 then
-    		radStatLevelAnim:setState("six")
-    	end
+		
     
 	end
 end

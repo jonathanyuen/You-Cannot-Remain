@@ -714,10 +714,10 @@ function love.draw()
         spdStatUpChevronAnim:draw()
         pspdStatUpChevronAnim:draw()
 
-        dmgStatLevelAnim:draw()
-        radStatLevelAnim:draw()
-        spdStatLevelAnim:draw()
-        pspdStatLevelAnim:draw()
+        --dmgStatLevelAnim:draw()
+        --radStatLevelAnim:draw()
+        --spdStatLevelAnim:draw()
+        --pspdStatLevelAnim:draw()
         -----weapon drawing
         if player.weaponEquipped["spitter"].equipped == true then
             love.graphics.draw(spitImage,18,70)
