@@ -4,7 +4,7 @@ function Ant:new(lvl,spawnX,spawnY)
 	--coordinates/attributes
 	self.x = spawnX
 	self.y = spawnY
-	self.speed = 8+(.25*lvl)
+	self.speed = 6+(.25*lvl)
 	if player.item32Flag == true then
 		self.speed = self.speed*.7
 	end

@@ -41,7 +41,9 @@ local function purchaseDecision(decision)
 					score = score - merchant.item1Cost
 					print ("item 1 - " .. merchant.item1.name .. " added!")
 					merchant.buttons[1].text = "Item 1 - SOLD OUT"
-					merchant.buttons[1].func = nil
+					merchant.buttons[1].func = function()
+						print ("This button has no function attached")
+					end
 					sfx_kaching:play()
 					--add a kaching sound after all of them
 				else
@@ -53,7 +55,9 @@ local function purchaseDecision(decision)
 					equipment:addItem(merchant.item2.id)
 					score = score - merchant.item2Cost
 					merchant.buttons[2].text = "Item 2 - SOLD OUT"
-					merchant.buttons[2].func = nil					
+					merchant.buttons[2].func = function()
+						print ("This button has no function attached")
+					end				
 					sfx_kaching:play()
 					--add a kaching sound after all of them
 				else
@@ -64,7 +68,9 @@ local function purchaseDecision(decision)
 				if score >= merchant.item3Cost then
 					equipment:addItem(merchant.item3.id)
 					merchant.buttons[3].text = "Item 3 - SOLD OUT"
-					merchant.buttons[3].func = nil	
+					merchant.buttons[3].func = function()
+						print ("This button has no function attached")
+					end
 					sfx_kaching:play()
 					--add a kaching sound after all of them
 				else

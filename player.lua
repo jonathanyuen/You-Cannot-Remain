@@ -43,8 +43,8 @@ function Player:new()
 	--what weapons are unlocked
 	self.weaponsUnlocked = {
 		unlockedSpit = true,
-		unlockedFlameThrower = false,
-		unlockedZapBreath = false,
+		--unlockedFlameThrower = false,
+		--unlockedZapBreath = false,
 		unlockedIronTail = true
 	}
 
@@ -53,7 +53,7 @@ function Player:new()
 	self.ironTail = IronTail()
 	self.fireBreath = FireBreath()
 	self.weaponEquipped = {
-		spitter = self.spitter, ironTail = self.ironTail, fireBreath = self.fireBreath
+		spitter = self.spitter, ironTail = self.ironTail
 	}
 
 	--items
@@ -85,15 +85,11 @@ function Player:cycleWeapon()
 	if self.weaponEquipped["spitter"].equipped == true then
 		self.weaponEquipped["spitter"].equipped = false
 		self.weaponEquipped["ironTail"].equipped = true
-		self.weaponEquipped["fireBreath"].equipped = false
+		--self.weaponEquipped["fireBreath"].equipped = false
 	elseif self.weaponEquipped["ironTail"].equipped == true then
-		self.weaponEquipped["spitter"].equipped = false
-		self.weaponEquipped["ironTail"].equipped = false
-		self.weaponEquipped["fireBreath"].equipped = true
-	elseif self.weaponEquipped["fireBreath"].equipped == true then
 		self.weaponEquipped["spitter"].equipped = true
 		self.weaponEquipped["ironTail"].equipped = false
-		self.weaponEquipped["fireBreath"].equipped = false
+		--self.weaponEquipped["fireBreath"].equipped = true
 	end
 end
 
@@ -234,11 +230,13 @@ function Player:keyPressed(key)
 end
 
 function Player:keyReleased(key)
+	--[[
 	if key == "space" and self.weaponEquipped["fireBreath"].equipped == true and player.inShell == false then
 		self.fireBreath.flameAnim:setState("stop")
 		self.fireBreath:changeBreathState(false)
 		--print("flames should stop")
 	end
+	]]
 end
 
 function Player:update(dt)
@@ -259,6 +257,7 @@ function Player:update(dt)
 	self.portraitAnim:update(dt)
 
 	--fire breath (here bc you hold down a key)
+	--[[
 	if self.weaponEquipped["fireBreath"].equipped == true and player.inShell == false and player.fireBreath.overheatFlag == false then
 		if love.keyboard.isDown("space") then
 		--print("firebreath triggered")
@@ -269,6 +268,7 @@ function Player:update(dt)
 			self.fireBreath:changeBreathState(false)
 		end
 	end
+	]]
 	
 
 
@@ -346,6 +346,15 @@ function Player:draw()
 	self.portraitAnim:draw()
 	--draw health
     self.healthAnim:draw()
+
+	--draw stats on ui
+	love.graphics.setFont(pixelPurlFont)
+	love.graphics.print({colorPalette.fauxWhite,player.dmg},75,10)
+	love.graphics.print({colorPalette.fauxWhite,player.rad},75,24)
+	love.graphics.print({colorPalette.fauxWhite,player.baseSpd},75,38)
+	love.graphics.print({colorPalette.fauxWhite,player.pspd},75,52)
+	love.graphics.setFont(font) --resets font
+
 
     --draw weapon associated graphics under mango
 	if self.weaponEquipped["spitter"].equipped == true then
