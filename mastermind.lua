@@ -38,8 +38,8 @@ end
 function Mastermind:nextLevel(lvl)
 
 	for i = 1, ((6+lvl) * (lvl+1)) do
-		table.insert(listOfEnemies,Ant(lvl,math.random(120,200),0-(math.random(4,16)*i)))
-		table.insert(listOfEnemies,Ant(lvl,math.random(120,200),0-(math.random(4,16)*i)))
+		table.insert(listOfEnemies,Falcon(lvl,math.random(120,200),0-(math.random(4,24)*i)))
+		--table.insert(listOfEnemies,Ant(lvl,math.random(120,200),0-(math.random(4,16)*i)))
 	end
 
 	for i = 0,lvl do
@@ -83,8 +83,8 @@ end
 
 function Mastermind:keyPressed(key)
 	--p
-	if key == "p" then
-		table.insert(listOfEnemies,Ant(math.random(120,200),-16))
+	if key == "/" then
+		table.insert(listOfEnemies,Falcon(1,math.random(120,200),-16))
 	end
 	if key == "o" then
 		local rngType = math.random(1,4)
