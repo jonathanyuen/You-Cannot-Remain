@@ -197,22 +197,54 @@ function Merchant:rollItem()
 	local aberrantPctg = 5 + mastermind.level
 
 	local randomNum = math.random(1,100)
+	local returnValue = 1
+	
 	if randomNum <= everydayPctg then
-		return math.random(1,22)
+		returnValue = math.random(1,22)
 	elseif randomNum <= everydayPctg + oddPctg then
-		return math.random(23,30)
+		returnValue = math.random(23,30)
 	elseif randomNum <= everydayPctg + oddPctg + remarkablePctg then
-		return math.random(31,39)
+		returnValue = math.random(31,39)
 	elseif randomNum <= everydayPctg + oddPctg + remarkablePctg + aberrantPctg then
-		return 40
+		returnValue = 40
 	end
+
+	-- TODO: recursive script? or a while loop that keeps rolling if item was already purchased... use isDupe()
+	 while self:isDupe(returnValue) == true do
+		randomNum = math.random(1,100)
+		if randomNum <= everydayPctg then
+			returnValue = math.random(1,22)
+		elseif randomNum <= everydayPctg + oddPctg then
+			returnValue = math.random(23,30)
+		elseif randomNum <= everydayPctg + oddPctg + remarkablePctg then
+			returnValue = math.random(31,39)
+		elseif randomNum <= everydayPctg + oddPctg + remarkablePctg + aberrantPctg then
+			returnValue = 40
+		end
+	 end
+
+	 return returnValue
 end
 
-function Merchant:makeItemUnique(h,i,j,k)
-	while h == j or h == i or h == k do
-		h = self:rollItem()
+-- checks if an item has already been bought by player. Boolean. Used to assist in rollItem() method
+function Merchant:isDupe(targetItem)
+	local itemAlreadyBought = false
+	for i,v in ipairs(equipment.equippedItemList) do
+		if d == v.id then
+			itemAlreadyBought = true -- breaks loop if its a dupe!
+			break
+		end
 	end
-	return h
+	return itemAlreadyBought --returns Boolean
+end
+
+-- makes all the items in the shop unique, so there aren't two of the same item
+function Merchant:makeItemUnique(d,e,f,g)
+
+	while d == e or d == f or d == g do
+		d = self:rollItem()
+	end
+	return d
 end
 
 

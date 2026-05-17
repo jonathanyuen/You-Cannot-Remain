@@ -4,7 +4,7 @@ function Ant:new(lvl,spawnX,spawnY)
 	--coordinates/attributes
 	self.x = spawnX
 	self.y = spawnY
-	self.speed = 6+(.25*lvl)
+	self.speed = 5+(.15*lvl)
 	if player.item32Flag == true then
 		self.speed = self.speed*.7
 	end
@@ -173,7 +173,7 @@ function Ant:draw()
 	self.anim:setPosition(self.x,self.y)
 	if self:isDead() == false then
 		self.anim:draw()
-		love.graphics.print(self.health,self.x+8, self.y+16)
+		--love.graphics.print(self.health,self.x+8, self.y+16)
 	end
 
 	--dead, play death animation, whatever it may be
