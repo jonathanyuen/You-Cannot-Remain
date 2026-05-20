@@ -155,7 +155,7 @@ function Ant:update(dt)
 		self.y = -1000
 		self.newlyDead = false
 		mastermind.enemyKillCount = mastermind.enemyKillCount+1
-		scoring.counterAntsKilled = scoring.counterAntsKilled + 50
+		scoring.counterAntsKilled = scoring.counterAntsKilled + 1
 		scoreboard:updateTicker("Enemy slain", self.deathValue)
 		mastermind:killCheck()
 

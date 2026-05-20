@@ -5,7 +5,7 @@ function Falcon:new(lvl,spawnX,spawnY)
 	--coordinates/attributes
 	self.x = spawnX
 	self.y = spawnY
-	self.speed = 20+(.15*lvl)
+	self.speed = 24+(.15*lvl)
 	if player.item32Flag == true then
 		self.speed = self.speed*.7
 	end
@@ -93,7 +93,7 @@ function Falcon:update(dt)
 		self.y = -1000
 		self.newlyDead = false
 		mastermind.enemyKillCount = mastermind.enemyKillCount+1
-		scoring.counterAntsKilled = scoring.counterAntsKilled + 50
+		scoring.counterFalconsKilled = scoring.counterFalconsKilled + 1
 		scoreboard:updateTicker("Falcon slain", self.deathValue)
 		mastermind:killCheck()
 

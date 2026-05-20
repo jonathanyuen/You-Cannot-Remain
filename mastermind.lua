@@ -36,12 +36,19 @@ end
 
 --nextLevel is basically the spawn function? may be redundant
 function Mastermind:nextLevel(lvl)
-
+	-- ant spawns
 	for i = 1, ((6+lvl) * (lvl+1)) do
-		table.insert(listOfEnemies,Falcon(lvl,math.random(120,200),0-(math.random(4,24)*i)))
-		--table.insert(listOfEnemies,Ant(lvl,math.random(120,200),0-(math.random(4,16)*i)))
+		table.insert(listOfEnemies,Ant(lvl,math.random(120,200),0-(math.random(4,24)*i)))
+		table.insert(listOfEnemies,Ant(lvl,math.random(120,200),0-(math.random(4,24)*i)))
 	end
 
+	--falcon spawns
+	for i = 1, lvl+1 do
+		Timer.after(math.random(1,10*lvl), function ()
+			table.insert(listOfEnemies,Falcon(lvl,math.random(120,200),0-(math.random(4,24)*i)))
+		end)
+	end
+	-- power up spawns
 	for i = 0,lvl do
 			local rngType = math.random(1,4)
 			if rngType == 1 then
@@ -107,6 +114,9 @@ function Mastermind:killCheck()
 		print("merchant started from mastermind")
 		self:setLevel(self.level + 1)
 	end
+	-- debugging for kill count and wave spawning
+	print("killcount: " .. self.enemyKillCount)
+	print("kills needed for next wave: " .. ((((2.5*(self.level+1)) ^ 2)+(2.5 * (self.level+1)))))
 end
 
 function Mastermind:update(dt)
