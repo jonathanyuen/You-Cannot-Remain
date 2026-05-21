@@ -63,6 +63,10 @@ function Weapon:triggerPull()
             Timer.after(self.fireRate, function ()
                 self.onCooldown = false
             end)
+            if player.item59Flag == true then
+                self:fireBullet()
+                self:fireBullet()
+            end
             self:fireBullet()
         elseif self.clip <= 0 then
             self:reload()
@@ -125,12 +129,31 @@ function Weapon:fireBullet()
         end
     elseif self.activeReloadSuccessFlag == 1 then
         if player.item40Flag == true then
-            table.insert(listOfSpitBullets, Spit(player.x+9, player.y))
-            table.insert(listOfSpitBullets, Spit(player.x+6, player.y))
-            table.insert(listOfSpitBullets, Spit(player.x+3, player.y))
+            if player.item62Flag == true then
+                table.insert(listOfSpitBullets, Spit(player.x+9, player.y))
+                listOfSpitBullets[#listOfSpitBullets].direction = -1 
+                table.insert(listOfSpitBullets, Spit(player.x+6, player.y))
+
+                table.insert(listOfSpitBullets, Spit(player.x+3, player.y))
+                listOfSpitBullets[#listOfSpitBullets].direction = 1 
+            else
+                table.insert(listOfSpitBullets, Spit(player.x+9, player.y))
+                table.insert(listOfSpitBullets, Spit(player.x+6, player.y))
+                table.insert(listOfSpitBullets, Spit(player.x+3, player.y))
+            end
         else
-            table.insert(listOfSpitBullets, Spit(player.x+7, player.y))
-            table.insert(listOfSpitBullets, Spit(player.x+3, player.y))
+            if player.item62Flag == true then
+                table.insert(listOfSpitBullets, Spit(player.x+7, player.y))
+                listOfSpitBullets[#listOfSpitBullets].direction = -1 
+
+                table.insert(listOfSpitBullets, Spit(player.x+3, player.y))
+                listOfSpitBullets[#listOfSpitBullets].direction = 1 
+
+            else
+                table.insert(listOfSpitBullets, Spit(player.x+7, player.y))
+                table.insert(listOfSpitBullets, Spit(player.x+3, player.y))
+            end
+            
         end
         
         self.clip = self.clip - 1
@@ -177,7 +200,13 @@ function Weapon:draw()
 
         --draw active reload range
         love.graphics.setColor(self.activeReloadActiveZoneColor)
-        love.graphics.rectangle("fill", player.x+6, player.y+18, self.activeReloadActiveZoneWidth, self.activeReloadBarHeight)
+        if player.item53Flag == true then
+            self.activeReloadActiveZoneWidth = self.activeReloadActiveZoneWidth + 2
+            love.graphics.rectangle("fill", player.x+5, player.y+18, self.activeReloadActiveZoneWidth, self.activeReloadBarHeight)
+        else
+            love.graphics.rectangle("fill", player.x+6, player.y+18, self.activeReloadActiveZoneWidth, self.activeReloadBarHeight)
+
+        end
         --have to reset color or shades get weird!!!
         love.graphics.setColor(1,1,1)
 

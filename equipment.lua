@@ -190,8 +190,8 @@ function Equipment:updateMango()
 				player.health = player.health + 3
 				v.resolved = true
 			elseif v.id == 25 then
-				--gives 200 renown
-				scoreboard:updateTicker("Free Renown!", 200)
+				--gives 2000 renown
+				scoreboard:updateTicker("Free Renown!", 2000)
 				v.resolved = true
 			elseif v.id == 26 then
 				--dmg up 2
@@ -226,8 +226,8 @@ function Equipment:updateMango()
 				player.item32Flag = true
 				v.resolved = true
 			elseif v.id == 33 then
-				--add 50 Renown
-				scoreboard:updateTicker("Free Renown",500)
+				--add 500 Renown
+				scoreboard:updateTicker("Free Renown",5000)
 				v.resolved = true
 			elseif v.id == 34 then
 				--hp up 6
@@ -262,6 +262,87 @@ function Equipment:updateMango()
 				--adds an additional stream of spit for spitter
 				player.item40Flag = true
 				v.resolved = true
+			--[[
+			TODO: Implement new items - check items.csv for integration percentage
+			]]
+			--hp up at cost of fire rate
+			elseif v.id == 41 then
+				player.health = player.health + 3
+				player.spitter.fireRate = player.spitter.fireRate - .1
+
+			elseif v.id == 42 then
+				player.health = player.health + 3
+				player.speed = player.speed - 10
+				player.baseSpd = player.baseSpd - 10
+
+			elseif v.id == 43 then
+				player.health = player.health + 3
+				if player.baseDmg - 5 > 0 then
+					player.dmg = player.dmg - 5
+					player.baseDmg = player.baseDmg - 5
+				else
+					player.dmg = 0
+					player.baseDmg = 0
+				end
+			elseif v.id == 44 then
+				player.spitter.fireRate = player.spitter.fireRate - .1
+			elseif v.id == 45 then
+				player.spitter.fireRate = player.spitter.fireRate - .2
+			elseif v.id == 46 then
+				player.spitter.fireRate = player.spitter.fireRate - .5
+			elseif v.id == 47 then
+				player.spitter.fireRate = player.spitter.fireRate + .1
+			elseif v.id == 48 then
+				player.spitter.fireRate = player.spitter.fireRate + .5
+			elseif v.id == 49 then
+				player.item49Flag = true
+			elseif v.id == 50 then
+				--TODO firebreath power up occurrence increases
+			elseif v.id == 51 then
+				--one item in next shop is freeee
+			elseif v.id == 52 then
+				--next shop, buy one get one free
+			elseif v.id == 53 then
+				--active reload is easier
+				player.item53Flag = true
+			elseif v.id == 54 then
+				player.spitter.maxCapacity = player.spitter.maxCapacity + 1
+			elseif v.id == 55 then
+				player.pspd = player.pspd * .25
+				player.baseDmg = player.baseDmg + 2
+				player.dmg = player.dmg + 2
+				player.rad = player.rad + 2
+			elseif v.id == 56 then
+				player.item56Flag = true
+			elseif v.id == 57 then
+				player.item57Flag = true
+			elseif v.id == 58 then
+
+			elseif v.id == 59 then
+				player.item59Flag = true
+
+			elseif v.id == 60 then
+				player.item60Flag = true
+			elseif v.id == 61 then
+				--
+			elseif v.id == 62 then
+				--spit comes out in a cone
+				player.item62Flag = true
+			elseif v.id == 63 then
+
+			elseif v.id == 64 then
+
+			elseif v.id == 65 then
+			
+			elseif v.id == 66 then
+
+			elseif v.id == 67 then
+
+			elseif v.id == 68 then
+			
+			elseif v.id == 69 then
+
+			elseif v.id == 70 then
 			end
 		end
 	end

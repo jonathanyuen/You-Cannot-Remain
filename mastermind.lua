@@ -110,9 +110,13 @@ end
 
 function Mastermind:killCheck()
 	if self.enemyKillCount ~= 0 and self.enemyKillCount >= ((((2.5*(self.level+1)) ^ 2)+(2.5 * (self.level+1)))) then
-		startMerchant()
-		print("merchant started from mastermind")
-		self:setLevel(self.level + 1)
+		if player.item60Flag == true then
+			print("merchant skipped bc of item :L")
+		else
+			startMerchant()
+			print("merchant started from mastermind")
+			self:setLevel(self.level + 1)
+		end
 	end
 	-- debugging for kill count and wave spawning
 	print("killcount: " .. self.enemyKillCount)

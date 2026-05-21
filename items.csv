@@ -1,41 +1,71 @@
-id,name,effect,description text,rarity
-1,massive tail,tail weapon range and damage goes up,tbd,everyday
-2,lucky watch,active reload success replenishes one ammo,tbd,everyday
-3,slinky,tail increases length,tbd,everyday
-4,big meal,tail increases width,tbd,everyday
-5,curry,flamethrower gets more fuel,tbd,everyday
-6,sunnyside egg,hp up 1,tbd,everyday
-7,big gulp,gives 20 spit ammo,tbd,everyday
-8,bulk peppers,gives 20 chili peppers,tbd,everyday
-9,turt kwon do,dmg up 1,tbd,everyday
-10,lucky shoes,spd up 1,tbd,everyday
-11,aerodynamics,pspd up 1,tbd,everyday
-12,jawbreakers,rad up 1,tbd,everyday
-13,ring light,increases renown gain rate x.25,tbd,everyday
-14,handcuffs,gain a random power up when you take dmg,tbd,everyday
-15,Rizzo,enemy spit kills +1 renown,follows you around filming,everyday
-16,Rocco,enemy tail kills +1 renown,follows you around writing,everyday
-17,Rippo,enemy fire kills +1 renown,follows you around taking pictures,everyday
-18,cheap shield,block 1 damage,tbd,everyday
-19,treadmill,shell recovery time reduced,tbd,everyday
-20,backed up,clip size -1 & damage up 2,tbd,everyday
-21,slowdown,pspd -1 & rad +1,tbd,everyday
-22,fast hands,reload speed increased,tbd,everyday
-23,4th dimensional charm,infinite clip but slower firerate,tbd,odd
-24,tomato,hp up 3,tbd,odd
-25,paid ad,gives 20 renown,tbd,odd
-26,barbell,dmg up 2,tbd,odd
-27,ankle weights,spd up 2,tbd,odd
-28,chewing gum,pspd up2,tbd,odd
-29,vitamins,rad up 2,tbd,odd
-30,press release,increases damage based on renown - 5 renown = 1 dmg,tbd,odd
-31,extended mag,all ammo based weapons have +2 clip size,tbd,remarkable
-32,stopwatch,everyone moves 30% slower,tbd,remarkable
-33,good deed,add 50 Renown,tbd,remarkable
-34,healing pot,hp up 6,tbd,remarkable
-35,squat rack,dmg up 3,tbd,remarkable
-36,adrenaline shot,spd up 3,tbd,remarkable
-37,research,pspd up 3,tbd,remarkable
-38,isotope,rad up 3,tbd,remarkable
-39,century egg,all stats up,Some say this egg is over a hundred years old.,remarkable
-40,water jug,adds an additional stream of spit for spitter,tbd,aberrant
+id,name,effect,description text,rarity,implemented?
+1,MASSIVE TAIL,tail weapon range and damage goes up,tbd,everyday,y
+2,LUCKY WATCH,active reload success replenishes one ammo,tbd,everyday,y
+3,SLINKY,tail increases length,tbd,everyday,y
+4,BIG MEAL,tail increases width,tbd,everyday,y
+5,CURRY,fire breath lasts longer,tbd,everyday,y
+6,SUNNYSIDE EGG,hp up 1,tbd,everyday,y
+7,BIG GULP,gives 20 spit ammo,tbd,everyday,y
+8,BULK PEPPERS,fire breath is stronger,tbd,everyday,y
+9,TURT KWON DO,dmg up 1,tbd,everyday,y
+10,LUCKY SHOES,spd up 1,tbd,everyday,y
+11,AERODYNAMICS,pspd up 1,tbd,everyday,y
+12,JAWBREAKERS,rad up 1,tbd,everyday,y
+13,RING LIGHT,increases renown gain rate x.25,tbd,everyday,y
+14,HANDCUFFS,gain a random power up when you take dmg,tbd,everyday,y
+15,RIZZO,enemy spit kills get extra renown,follows you around filming,everyday,y
+16,ROCCO,enemy tail kills get extra renown,follows you around writing,everyday,y
+17,RIPPO,enemy fire kills get extra renown,follows you around taking pictures,everyday,y
+18,CHEAP SHIELD,block 1 damage,tbd,everyday,y
+19,TREADMILL,shell recovery time reduced,tbd,everyday,y
+20,BACKED UP,clip size -1 & damage up 2,tbd,everyday,y
+21,SLOWDOWN,pspd -1 & rad +1,tbd,everyday,y
+22,FAST HANDS,reload speed increased,tbd,everyday,y
+23,4TH DIMENSIONAL CHARM,infinite clip but slower firerate,tbd,odd,y
+24,TOMATO,hp up 3,tbd,odd,y
+25,PAID AD,gives 2000 renown,tbd,odd,y
+26,BARBELL,dmg up 2,tbd,odd,y
+27,ANKLE WEIGHTS,spd up 2,tbd,odd,y
+28,CHEWING GUM,pspd up2,tbd,odd,y
+29,VITAMINS,rad up 2,tbd,odd,y
+30,PRESS RELEASE,increases damage based on renown - 5 renown = 1 dmg,tbd,odd,y
+31,EXTENDED MAG,all ammo based weapons have +2 clip size,tbd,remarkable,y
+32,STOPWATCH,everyone moves 30% slower,tbd,remarkable,y
+33,GOOD DEED,add 5000 Renown,tbd,remarkable,y
+34,HEALING POT,hp up 6,tbd,remarkable,y
+35,SQUAT RACK,dmg up 3,tbd,remarkable,y
+36,ADRENALINE SHOT,spd up 3,tbd,remarkable,y
+37,RESEARCH,pspd up 3,tbd,remarkable,y
+38,ISOTOPE,rad up 3,tbd,remarkable,y
+39,CENTURY EGG,all stats up,Some say this egg is over a hundred years old.,remarkable,y
+40,WATER JUG,adds an additional stream of spit for spitter,tbd,aberrant,y
+41,PRIME RIB,hp up at the cost of firerate,,everyday,
+42,CLAM CHOWDER,hp up at the cost of speed,,everyday,
+43,CHICKEN SANDWICH,hp up at the cost of damage,,everyday,
+44,BOK CHOY,fire rate up,,everyday,
+45,KIMCHI,fire rate up up,,odd,
+46,TTEOKBOKKI,fire rate up up up,,odd,
+47,BULGOGI,fire rate down,,everyday,
+48,CHAR SIU,fire rate severely down,,everyday,
+49,HORSEPOWER,adds knockback to your weapons,,everyday,
+50,GAS,adds more firebreath power ups,,remarkable,
+51,COUPON,one item in next shop is free,,everyday,
+52,BOGO,buy one get one free,,everyday,
+53,ROOSTER HAT,active reload is easier,,everyday,
+54,SECRET MANUAL,clip size +1,,everyday,
+55,CANNONBALL,spit comes out like a cannonball,,everyday,
+56,GHOST FLU,spit passes through enemies,,odd,
+57,THORNS,enemies get damaged on contact with you,,odd,
+58,LEGEND OF THE HAWK,every time you swap weapons you do a flip and gain renown,,odd,
+59,FAMAS,burst fire spit,,odd,
+60,NO SHIRT NO SHOES,next shop is unavailable,,remarkable,
+61,REWARDS CARD,blind boxes stay the same price and never go up,,remarkable,
+62,VUVUZUELA,spit shoots out in a cone,,remarkable,
+63,HIGH ROLLER SHADES,first blind box is always free,,aberrant,
+64,CHOCOLATE COIN,spit uses renown when you have no ammo,,aberrant,
+65,TOMBSTONE,mango no longer collides with enemies,,aberrant,
+66,HAT OF LUIGI,enemies slow down when they get near you,,aberrant,
+67,WHALE,you get one reroll permanently for blind boxes,,bizarre,
+68,NITRO GEAR,whenever mango moves she turns into a spinning shell,,bizarre,
+69,CHILD,an ally that stays close to you,,bizarre,
+70,TOO MUCH SUSHI,fire rate lowers,,everyday,

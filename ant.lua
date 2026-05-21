@@ -83,7 +83,9 @@ function Ant:takeDmg(dmgNum,type)
 
 	--health reduction
 	self.health = self.health - dmgNum
-
+	if player.item49Flag == true then
+		self.y = self.y-2 --enemy gets knocked back
+	end
 	
 end
 
@@ -117,6 +119,9 @@ function Ant:collisionWithMango()
         collisionInstance = collisionInstance + 1
         print(collisionInstance)
         player:getHit()
+		if player.item57Flag == true then
+			self:takeDmg(player.baseDmg, "thorns")
+		end
         Timer.after(3,function() 
         	collisionInstance = 0 
     	end)

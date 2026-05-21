@@ -38,6 +38,10 @@ function Player:new()
 	self.speed = 35
 	self.tailDmg = 1
 
+	--active reload positions
+	self.activeReloadLowerBound = 4
+	self.activeReloadHigherBound = 7
+
 
 
 	--what weapons are unlocked
@@ -78,6 +82,20 @@ function Player:new()
 	self.item32Flag = false
 	--additional spit stream
 	self.item40Flag = false
+	--knockback
+	self.item49Flag = false
+	--active reload is easier
+	self.item53Flag = false
+	--spit goes through foes
+	self.item56Flag = false
+	--dmg enemies on contact
+	self.item57Flag = false
+	--burstfire spit
+	self.item59Flag = false
+	--skip next store
+	self.item60Flag = false
+	--cone shaped spit fire pattern
+	self.item62Flag = false
 end
 
 
@@ -208,7 +226,12 @@ function Player:keyPressed(key)
 	end
 
 	--active reload
-	if self.spitter.outOfAmmoFlag == false and self.spitter.activeReloadCursorXPos >= 4 and self.spitter.activeReloadCursorXPos <= 7 and love.keyboard.isDown("space") and player.inShell == false then
+	--item 53
+	if self.item53Flag == true then
+		self.activeReloadLowerBound = self.activeReloadLowerBound - 1
+		self.activeReloadHigherBound = self.activeReloadHigherBound + 1
+	end
+	if self.spitter.outOfAmmoFlag == false and self.spitter.activeReloadCursorXPos >= self.activeReloadLowerBound and self.spitter.activeReloadCursorXPos <= self.activeReloadHigherBound and love.keyboard.isDown("space") and player.inShell == false then
 		sfxActiveReloadSuccess:play()
 		self.portraitAnim:setState("activeReloadSuccess")
 
