@@ -331,18 +331,12 @@ function Equipment:updateMango()
 			elseif v.id == 63 then
 
 			elseif v.id == 64 then
-
+				--renown instead of ammo
+				player.item64Flag = true
 			elseif v.id == 65 then
-			
-			elseif v.id == 66 then
-
-			elseif v.id == 67 then
-
-			elseif v.id == 68 then
-			
-			elseif v.id == 69 then
-
-			elseif v.id == 70 then
+				--gets rid of collision
+				player.item56Flag = true
+				--TODO: ghost colors
 			end
 		end
 	end

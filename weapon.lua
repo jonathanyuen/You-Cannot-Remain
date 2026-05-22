@@ -122,11 +122,7 @@ function Weapon:fireBullet()
             table.insert(listOfSpitBullets, Spit(player.x+5, player.y))
         end
         self.clip = self.clip - 1
-        if player.fireBreath.temp >= 1 then
-            player.fireBreath.temp = player.fireBreath.temp - .5
-        else
-            player.fireBreath.temp = 0
-        end
+        
     elseif self.activeReloadSuccessFlag == 1 then
         if player.item40Flag == true then
             if player.item62Flag == true then
@@ -164,7 +160,16 @@ end
 --checks if out of ammo and sets a flag to true
 function Weapon:outOfAmmo()
     if self.clip == 0 and self.ammoLeft == 0 then
-        self.outOfAmmoFlag = true
+        if player.item64Flag == true then
+            if scoreboard.score >= 480 then
+                self.ammoLeft = 24
+                scoreboard.score = scoreboard.score - 480
+            else
+                self.outOfAmmoFlag = true
+            end
+        else
+            self.outOfAmmoFlag = true
+        end
     else
         self.outOfAmmoFlag = false
     end

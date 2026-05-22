@@ -42,7 +42,9 @@ function Player:new()
 	self.activeReloadLowerBound = 4
 	self.activeReloadHigherBound = 7
 
-
+	--power up status
+	self.onFire = false
+	self.onFireDuration = 5 -- base fireBreath powerup lasts 5 seconds -- called by powerups class
 
 	--what weapons are unlocked
 	self.weaponsUnlocked = {
@@ -96,6 +98,10 @@ function Player:new()
 	self.item60Flag = false
 	--cone shaped spit fire pattern
 	self.item62Flag = false
+	--use renown instead of ammo
+	self.item64Flag = false
+	--go through enemies
+	self.item56Flag = false
 end
 
 
@@ -185,18 +191,23 @@ function Player:takeDmg(dmgNum)
 end
 
 function Player:getHit()
-	player.anim:setState("intoShell")
-	self.portraitAnim:setState("sad")
-	sfxInShell:play()
-	self.inShell = true
-	player.speed = 0
-	Timer.after(self.recoveryTime, function() 
-		--sfxOutOfShell:play()
-		player.anim:setState("outOfShell") 
-		self.portraitAnim:setState("idle")
-		player.speed = player.baseSpd
-		player.inShell = false
-	end)
+	if self.item65Flag == true then
+		--nothin!
+	else
+		player.anim:setState("intoShell")
+		self.portraitAnim:setState("sad")
+		sfxInShell:play()
+		self.inShell = true
+		player.speed = 0
+		Timer.after(self.recoveryTime, function() 
+			--sfxOutOfShell:play()
+			player.anim:setState("outOfShell") 
+			self.portraitAnim:setState("idle")
+			player.speed = player.baseSpd
+			player.inShell = false
+		end)
+	end
+	
     
 end
 
@@ -204,16 +215,18 @@ function Player:keyPressed(key)
 	--firing weapons
 
 	--spitter
-	if love.keyboard.isDown("space") and self.weaponEquipped["spitter"].equipped == true and player.inShell == false and self.spitter.outOfAmmoFlag == false then
+	if love.keyboard.isDown("space") and self.weaponEquipped["spitter"].equipped == true and self.onFire == false and player.inShell == false and self.spitter.outOfAmmoFlag == false then
 		self.spitter:triggerPull()
 	end
 
 	--fireBreath
-	
+	if self.onFire == true then
+		self.fireBreath:triggerPull()
+	end
 	
 
 	--ironTail
-	if love.keyboard.isDown("space") and self.weaponEquipped["ironTail"].equipped == true and player.inShell == false and self.ironTail.swinging == false then
+	if love.keyboard.isDown("space") and self.weaponEquipped["ironTail"].equipped == true and self.onFire == false and player.inShell == false and self.ironTail.swinging == false then
 		self.ironTail.swinging = true
 		Timer.after(.1, function()
 			self.ironTail:smackTail()

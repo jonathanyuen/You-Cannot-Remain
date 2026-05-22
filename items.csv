@@ -39,33 +39,33 @@ id,name,effect,description text,rarity,implemented?
 38,ISOTOPE,rad up 3,tbd,remarkable,y
 39,CENTURY EGG,all stats up,Some say this egg is over a hundred years old.,remarkable,y
 40,WATER JUG,adds an additional stream of spit for spitter,tbd,aberrant,y
-41,PRIME RIB,hp up at the cost of firerate,,everyday,
-42,CLAM CHOWDER,hp up at the cost of speed,,everyday,
-43,CHICKEN SANDWICH,hp up at the cost of damage,,everyday,
-44,BOK CHOY,fire rate up,,everyday,
-45,KIMCHI,fire rate up up,,odd,
-46,TTEOKBOKKI,fire rate up up up,,odd,
-47,BULGOGI,fire rate down,,everyday,
-48,CHAR SIU,fire rate severely down,,everyday,
-49,HORSEPOWER,adds knockback to your weapons,,everyday,
+41,PRIME RIB,hp up at the cost of firerate,,everyday,y
+42,CLAM CHOWDER,hp up at the cost of speed,,everyday,y
+43,CHICKEN SANDWICH,hp up at the cost of damage,,everyday,y
+44,BOK CHOY,fire rate up,,everyday,y
+45,KIMCHI,fire rate up up,,odd,y
+46,TTEOKBOKKI,fire rate up up up,,odd,y
+47,BULGOGI,fire rate down,,everyday,y
+48,CHAR SIU,fire rate severely down,,everyday,y
+49,HORSEPOWER,adds knockback to your weapons,,everyday,y
 50,GAS,adds more firebreath power ups,,remarkable,
 51,COUPON,one item in next shop is free,,everyday,
 52,BOGO,buy one get one free,,everyday,
-53,ROOSTER HAT,active reload is easier,,everyday,
-54,SECRET MANUAL,clip size +1,,everyday,
-55,CANNONBALL,spit comes out like a cannonball,,everyday,
-56,GHOST FLU,spit passes through enemies,,odd,
-57,THORNS,enemies get damaged on contact with you,,odd,
+53,ROOSTER HAT,active reload is easier,,everyday,y
+54,SECRET MANUAL,clip size +1,,everyday,y
+55,CANNONBALL,spit comes out like a cannonball,,everyday,y
+56,GHOST FLU,spit passes through enemies,,odd,y
+57,THORNS,enemies get damaged on contact with you,,odd,y
 58,LEGEND OF THE HAWK,every time you swap weapons you do a flip and gain renown,,odd,
-59,FAMAS,burst fire spit,,odd,
-60,NO SHIRT NO SHOES,next shop is unavailable,,remarkable,
+59,FAMAS,burst fire spit,,odd,y
+60,NO SHIRT NO SHOES,next shop is unavailable,,remarkable,y
 61,REWARDS CARD,blind boxes stay the same price and never go up,,remarkable,
-62,VUVUZUELA,spit shoots out in a cone,,remarkable,
+62,VUVUZUELA,spit shoots out in a cone,,remarkable,y
 63,HIGH ROLLER SHADES,first blind box is always free,,aberrant,
-64,CHOCOLATE COIN,spit uses renown when you have no ammo,,aberrant,
-65,TOMBSTONE,mango no longer collides with enemies,,aberrant,
-66,HAT OF LUIGI,enemies slow down when they get near you,,aberrant,
-67,WHALE,you get one reroll permanently for blind boxes,,bizarre,
-68,NITRO GEAR,whenever mango moves she turns into a spinning shell,,bizarre,
-69,CHILD,an ally that stays close to you,,bizarre,
-70,TOO MUCH SUSHI,fire rate lowers,,everyday,
+64,CHOCOLATE COIN,spit uses renown when you have no ammo,,aberrant,y
+65,TOMBSTONE,mango no longer collides with enemies,,aberrant,y
+66,TOO MUCH SUSHI,enemies slow down when they get near you,,aberrant,
+,,,,bizarre,
+,,,,bizarre,
+,,,,bizarre,
+,,,,everyday,

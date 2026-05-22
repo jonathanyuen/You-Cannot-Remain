@@ -50,7 +50,7 @@ function Mastermind:nextLevel(lvl)
 	end
 	-- power up spawns
 	for i = 0,lvl do
-			local rngType = math.random(1,4)
+			local rngType = math.random(1,6)
 			if rngType == 1 then
 				rngType = "pspd"
 			elseif rngType == 2 then
@@ -59,6 +59,10 @@ function Mastermind:nextLevel(lvl)
 				rngType = "dmg"
 			elseif rngType == 4 then
 				rngType = "rad"
+			elseif rngType == 5 then
+				rngType = "fireBreath"
+			elseif rngType == 6 then
+				rngType = "ammo"
 			end
 
 			table.insert(listOfPowerups,Powerup(math.random(120,200),0-(30*i),rngType,math.random(1*self.level+1,5*(self.level+1))))
@@ -94,7 +98,7 @@ function Mastermind:keyPressed(key)
 		table.insert(listOfEnemies,Falcon(1,math.random(120,200),-16))
 	end
 	if key == "o" then
-		local rngType = math.random(1,4)
+		local rngType = math.random(1,6)
 			if rngType == 1 then
 				rngType = "pspd"
 			elseif rngType == 2 then
@@ -103,6 +107,10 @@ function Mastermind:keyPressed(key)
 				rngType = "dmg"
 			elseif rngType == 4 then
 				rngType = "rad"
+			elseif rngType == 5 then
+				rngType = "fireBreath"
+			elseif rngType == 6 then
+				rngType = "ammo"
 			end
 		table.insert(listOfPowerups,Powerup(math.random(120,200),-24,rngType,math.random(1,5*(self.level+1))))
 	end
