@@ -95,7 +95,7 @@ function Powerup:update(dt)
 		elseif self.type == "fireBreath" then
 			-- fireBreath as a powerup!
 			player.onFire = true
-			Timer.after(player.fireBreathDuration, function ()
+			Timer.after(player.onFireDuration, function ()
 				player.onFire = false
 			end)
 		end

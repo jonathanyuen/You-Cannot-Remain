@@ -219,10 +219,7 @@ function Player:keyPressed(key)
 		self.spitter:triggerPull()
 	end
 
-	--fireBreath
-	if self.onFire == true then
-		self.fireBreath:triggerPull()
-	end
+	
 	
 
 	--ironTail
@@ -279,6 +276,15 @@ function Player:update(dt)
 	--renown damage - item 30
 	if self.item30Flag == true then
 		self.dmg = self.baseDmg + (score/100)
+	end
+
+	--fireBreath
+	if self.onFire == true then
+		self.fireBreath:triggerPull()
+		self.anim:setState("shoot")
+	else
+		self.fireBreath.flameAnim:setState("stop")
+		self.fireBreath:changeBreathState(false)
 	end
 
 	--update clock
@@ -397,7 +403,8 @@ function Player:draw()
 		self.spitter:draw()
 	elseif self.weaponEquipped["ironTail"].equipped == true then
     	self.ironTail:draw()
-	elseif self.weaponEquipped["fireBreath"].equipped == true then
+	end
+	if self.onFire == true then
 		self.fireBreath:draw()
 	end
 end
