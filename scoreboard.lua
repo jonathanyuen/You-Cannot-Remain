@@ -69,36 +69,36 @@ function Scoreboard:draw(dt)
     local tickerSize = self:getSize()
 
     if tickerSize == 1 then
-        love.graphics.print({scoreboardColorPalette.white,self.ticker[1]},225,162)
+        love.graphics.printf({scoreboardColorPalette.white,self.ticker[1]},232,162,80,"right")
         
     elseif tickerSize == 2 then
         for i=1, 2 do
             if i == 2 then
-                love.graphics.print({scoreboardColorPalette.white,self.ticker[i]},225,162)
+                love.graphics.printf({scoreboardColorPalette.white,self.ticker[i]},232,162, 80, "right")
             elseif i ==1 then
-                love.graphics.print({scoreboardColorPalette.lightGrey,self.ticker[i]},225,162 - 7)
+                love.graphics.printf({scoreboardColorPalette.lightGrey,self.ticker[i]},232,162 - 7, 80, "right")
             end
         end
     elseif tickerSize == 3 then
         for i=1, 3 do
             if i == 3 then
-                love.graphics.print({scoreboardColorPalette.white,self.ticker[i]},225,162)
+                love.graphics.printf({scoreboardColorPalette.white,self.ticker[i]},232,162, 80, "right")
             elseif i ==2 then
-                love.graphics.print({scoreboardColorPalette.lightGrey,self.ticker[i]},225,162 - 7)
+                love.graphics.printf({scoreboardColorPalette.lightGrey,self.ticker[i]},232,162 - 7, 80, "right")
             elseif i == 1 then
-                love.graphics.print({scoreboardColorPalette.grey,self.ticker[i]},225,162 - 14)
+                love.graphics.printf({scoreboardColorPalette.grey,self.ticker[i]},232,162 - 14, 80, "right")
             end
         end
     elseif tickerSize == 4 then
         for i=1, 4 do
             if i == 4 then
-                love.graphics.print({scoreboardColorPalette.white,self.ticker[i]},222,162)
+                love.graphics.printf({scoreboardColorPalette.white,self.ticker[i]},232,162, 80, "right")
             elseif i ==3 then
-                love.graphics.print({scoreboardColorPalette.lightGrey,self.ticker[i]},222,162 - 7)
+                love.graphics.printf({scoreboardColorPalette.lightGrey,self.ticker[i]},232,162 - 7, 80, "right")
             elseif i == 2 then
-                love.graphics.print({scoreboardColorPalette.grey,self.ticker[i]},222,162 - 14)
+                love.graphics.printf({scoreboardColorPalette.grey,self.ticker[i]},232,162 - 14, 80, "right")
             elseif i == 1 then
-                love.graphics.print({scoreboardColorPalette.darkGray,self.ticker[i]},222,162 - 21)
+                love.graphics.printf({scoreboardColorPalette.darkGray,self.ticker[i]},232,162 - 21, 80, "right")
             end
         end
     end

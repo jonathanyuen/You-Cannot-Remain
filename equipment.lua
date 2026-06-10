@@ -107,7 +107,7 @@ function Equipment:updateMango()
 				v.resolved = true
 			elseif v.id == 5 then
 				--flamethrower gets more fuel
-				player.fireBreath.fuel = player.fireBreath.fuel + 10
+				player.onFireDuration = player.onFireDuration + 2.5
 				v.resolved = true
 			elseif v.id == 6 then
 				--hp up 1 
@@ -120,8 +120,8 @@ function Equipment:updateMango()
 				player.spitter.maxCapacity = player.spitter.maxCapacity + 20
 				v.resolved = true
 			elseif v.id == 8 then
-				--flamethrower ammo up 20
-				player.fireBreath.fuel = player.fireBreath.fuel + 20
+				--flamethrower dmg up
+				player.fireBreath.damage = player.fireBreath.damage + 1
 				v.resolved = true
 			elseif v.id == 9 then
 				--dmg up 1

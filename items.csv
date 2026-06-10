@@ -64,8 +64,8 @@ id,name,effect,description text,rarity,implemented?
 63,HIGH ROLLER SHADES,first blind box is always free,,aberrant,
 64,CHOCOLATE COIN,spit uses renown when you have no ammo,,aberrant,y
 65,TOMBSTONE,mango no longer collides with enemies,,aberrant,y
-66,TOO MUCH SUSHI,enemies slow down when they get near you,,aberrant,
-,,,,bizarre,
+,,,,,
+,,,,,
 ,,,,bizarre,
 ,,,,bizarre,
 ,,,,everyday,
