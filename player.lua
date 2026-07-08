@@ -38,13 +38,19 @@ function Player:new()
 	self.speed = 35
 	self.tailDmg = 1
 
+	--active reload positions
+	self.activeReloadLowerBound = 4
+	self.activeReloadHigherBound = 7
 
+	--power up status
+	self.onFire = false
+	self.onFireDuration = 5 -- base fireBreath powerup lasts 5 seconds -- called by powerups class
 
 	--what weapons are unlocked
 	self.weaponsUnlocked = {
 		unlockedSpit = true,
-		unlockedFlameThrower = false,
-		unlockedZapBreath = false,
+		--unlockedFlameThrower = false,
+		--unlockedZapBreath = false,
 		unlockedIronTail = true
 	}
 
@@ -53,7 +59,7 @@ function Player:new()
 	self.ironTail = IronTail()
 	self.fireBreath = FireBreath()
 	self.weaponEquipped = {
-		spitter = self.spitter, ironTail = self.ironTail, fireBreath = self.fireBreath
+		spitter = self.spitter, ironTail = self.ironTail
 	}
 
 	--items
@@ -70,12 +76,38 @@ function Player:new()
 	self.item16Flag = false
 	--fire kills give more renown
 	self.item17Flag = false
+	--block 1 instance of damage
+	self.item18Flag = false
 	--renown based dmg bonus
 	self.item30Flag = false
 	--slows everyone down 30%
 	self.item32Flag = false
 	--additional spit stream
 	self.item40Flag = false
+	--knockback
+	self.item49Flag = false
+	--active reload is easier
+	self.item53Flag = false
+	--spit goes through foes
+	self.item56Flag = false
+	--dmg enemies on contact
+	self.item57Flag = false
+	--burstfire spit
+	self.item59Flag = false
+	--skip next store
+	self.item60Flag = false
+	--cone shaped spit fire pattern
+	self.item62Flag = false
+	--use renown instead of ammo
+	self.item64Flag = false
+	--go through enemies
+	self.item56Flag = false
+	--more flamethrower occurrences
+	self.item50Flag = false
+	--free item in shop
+	self.item51Flag = false
+	--renown on weapon swap
+	self.item58Flag = false
 end
 
 
@@ -83,15 +115,15 @@ function Player:cycleWeapon()
 	if self.weaponEquipped["spitter"].equipped == true then
 		self.weaponEquipped["spitter"].equipped = false
 		self.weaponEquipped["ironTail"].equipped = true
-		self.weaponEquipped["fireBreath"].equipped = false
+		--self.weaponEquipped["fireBreath"].equipped = false
 	elseif self.weaponEquipped["ironTail"].equipped == true then
-		self.weaponEquipped["spitter"].equipped = false
-		self.weaponEquipped["ironTail"].equipped = false
-		self.weaponEquipped["fireBreath"].equipped = true
-	elseif self.weaponEquipped["fireBreath"].equipped == true then
 		self.weaponEquipped["spitter"].equipped = true
 		self.weaponEquipped["ironTail"].equipped = false
-		self.weaponEquipped["fireBreath"].equipped = false
+		--self.weaponEquipped["fireBreath"].equipped = true
+	end
+	--weaponswaps -> renown gain
+	if self.item58Flag == true then
+		scoreboard:updateTicker("Legend of the Hawk", 1)
 	end
 end
 
@@ -100,78 +132,30 @@ function Player:statUp(stat, upgradeAmt)
 	if stat == "pspd" then
 		self.pspd = self.pspd + 1*upgradeAmt
     	pspdStatUpChevronAnim:setState("active")
-    	if self.pspd == 1 then
-    		pspdStatLevelAnim:setState("one")
-    	elseif self.pspd == 2 then
-    		pspdStatLevelAnim:setState("two")
-    	elseif self.pspd == 3 then
-    		pspdStatLevelAnim:setState("three")
-    	elseif self.pspd == 4 then
-    		pspdStatLevelAnim:setState("four")
-    	elseif self.pspd == 5 then
-    		pspdStatLevelAnim:setState("five")
-    	elseif self.pspd == 6 then
-    		pspdStatLevelAnim:setState("six")
-    	end
+    	
 	elseif stat == "spd" then
 		self.speed = self.speed + 10*upgradeAmt
 		self.baseSpd = self.baseSpd + 10 * upgradeAmt
 		spdStatUpChevronAnim:setState("active")
-		if self.speed == 35 + 10*1 then
-    		spdStatLevelAnim:setState("one")
-    	elseif self.speed == 35 + 10*2 then
-    		spdStatLevelAnim:setState("two")
-    	elseif self.speed == 35 + 10*3 then
-    		spdStatLevelAnim:setState("three")
-    	elseif self.speed == 35 + 10*4 then
-    		spdStatLevelAnim:setState("four")
-    	elseif self.speed == 35 + 10*5 then
-    		spdStatLevelAnim:setState("five")
-    	elseif self.speed == 35 + 10*6 then
-    		spdStatLevelAnim:setState("six")
-    	end
+		
 	elseif stat == "dmg" then
 		self.dmg = self.dmg + 1*upgradeAmt
 		dmgStatUpChevronAnim:setState("active")
-		if self.dmg == 1 then
-    		dmgStatLevelAnim:setState("one")
-    	elseif self.dmg == 2 then
-    		dmgStatLevelAnim:setState("two")
-    	elseif self.dmg == 3 then
-    		dmgStatLevelAnim:setState("three")
-    	elseif self.dmg == 4 then
-    		dmgStatLevelAnim:setState("four")
-    	elseif self.dmg == 5 then
-    		dmgStatLevelAnim:setState("five")
-    	elseif self.dmg == 6 then
-    		dmgStatLevelAnim:setState("six")
-    	end
+		
     
 	elseif stat == "rad" then
 		self.rad = self.rad + 1*upgradeAmt
 		radStatUpChevronAnim:setState("active")
-		if self.rad == 1 then
-    		radStatLevelAnim:setState("one")
-    	elseif self.rad == 2 then
-    		radStatLevelAnim:setState("two")
-    	elseif self.rad == 3 then
-    		radStatLevelAnim:setState("three")
-    	elseif self.rad == 4 then
-    		radStatLevelAnim:setState("four")
-    	elseif self.rad == 5 then
-    		radStatLevelAnim:setState("five")
-    	elseif self.rad == 6 then
-    		radStatLevelAnim:setState("six")
-    	end
+		
     
 	end
 end
 
 function Player:takeDmg(dmgNum)
 	--item 27 -- block 1 damage
-	if player.item29Flag == true then
-		dmgNum = dmgNum - 1
-		player.item29Flag = false
+	if player.item18Flag == true then
+		dmgNum = 0
+		player.item18Flag = false
 	end
 
 	self.health = self.health - dmgNum
@@ -217,18 +201,23 @@ function Player:takeDmg(dmgNum)
 end
 
 function Player:getHit()
-	player.anim:setState("intoShell")
-	self.portraitAnim:setState("sad")
-	sfxInShell:play()
-	self.inShell = true
-	player.speed = 0
-	Timer.after(self.recoveryTime, function() 
-		--sfxOutOfShell:play()
-		player.anim:setState("outOfShell") 
-		self.portraitAnim:setState("idle")
-		player.speed = player.baseSpd
-		player.inShell = false
-	end)
+	if self.item65Flag == true then
+		--nothin!
+	else
+		player.anim:setState("intoShell")
+		self.portraitAnim:setState("sad")
+		sfxInShell:play()
+		self.inShell = true
+		player.speed = 0
+		Timer.after(self.recoveryTime, function() 
+			--sfxOutOfShell:play()
+			player.anim:setState("outOfShell") 
+			self.portraitAnim:setState("idle")
+			player.speed = player.baseSpd
+			player.inShell = false
+		end)
+	end
+	
     
 end
 
@@ -236,16 +225,15 @@ function Player:keyPressed(key)
 	--firing weapons
 
 	--spitter
-	if love.keyboard.isDown("space") and self.weaponEquipped["spitter"].equipped == true and player.inShell == false and self.spitter.outOfAmmoFlag == false then
+	if love.keyboard.isDown("space") and self.weaponEquipped["spitter"].equipped == true and self.onFire == false and player.inShell == false and self.spitter.outOfAmmoFlag == false then
 		self.spitter:triggerPull()
 	end
 
-	--fireBreath
 	
 	
 
 	--ironTail
-	if love.keyboard.isDown("space") and self.weaponEquipped["ironTail"].equipped == true and player.inShell == false and self.ironTail.swinging == false then
+	if love.keyboard.isDown("space") and self.weaponEquipped["ironTail"].equipped == true and self.onFire == false and player.inShell == false and self.ironTail.swinging == false then
 		self.ironTail.swinging = true
 		Timer.after(.1, function()
 			self.ironTail:smackTail()
@@ -258,7 +246,12 @@ function Player:keyPressed(key)
 	end
 
 	--active reload
-	if self.spitter.outOfAmmoFlag == false and self.spitter.activeReloadCursorXPos >= 4 and self.spitter.activeReloadCursorXPos <= 7 and love.keyboard.isDown("space") and player.inShell == false then
+	--item 53
+	if self.item53Flag == true then
+		self.activeReloadLowerBound = self.activeReloadLowerBound - 1
+		self.activeReloadHigherBound = self.activeReloadHigherBound + 1
+	end
+	if self.spitter.outOfAmmoFlag == false and self.spitter.activeReloadCursorXPos >= self.activeReloadLowerBound and self.spitter.activeReloadCursorXPos <= self.activeReloadHigherBound and love.keyboard.isDown("space") and player.inShell == false then
 		sfxActiveReloadSuccess:play()
 		self.portraitAnim:setState("activeReloadSuccess")
 
@@ -280,17 +273,28 @@ function Player:keyPressed(key)
 end
 
 function Player:keyReleased(key)
+	--[[
 	if key == "space" and self.weaponEquipped["fireBreath"].equipped == true and player.inShell == false then
 		self.fireBreath.flameAnim:setState("stop")
 		self.fireBreath:changeBreathState(false)
 		--print("flames should stop")
 	end
+	]]
 end
 
 function Player:update(dt)
 	--renown damage - item 30
 	if self.item30Flag == true then
 		self.dmg = self.baseDmg + (score/100)
+	end
+
+	--fireBreath
+	if self.onFire == true then
+		self.fireBreath:triggerPull()
+		self.anim:setState("shoot")
+	else
+		self.fireBreath.flameAnim:setState("stop")
+		self.fireBreath:changeBreathState(false)
 	end
 
 	--update clock
@@ -305,6 +309,7 @@ function Player:update(dt)
 	self.portraitAnim:update(dt)
 
 	--fire breath (here bc you hold down a key)
+	--[[
 	if self.weaponEquipped["fireBreath"].equipped == true and player.inShell == false and player.fireBreath.overheatFlag == false then
 		if love.keyboard.isDown("space") then
 		--print("firebreath triggered")
@@ -315,6 +320,7 @@ function Player:update(dt)
 			self.fireBreath:changeBreathState(false)
 		end
 	end
+	]]
 	
 
 
@@ -393,12 +399,22 @@ function Player:draw()
 	--draw health
     self.healthAnim:draw()
 
+	--draw stats on ui
+	love.graphics.setFont(pixelPurlFont)
+	love.graphics.print({colorPalette.fauxWhite,player.dmg},75,10)
+	love.graphics.print({colorPalette.fauxWhite,player.rad},75,24)
+	love.graphics.print({colorPalette.fauxWhite,player.baseSpd},75,38)
+	love.graphics.print({colorPalette.fauxWhite,player.pspd},75,52)
+	love.graphics.setFont(font) --resets font
+
+
     --draw weapon associated graphics under mango
 	if self.weaponEquipped["spitter"].equipped == true then
 		self.spitter:draw()
 	elseif self.weaponEquipped["ironTail"].equipped == true then
     	self.ironTail:draw()
-	elseif self.weaponEquipped["fireBreath"].equipped == true then
+	end
+	if self.onFire == true then
 		self.fireBreath:draw()
 	end
 end

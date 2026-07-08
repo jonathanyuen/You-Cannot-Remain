@@ -7,6 +7,7 @@ Timer = require "timer"
 require "weapon"
 require "player"
 require "ant"
+require "falcon"
 require "ironTail"
 require "spit"
 require "animation"
@@ -22,7 +23,10 @@ local button = require "Button"
 local gameWidth, gameHeight = 320,180
 local windowWidth, windowHeight = love.window.getDesktopDimensions()
 
-game_is_frozen = false
+gameIsFrozen = false
+
+--merchant transition in play variable
+merchantTransitionIsPlaying = false
 
 collisionInstance = 0
 
@@ -60,10 +64,14 @@ local buttons = {
 
 
 
-function freeze_game(secs)
-    game_is_frozen = true
+function freezeGame(secs)
+    gameIsFrozen = true
     Timer.after(secs, function()
-        game_is_frozen = false
+        gameIsFrozen = false
+        print("game unfrozen")
+        if merchantTransitionIsPlaying == true then
+            merchantTransitionIsPlaying = false
+        end
     end)
 end
 
@@ -75,8 +83,10 @@ function startMerchant()
     game.state["ended"] = false
     game.state["merchant"] = true
     --freeze game to reduce spam affecting shop
-    freeze_game(1)
-    menuCursorAnim:setPosition(merchant.selectedMerchantButton.button_x-1, merchant.selectedMerchantButton.button_y+3)
+    freezeGame(3)
+    merchantTransitionIsPlaying = true
+    merchantTransitionAnim:setState("default")
+    menuCursorAnim:setPosition(10-1, 19+3)
     merchant:openShop()
 end
 
@@ -226,6 +236,8 @@ function love.load()
     sfxFireBreathLoop:setLooping(true)
     sfxFireBreathEnd = love.audio.newSource("/sound/sfx/firebreath-end.wav","static")
     sfxFireBreathEnd:setVolume(.2)
+    sfx_kaching = love.audio.newSource("/sound/sfx/roblox-cash-register.mp3","static")
+    sfx_broke = love.audio.newSource("/sound/sfx/too-broke.wav","static")
 
 
 
@@ -254,6 +266,10 @@ function love.load()
     --death screen animation setup
     deathScreenAnim = LoveAnimation.new("deathScreenAnimations.lua")
     deathScreenAnim:setPosition(0,0)
+
+    --merchant transition setup
+    merchantTransitionAnim = LoveAnimation.new("merchant_transition_animation.lua")
+    merchantTransitionAnim:setPosition(0,0)
 
     
 
@@ -343,7 +359,7 @@ end
 
 
 function love.keypressed(key)
-    if game_is_frozen == false then
+    if gameIsFrozen == false then
         if game.state["running"] then
         --what happens when you press pause
             if love.keyboard.isDown("p") == true or love.keyboard.isDown("escape") == true then
@@ -544,7 +560,7 @@ function love.keypressed(key)
 end
 
 function love.update(dt)
-    if game_is_frozen == false then
+    if gameIsFrozen == false then
         --merchant
         if game.state["merchant"] == true then
             menuCursorAnim:update(dt)
@@ -655,6 +671,8 @@ function love.update(dt)
         end
         
         
+    else
+        merchantTransitionAnim:update(dt)
     end
     Timer.update(dt)
 end
@@ -669,6 +687,10 @@ function love.draw()
     --if game.state is merchant
     if game.state["merchant"] then
         merchant:draw()
+
+        if merchantTransitionIsPlaying == true then
+            merchantTransitionAnim:draw()
+        end
     end
 
     --if game.state is menu
@@ -693,10 +715,10 @@ function love.draw()
         spdStatUpChevronAnim:draw()
         pspdStatUpChevronAnim:draw()
 
-        dmgStatLevelAnim:draw()
-        radStatLevelAnim:draw()
-        spdStatLevelAnim:draw()
-        pspdStatLevelAnim:draw()
+        --dmgStatLevelAnim:draw()
+        --radStatLevelAnim:draw()
+        --spdStatLevelAnim:draw()
+        --pspdStatLevelAnim:draw()
         -----weapon drawing
         if player.weaponEquipped["spitter"].equipped == true then
             love.graphics.draw(spitImage,18,70)

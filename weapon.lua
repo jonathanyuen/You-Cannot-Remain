@@ -21,6 +21,8 @@ function Weapon:new()
     self.reloadInstance = 0
     self.activeReloadTimer = 0
     self.activeReloadInstance = 0
+    self.fireRate = .5
+    self.onCooldown = false
 
     --colored text for temp active reload timer
     self.coloredText = {{184/255,181/255, 185/255},self.activeReloadTimer}
@@ -54,9 +56,17 @@ does the calculations of whether or not a projectile is *fired*
 
 ]]
 function Weapon:triggerPull()
-    if self.outOfAmmoFlag == false then
+    if self.outOfAmmoFlag == false and self.onCooldown == false then
         if self.clip > 0 and self.reloadComplete == true and self.reloadInstance == 0 and self.activeReloadInstance == 0 then
             sfxSpit:clone():play()
+            self.onCooldown = true
+            Timer.after(self.fireRate, function ()
+                self.onCooldown = false
+            end)
+            if player.item59Flag == true then
+                self:fireBullet()
+                self:fireBullet()
+            end
             self:fireBullet()
         elseif self.clip <= 0 then
             self:reload()
@@ -112,19 +122,34 @@ function Weapon:fireBullet()
             table.insert(listOfSpitBullets, Spit(player.x+5, player.y))
         end
         self.clip = self.clip - 1
-        if player.fireBreath.temp >= 1 then
-            player.fireBreath.temp = player.fireBreath.temp - .5
-        else
-            player.fireBreath.temp = 0
-        end
+        
     elseif self.activeReloadSuccessFlag == 1 then
         if player.item40Flag == true then
-            table.insert(listOfSpitBullets, Spit(player.x+9, player.y))
-            table.insert(listOfSpitBullets, Spit(player.x+6, player.y))
-            table.insert(listOfSpitBullets, Spit(player.x+3, player.y))
+            if player.item62Flag == true then
+                table.insert(listOfSpitBullets, Spit(player.x+9, player.y))
+                listOfSpitBullets[#listOfSpitBullets].direction = -1 
+                table.insert(listOfSpitBullets, Spit(player.x+6, player.y))
+
+                table.insert(listOfSpitBullets, Spit(player.x+3, player.y))
+                listOfSpitBullets[#listOfSpitBullets].direction = 1 
+            else
+                table.insert(listOfSpitBullets, Spit(player.x+9, player.y))
+                table.insert(listOfSpitBullets, Spit(player.x+6, player.y))
+                table.insert(listOfSpitBullets, Spit(player.x+3, player.y))
+            end
         else
-            table.insert(listOfSpitBullets, Spit(player.x+7, player.y))
-            table.insert(listOfSpitBullets, Spit(player.x+3, player.y))
+            if player.item62Flag == true then
+                table.insert(listOfSpitBullets, Spit(player.x+7, player.y))
+                listOfSpitBullets[#listOfSpitBullets].direction = -1 
+
+                table.insert(listOfSpitBullets, Spit(player.x+3, player.y))
+                listOfSpitBullets[#listOfSpitBullets].direction = 1 
+
+            else
+                table.insert(listOfSpitBullets, Spit(player.x+7, player.y))
+                table.insert(listOfSpitBullets, Spit(player.x+3, player.y))
+            end
+            
         end
         
         self.clip = self.clip - 1
@@ -135,7 +160,16 @@ end
 --checks if out of ammo and sets a flag to true
 function Weapon:outOfAmmo()
     if self.clip == 0 and self.ammoLeft == 0 then
-        self.outOfAmmoFlag = true
+        if player.item64Flag == true then
+            if scoreboard.score >= 480 then
+                self.ammoLeft = 24
+                scoreboard.score = scoreboard.score - 480
+            else
+                self.outOfAmmoFlag = true
+            end
+        else
+            self.outOfAmmoFlag = true
+        end
     else
         self.outOfAmmoFlag = false
     end
@@ -171,7 +205,13 @@ function Weapon:draw()
 
         --draw active reload range
         love.graphics.setColor(self.activeReloadActiveZoneColor)
-        love.graphics.rectangle("fill", player.x+6, player.y+18, self.activeReloadActiveZoneWidth, self.activeReloadBarHeight)
+        if player.item53Flag == true then
+            self.activeReloadActiveZoneWidth = self.activeReloadActiveZoneWidth + 2
+            love.graphics.rectangle("fill", player.x+5, player.y+18, self.activeReloadActiveZoneWidth, self.activeReloadBarHeight)
+        else
+            love.graphics.rectangle("fill", player.x+6, player.y+18, self.activeReloadActiveZoneWidth, self.activeReloadBarHeight)
+
+        end
         --have to reset color or shades get weird!!!
         love.graphics.setColor(1,1,1)
 

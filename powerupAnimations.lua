@@ -97,6 +97,24 @@ return {
 			frameH = 24,
 			nextState = "rad",
 			switchDelay = 0.25
+		},
+		fireBreath = { -- the name of the state is arbitrary
+			frameCount = 2,
+			offsetX = 0,
+			offsetY = 24*4,
+			frameW = 20,
+			frameH = 24,
+			nextState = "fireBreath",
+			switchDelay = 0.25
+		},
+		ammo = { -- the name of the state is arbitrary
+			frameCount = 2,
+			offsetX = 0,
+			offsetY = 24*5,
+			frameW = 20,
+			frameH = 24,
+			nextState = "ammo",
+			switchDelay = 0.25
 		}
 	}
 }

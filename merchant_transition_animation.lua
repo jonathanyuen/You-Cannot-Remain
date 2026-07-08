@@ -58,23 +58,13 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 -- the return statement is mandatory
 return {
-	imageSrc = "sprites/blind-box-opening.png",
-	defaultState = "rumbling",
+	imageSrc = "sprites/transition-to-shop.png",
+	defaultState = "default",
 	states = {
-		-- 1st line
-		rumbling = { -- the name of the state is arbitrary
-			frameCount = 5,
+		default = { -- the name of the state is arbitrary
+			frameCount = 42,
 			offsetX = 0,
 			offsetY = 0,
-			frameW = 320,
-			frameH = 180,
-			switchDelay = 0.1,
-			nextState = "reveal"
-		},
-		reveal = { -- the name of the state is arbitrary
-			frameCount = 7,
-			offsetX = 0,
-			offsetY = 180,
 			frameW = 320,
 			frameH = 180,
 			switchDelay = 0.1
