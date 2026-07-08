@@ -4,7 +4,7 @@ function Ant:new(lvl,spawnX,spawnY)
 	--coordinates/attributes
 	self.x = spawnX
 	self.y = spawnY
-	self.speed = 4+(.25*lvl)
+	self.speed = 5+(.15*lvl)
 	if player.item32Flag == true then
 		self.speed = self.speed*.7
 	end
@@ -46,7 +46,7 @@ function Ant:takeDmg(dmgNum,type)
 		end)
 	elseif type == "tail" then
 		if dmgNum >= self.health then
-			if self.item16Flag == true then
+			if player.item16Flag == true then
 				scoreboard:updateTicker("Tail Kill Bonus", 10)
 			end
 			
@@ -83,7 +83,9 @@ function Ant:takeDmg(dmgNum,type)
 
 	--health reduction
 	self.health = self.health - dmgNum
-
+	if player.item49Flag == true then
+		self.y = self.y-2 --enemy gets knocked back
+	end
 	
 end
 
@@ -117,6 +119,9 @@ function Ant:collisionWithMango()
         collisionInstance = collisionInstance + 1
         print(collisionInstance)
         player:getHit()
+		if player.item57Flag == true then
+			self:takeDmg(player.baseDmg, "thorns")
+		end
         Timer.after(3,function() 
         	collisionInstance = 0 
     	end)
@@ -155,7 +160,7 @@ function Ant:update(dt)
 		self.y = -1000
 		self.newlyDead = false
 		mastermind.enemyKillCount = mastermind.enemyKillCount+1
-		scoring.counterAntsKilled = scoring.counterAntsKilled + 50
+		scoring.counterAntsKilled = scoring.counterAntsKilled + 1
 		scoreboard:updateTicker("Enemy slain", self.deathValue)
 		mastermind:killCheck()
 
@@ -173,7 +178,7 @@ function Ant:draw()
 	self.anim:setPosition(self.x,self.y)
 	if self:isDead() == false then
 		self.anim:draw()
-		love.graphics.print(self.health,self.x+8, self.y+16)
+		--love.graphics.print(self.health,self.x+8, self.y+16)
 	end
 
 	--dead, play death animation, whatever it may be

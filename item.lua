@@ -8,6 +8,7 @@ function Item:new(id, name, effect, desc, rarity)
 	self.desc = desc
 	self.rarity = rarity
 	self.proficiency = 0
+	self.resolved = false
 end
 
 function Item:draw()

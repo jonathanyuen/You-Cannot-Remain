@@ -8,7 +8,7 @@ function IronTail:new()
     self.hitstun = 1.2
  
     self.damage = 1
-    self.fireRate = 1.5
+    self.fireRate = 1
     self.swinging = false
 
     self.hitboxExtensionVert = 0
@@ -48,7 +48,7 @@ function IronTail:smackTail()
         and enemy_bottom > hbox_top
         and enemy_top < hbox_bottom then
             self:damageCalc(i,v)
-            freeze_game(.25)
+            Timer.after(.1,function() freezeGame(.2) end)
         end
     end
 
@@ -64,7 +64,7 @@ function IronTail:smackTail()
         and enemy_bottom > hbox_top
         and enemy_top < hbox_bottom then
             v:takeDmg(10000)
-            freeze_game(.1)
+            freezeGame(.1)
             player.spitter.ammoLeft = player.spitter.ammoLeft + 16
         end
     end

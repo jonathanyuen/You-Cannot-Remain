@@ -28,6 +28,10 @@ function Powerup:new(spawnX,spawnY,type,hp)
 		self.anim:setState("dmg")
 	elseif self.type == "rad" then
 		self.anim:setState("rad")
+	elseif self.type == "fireBreath" then
+		self.anim:setState("fireBreath")
+	elseif self.type == "ammo" then
+		self.anim:setState("ammo")
 	end
 
 	-- probably needs a new death animation...
@@ -86,6 +90,14 @@ function Powerup:update(dt)
 			player:statUp("dmg",1)
 		elseif self.type == "rad" then
 			player:statUp("rad",1)
+		elseif self.type == "ammo" then
+			player.spitter.ammoLeft = player.spitter.ammoLeft + 4
+		elseif self.type == "fireBreath" then
+			-- fireBreath as a powerup!
+			player.onFire = true
+			Timer.after(player.onFireDuration, function ()
+				player.onFire = false
+			end)
 		end
 
 		--dead so update score
