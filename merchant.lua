@@ -180,47 +180,26 @@ end
 --determines cost of items through parsing rarity strings and giving them values
 function Merchant:getItemCost(item)
 	if item.rarity == "everyday" then
+		print("item rarity: everyday")
 		return math.random(350,700)
 	elseif item.rarity == "odd" then
+		print("item rarity: odd")
 		return math.random(750,1000)
 	elseif item.rarity == "remarkable" then
+		print("item rarity: remarkable")
 		return math.random(1500,2500)
 	elseif item.rarity == "aberrant" then
+		print("item rarity: aberrant")
 		return math.random(2500,3500)
 	end
 end
 
 function Merchant:rollItem()
-	local everydayPctg = 50 - (3*mastermind.level)
-	local oddPctg = 30 + mastermind.level
-	local remarkablePctg = 15 + mastermind.level
-	local aberrantPctg = 5 + mastermind.level
-
-	local randomNum = math.random(1,100)
-	local returnValue = 1
-	
-	if randomNum <= everydayPctg then
-		returnValue = math.random(1,22)
-	elseif randomNum <= everydayPctg + oddPctg then
-		returnValue = math.random(23,30)
-	elseif randomNum <= everydayPctg + oddPctg + remarkablePctg then
-		returnValue = math.random(31,39)
-	elseif randomNum <= everydayPctg + oddPctg + remarkablePctg + aberrantPctg then
-		returnValue = 40
-	end
+	returnValue = math.random(1,65)
 
 	-- TODO: recursive script? or a while loop that keeps rolling if item was already purchased... use isDupe()
 	while self:isDupe(returnValue) == true or returnValue == 52 or returnValue == 61 or returnValue == 63 do
-		randomNum = math.random(1,100)
-		if randomNum <= everydayPctg then
-			returnValue = math.random(1,22)
-		elseif randomNum <= everydayPctg + oddPctg then
-			returnValue = math.random(23,30)
-		elseif randomNum <= everydayPctg + oddPctg + remarkablePctg then
-			returnValue = math.random(31,39)
-		elseif randomNum <= everydayPctg + oddPctg + remarkablePctg + aberrantPctg then
-			returnValue = 40
-		end
+		returnValue = math.random(1,65)
 	end
 
 	return returnValue

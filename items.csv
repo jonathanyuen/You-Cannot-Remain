@@ -21,6 +21,18 @@ id,name,effect,description text,rarity,implemented?
 20,BACKED UP,clip size -1 & damage up 2,tbd,everyday,y
 21,SLOWDOWN,pspd -1 & rad +1,tbd,everyday,y
 22,FAST HANDS,reload speed increased,tbd,everyday,y
+41,PRIME RIB,hp up at the cost of firerate,tbd,everyday,y
+42,CLAM CHOWDER,hp up at the cost of speed,tbd,everyday,y
+43,CHICKEN SANDWICH,hp up at the cost of damage,tbd,everyday,y
+44,BOK CHOY,fire rate up,tbd,everyday,y
+47,BULGOGI,fire rate down,tbd,everyday,y
+48,CHAR SIU,fire rate severely down,tbd,everyday,y
+49,HORSEPOWER,adds knockback to your weapons,tbd,everyday,y
+51,COUPON,one item in next shop is free,tbd,everyday,y
+52,BOGO,buy one get one free,tbd,everyday,bypass
+53,ROOSTER HAT,active reload is easier,tbd,everyday,y
+54,SECRET MANUAL,clip size +1,tbd,everyday,y
+55,CANNONBALL,spit comes out like a cannonball,tbd,everyday,y
 23,4TH DIMENSIONAL CHARM,infinite clip but slower firerate,tbd,odd,y
 24,TOMATO,hp up 3,tbd,odd,y
 25,PAID AD,gives 2000 renown,tbd,odd,y
@@ -29,6 +41,12 @@ id,name,effect,description text,rarity,implemented?
 28,CHEWING GUM,pspd up2,tbd,odd,y
 29,VITAMINS,rad up 2,tbd,odd,y
 30,PRESS RELEASE,increases damage based on renown - 5 renown = 1 dmg,tbd,odd,y
+45,KIMCHI,fire rate up up,tbd,odd,y
+46,TTEOKBOKKI,fire rate up up up,tbd,odd,y
+56,GHOST FLU,spit passes through enemies,tbd,odd,y
+57,THORNS,enemies get damaged on contact with you,tbd,odd,y
+58,LEGEND OF THE HAWK,every time you swap weapons you do a flip and gain renown,tbd,odd,y
+59,FAMAS,burst fire spit,tbd,odd,y
 31,EXTENDED MAG,all ammo based weapons have +2 clip size,tbd,remarkable,y
 32,STOPWATCH,everyone moves 30% slower,tbd,remarkable,y
 33,GOOD DEED,add 5000 Renown,tbd,remarkable,y
@@ -38,29 +56,11 @@ id,name,effect,description text,rarity,implemented?
 37,RESEARCH,pspd up 3,tbd,remarkable,y
 38,ISOTOPE,rad up 3,tbd,remarkable,y
 39,CENTURY EGG,all stats up,Some say this egg is over a hundred years old.,remarkable,y
+50,GAS,adds more firebreath power ups,tbd,remarkable,y
+60,NO SHIRT NO SHOES,next shop is unavailable,tbd,remarkable,y
+61,REWARDS CARD,blind boxes stay the same price and never go up,tbd,remarkable,bypass
+62,VUVUZUELA,spit shoots out in a cone,tbd,remarkable,y
+63,HIGH ROLLER SHADES,first blind box is always free,tbd,aberrant,bypass
+64,CHOCOLATE COIN,spit uses renown when you have no ammo,tbd,aberrant,y
+65,TOMBSTONE,mango no longer collides with enemies,tbd,aberrant,y
 40,WATER JUG,adds an additional stream of spit for spitter,tbd,aberrant,y
-41,PRIME RIB,hp up at the cost of firerate,,everyday,y
-42,CLAM CHOWDER,hp up at the cost of speed,,everyday,y
-43,CHICKEN SANDWICH,hp up at the cost of damage,,everyday,y
-44,BOK CHOY,fire rate up,,everyday,y
-45,KIMCHI,fire rate up up,,odd,y
-46,TTEOKBOKKI,fire rate up up up,,odd,y
-47,BULGOGI,fire rate down,,everyday,y
-48,CHAR SIU,fire rate severely down,,everyday,y
-49,HORSEPOWER,adds knockback to your weapons,,everyday,y
-50,GAS,adds more firebreath power ups,,remarkable,y
-51,COUPON,one item in next shop is free,,everyday,y
-52,BOGO,buy one get one free,,everyday,bypass
-53,ROOSTER HAT,active reload is easier,,everyday,y
-54,SECRET MANUAL,clip size +1,,everyday,y
-55,CANNONBALL,spit comes out like a cannonball,,everyday,y
-56,GHOST FLU,spit passes through enemies,,odd,y
-57,THORNS,enemies get damaged on contact with you,,odd,y
-58,LEGEND OF THE HAWK,every time you swap weapons you do a flip and gain renown,,odd,y
-59,FAMAS,burst fire spit,,odd,y
-60,NO SHIRT NO SHOES,next shop is unavailable,,remarkable,y
-61,REWARDS CARD,blind boxes stay the same price and never go up,,remarkable,bypass
-62,VUVUZUELA,spit shoots out in a cone,,remarkable,y
-63,HIGH ROLLER SHADES,first blind box is always free,,aberrant,bypass
-64,CHOCOLATE COIN,spit uses renown when you have no ammo,,aberrant,y
-65,TOMBSTONE,mango no longer collides with enemies,,aberrant,y
