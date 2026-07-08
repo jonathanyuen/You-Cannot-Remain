@@ -50,6 +50,25 @@ function Mastermind:nextLevel(lvl)
 	end
 	-- power up spawns
 	for i = 0,lvl do
+		if player.item50Flag == true then
+			local rngType = math.random(1,8)
+			if rngType == 1 then
+				rngType = "pspd"
+			elseif rngType == 2 then
+				rngType = "spd"
+			elseif rngType == 3 then
+				rngType = "dmg"
+			elseif rngType == 4 then
+				rngType = "rad"
+			elseif rngType == 5 then
+				rngType = "ammo"
+			elseif rngType >= 6 then
+				rngType = "fireBreath"
+			end
+
+			table.insert(listOfPowerups,Powerup(math.random(120,200),0-(30*i),rngType,math.random(1*self.level+1,5*(self.level+1))))
+		
+		else
 			local rngType = math.random(1,6)
 			if rngType == 1 then
 				rngType = "pspd"
@@ -66,6 +85,8 @@ function Mastermind:nextLevel(lvl)
 			end
 
 			table.insert(listOfPowerups,Powerup(math.random(120,200),0-(30*i),rngType,math.random(1*self.level+1,5*(self.level+1))))
+		end
+			
 	end
 end
 

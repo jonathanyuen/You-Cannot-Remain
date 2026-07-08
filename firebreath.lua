@@ -102,15 +102,15 @@ end
 
 function FireBreath:update(dt)
     --sound playing (please work)
-    if self.prevBreathingState == false and self.currBreathingState == false and self.overheatFlag == false then
+    if self.prevBreathingState == false and self.currBreathingState == false then
         sfxFireBreathLoop:stop()
         sfxFireBreathStart:stop()
-    elseif self.prevBreathingState == false and self.currBreathingState == true and self.overheatFlag == false then
+    elseif self.prevBreathingState == false and self.currBreathingState == true then
         sfxFireBreathStart:play()
         Timer.after(3, function()
             sfxFireBreathLoop:play()
         end)
-    elseif self.prevBreathingState == true and self.currBreathingState == false and self.overheatFlag == false then
+    elseif self.prevBreathingState == true and self.currBreathingState == false then
         sfxFireBreathLoop:stop()
         sfxFireBreathEnd:play()
         self.flameAnim:setState("stop")

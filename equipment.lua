@@ -298,10 +298,10 @@ function Equipment:updateMango()
 				player.item49Flag = true
 			elseif v.id == 50 then
 				--TODO firebreath power up occurrence increases
+				player.item50Flag = true
 			elseif v.id == 51 then
 				--one item in next shop is freeee
-			elseif v.id == 52 then
-				--next shop, buy one get one free
+				player.item51Flag = true
 			elseif v.id == 53 then
 				--active reload is easier
 				player.item53Flag = true
@@ -317,7 +317,7 @@ function Equipment:updateMango()
 			elseif v.id == 57 then
 				player.item57Flag = true
 			elseif v.id == 58 then
-
+				player.item58Flag = true
 			elseif v.id == 59 then
 				player.item59Flag = true
 

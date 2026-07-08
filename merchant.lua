@@ -7,18 +7,18 @@ equipment = Equipment()
 local button = require "Button"
 
 purchasingFlag = 0
-local blindBoxPurchaseCounter = 0
+--local blindBoxPurchaseCounter = 0
 
 confirmationCursorAnim = LoveAnimation.new("menuCursorAnimations.lua")
 confirmationCursorAnim:setPosition(140, 145)
 
 --backdrop for merchant
 local merchantBackground = love.graphics.newImage("/sprites/merchant-bg.png")
-local blindBoxCardBackground = love.graphics.newImage("/sprites/blind-box-card.png")
+--local blindBoxCardBackground = love.graphics.newImage("/sprites/blind-box-card.png")
 local itemCardBackground = love.graphics.newImage("/sprites/item-card.png")
-local blindBoxIdle = love.graphics.newImage("/sprites/blind-box-idle.png")
-local blindBoxRevealAnim = LoveAnimation.new("blindBoxAnimations.lua")
-blindBoxRevealAnim:setPosition(0,0)
+--local blindBoxIdle = love.graphics.newImage("/sprites/blind-box-idle.png")
+--local blindBoxRevealAnim = LoveAnimation.new("blindBoxAnimations.lua")
+--blindBoxRevealAnim:setPosition(0,0)
 
 
 
@@ -77,7 +77,7 @@ local function purchaseDecision(decision)
 					--can't afford dialogue pops up and denied SFX plays
 					sfx_broke:clone():play()
 				end
-			elseif purchasingFlag == 4 then
+			--[[elseif purchasingFlag == 4 then
 				if score >= merchant.blindBoxCost then
 					equipment:addItem(merchant.blindBox.id)
 					score = score - merchant.blindBoxCost
@@ -86,7 +86,7 @@ local function purchaseDecision(decision)
 				else
 					--can't afford dialogue pops up and denied SFX plays
 					sfx_broke:clone():play()
-				end
+				end]]
 			end
 			purchasingFlag = 0
 			print("purchase decision triggered")
@@ -102,8 +102,7 @@ function Merchant:new()
     self.buttons[1] = button("ITEM 1", optionSelect, 1, 50,13)
     self.buttons[2] = button("ITEM 2", optionSelect, 2, 50,13)
     self.buttons[3] = button("ITEM 3", optionSelect, 3, 50,13)
-    self.buttons[4]= button("BLIND BOX", optionSelect, 4, 50,13)
-    self.buttons[5] = button("EXIT SHOP", endMerchant, nil, 50,13)
+    self.buttons[4] = button("EXIT SHOP", endMerchant, nil, 50,13)
 
 	self.decisionButtons.yes = button("YES", purchaseDecision, 1 , 20, 13)
 	self.decisionButtons.no = button("NO", purchaseDecision, 0, 20,13)
@@ -121,13 +120,11 @@ function Merchant:new()
 	self.item1 = nil
 	self.item2 = nil
 	self.item3 = nil
-	self.blindBox = nil
 
 	--costs for the items
 	self.item1Cost = 0
 	self.item2Cost = 0
 	self.item3Cost = 0
-	self.blindBoxCost = 0
 	self.extraEggCost = 0
 	
 	
@@ -149,23 +146,26 @@ function Merchant:openShop()
 	local item1Num = self:rollItem()
 	local item2Num = self:rollItem()
 	local item3Num = self:rollItem()
-	local blindBoxNum = self:rollItem()
-	item1Num = self:makeItemUnique(item1Num,item2Num,item3Num,blindBoxNum)
-	item2Num = self:makeItemUnique(item2Num, item1Num, item3Num, blindBoxNum)
-	item3Num = self:makeItemUnique(item3Num, blindBoxNum, item1Num, item2Num)
-	blindBoxNum = self:makeItemUnique(blindBoxNum, item1Num, item2Num, item3Num)
+	item1Num = self:makeItemUnique(item1Num,item2Num,item3Num)
+	item2Num = self:makeItemUnique(item2Num, item1Num, item3Num)
+	item3Num = self:makeItemUnique(item3Num, item1Num, item2Num)
 
 	--set the shop items
 	self.item1 = equipment:returnItem(item1Num)
 	self.item2 = equipment:returnItem(item2Num)
 	self.item3 = equipment:returnItem(item3Num)
-	self.blindBox = equipment:returnItem(blindBoxNum)
 
 	--determine cost of items
+	
 	self.item1Cost = self:getItemCost(self.item1)
+
+	--Item 51 (free shop item)
+	if player.item51Flag == true then
+		self.item1Cost = 0
+	end
+	
 	self.item2Cost = self:getItemCost(self.item2)
 	self.item3Cost = self:getItemCost(self.item3)
-	self.blindBoxCost = 100 * (1 + blindBoxPurchaseCounter)
 
 	--reset buttons
 	self.buttons[1] = button("ITEM 1", optionSelect, 1, 50,13)
@@ -210,7 +210,7 @@ function Merchant:rollItem()
 	end
 
 	-- TODO: recursive script? or a while loop that keeps rolling if item was already purchased... use isDupe()
-	 while self:isDupe(returnValue) == true do
+	while self:isDupe(returnValue) == true or returnValue == 52 or returnValue == 61 or returnValue == 63 do
 		randomNum = math.random(1,100)
 		if randomNum <= everydayPctg then
 			returnValue = math.random(1,22)
@@ -221,9 +221,9 @@ function Merchant:rollItem()
 		elseif randomNum <= everydayPctg + oddPctg + remarkablePctg + aberrantPctg then
 			returnValue = 40
 		end
-	 end
+	end
 
-	 return returnValue
+	return returnValue
 end
 
 -- checks if an item has already been bought by player. Boolean. Used to assist in rollItem() method
@@ -232,16 +232,19 @@ function Merchant:isDupe(targetItem)
 	for i,v in ipairs(equipment.equippedItemList) do
 		if d == v.id then
 			itemAlreadyBought = true -- breaks loop if its a dupe!
-			break
+			print("dupe detected")
+			return itemAlreadyBought
 		end
 	end
+	print("dupe not detected")
 	return itemAlreadyBought --returns Boolean
+	
 end
 
 -- makes all the items in the shop unique, so there aren't two of the same item
-function Merchant:makeItemUnique(d,e,f,g)
+function Merchant:makeItemUnique(d,e,f)
 
-	while d == e or d == f or d == g do
+	while d == e or d == f do
 		d = self:rollItem()
 	end
 	return d
@@ -259,7 +262,6 @@ function Merchant:draw()
 	self.buttons[2]:draw(10, 129, 0, 0)
 	self.buttons[3]:draw(10, 139, 0, 0)
 	self.buttons[4]:draw(10, 149, 0, 0)
-	self.buttons[5]:draw(10, 159, 0, 0)
 	menuCursorAnim:draw()
 
 	--display depending on what is selected
@@ -302,17 +304,7 @@ function Merchant:draw()
 			self.decisionButtons.no:draw(170, 140, 0, 0)
 			self.decisionButtons.yes:draw(140, 140, 0, 0)
 		end
-	elseif self.selectedMerchantButton == self.buttons[4] then
-		--display blind box background!
-		love.graphics.draw(blindBoxCardBackground, 123, 8)
-
-		--display blind box
-		love.graphics.draw(blindBoxIdle,0,0)
-
-		--display writing
-		love.graphics.printf({colorPalette.fauxWhite, "Unknown glyphs cover the top of the box's wrapping."},136,23,66,'center')
-
-		--
+	
 	elseif self.selectedMerchantButton == self.buttons[5] then
 		--health!
 	end

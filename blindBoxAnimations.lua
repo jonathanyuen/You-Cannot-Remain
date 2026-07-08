@@ -68,7 +68,8 @@ return {
 			offsetY = 0,
 			frameW = 320,
 			frameH = 180,
-			switchDelay = 0.1
+			switchDelay = 0.1,
+			nextState = "reveal"
 		},
 		reveal = { -- the name of the state is arbitrary
 			frameCount = 7,

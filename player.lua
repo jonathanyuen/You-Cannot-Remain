@@ -102,6 +102,12 @@ function Player:new()
 	self.item64Flag = false
 	--go through enemies
 	self.item56Flag = false
+	--more flamethrower occurrences
+	self.item50Flag = false
+	--free item in shop
+	self.item51Flag = false
+	--renown on weapon swap
+	self.item58Flag = false
 end
 
 
@@ -114,6 +120,10 @@ function Player:cycleWeapon()
 		self.weaponEquipped["spitter"].equipped = true
 		self.weaponEquipped["ironTail"].equipped = false
 		--self.weaponEquipped["fireBreath"].equipped = true
+	end
+	--weaponswaps -> renown gain
+	if self.item58Flag == true then
+		scoreboard:updateTicker("Legend of the Hawk", 1)
 	end
 end
 

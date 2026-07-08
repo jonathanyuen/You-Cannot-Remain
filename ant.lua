@@ -46,7 +46,7 @@ function Ant:takeDmg(dmgNum,type)
 		end)
 	elseif type == "tail" then
 		if dmgNum >= self.health then
-			if self.item16Flag == true then
+			if player.item16Flag == true then
 				scoreboard:updateTicker("Tail Kill Bonus", 10)
 			end
 			
