@@ -106,6 +106,15 @@ return {
 			frameH = 20, -- the frame height can change between states
 			nextState = "idle", 
 			switchDelay = 0.1
+		},
+		fireBreathing = {
+			frameCount = 1,
+			offsetX = 0,
+			offsetY = 100,
+			frameW = 20,
+			frameH = 20, -- the frame height can change between states
+			nextState = "idle",
+			switchDelay = 0.1
 		}
 	}
 }

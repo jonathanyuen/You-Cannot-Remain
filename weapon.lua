@@ -63,16 +63,22 @@ function Weapon:triggerPull()
             Timer.after(self.fireRate, function ()
                 self.onCooldown = false
             end)
-            if player.item59Flag == true then
-                self:fireBullet()
-                Timer.after(.5, function()
+            
+            self:fireBullet()
+
+            if player.item59Flag == true and self.clip > 3 then
+                Timer.after(.1, function()
                     self:fireBullet()
                 end)
-                Timer.after(.5, function()
+                Timer.after(.1, function()
+                    self:fireBullet()
+                end)
+            elseif player.item59Flag == true and self.clip == 2 then
+                Timer.after(.1, function()
                     self:fireBullet()
                 end)
             end
-            self:fireBullet()
+
         elseif self.clip <= 0 then
             self:reload()
         end

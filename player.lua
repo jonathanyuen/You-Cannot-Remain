@@ -286,7 +286,7 @@ function Player:update(dt)
 	--fireBreath
 	if self.onFire == true then
 		self.fireBreath:triggerPull()
-		self.anim:setState("shoot")
+		self.anim:setState("fireBreathing")
 	else
 		self.fireBreath.flameAnim:setState("stop")
 		self.fireBreath:changeBreathState(false)
