@@ -9,7 +9,7 @@ function Spit:new(x,y)
     self.width = 1+ player.rad
     self.height = 1+player.rad
     self.rad = 1+player.rad
-    self.tiltAngle = 0.05
+    self.tiltAngle = 10
     self.direction = 0 --spit can be -1, 0, or 1 - helps define if its a left, middle, or right spit for cone firing!
 end
 
@@ -18,10 +18,10 @@ function Spit:update(dt)
         self.y = self.y - self.speed * dt
     elseif self.direction == -1 then
         self.y = self.y - self.speed * dt
-        self.x = (self.x - self.tiltAngle) * dt
+        self.x = self.x - (self.tiltAngle * dt)
     elseif self.direction == 1 then
         self.y = self.y - self.speed * dt
-        self.x = (self.x + self.tiltAngle) * dt
+        self.x = self.x + (self.tiltAngle * dt)
     end
 end
 
@@ -44,7 +44,7 @@ function Spit:checkCollision(obj)
 
         --get rid of spit bullet
         if player.item56Flag == true then
-            Timer.after(6, function ()
+            Timer.after(1, function ()
                 self.dead = true
             end)
         else

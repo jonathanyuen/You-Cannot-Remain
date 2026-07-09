@@ -269,11 +269,13 @@ function Equipment:updateMango()
 			elseif v.id == 41 then
 				player.health = player.health + 3
 				player.spitter.fireRate = player.spitter.fireRate - .1
+				v.resolved = true
 
 			elseif v.id == 42 then
 				player.health = player.health + 3
 				player.speed = player.speed - 10
 				player.baseSpd = player.baseSpd - 10
+				v.resolved = true
 
 			elseif v.id == 43 then
 				player.health = player.health + 3
@@ -284,58 +286,78 @@ function Equipment:updateMango()
 					player.dmg = 0
 					player.baseDmg = 0
 				end
+				v.resolved = true
 			elseif v.id == 44 then
 				player.spitter.fireRate = player.spitter.fireRate - .1
+				v.resolved = true
 			elseif v.id == 45 then
 				player.spitter.fireRate = player.spitter.fireRate - .2
+				v.resolved = true
 			elseif v.id == 46 then
 				player.spitter.fireRate = player.spitter.fireRate - .5
+				v.resolved = true
 			elseif v.id == 47 then
 				player.spitter.fireRate = player.spitter.fireRate + .1
+				v.resolved = true
 			elseif v.id == 48 then
 				player.spitter.fireRate = player.spitter.fireRate + .5
+				v.resolved = true
 			elseif v.id == 49 then
 				player.item49Flag = true
+				v.resolved = true
 			elseif v.id == 50 then
 				--TODO firebreath power up occurrence increases
 				player.item50Flag = true
+				v.resolved = true
 			elseif v.id == 51 then
 				--one item in next shop is freeee
 				player.item51Flag = true
+				v.resolved = true
 			elseif v.id == 53 then
 				--active reload is easier
 				player.item53Flag = true
+				v.resolved = true
 			elseif v.id == 54 then
 				player.spitter.maxCapacity = player.spitter.maxCapacity + 1
+				v.resolved = true
 			elseif v.id == 55 then
 				player.pspd = player.pspd * .25
 				player.baseDmg = player.baseDmg + 2
 				player.dmg = player.dmg + 2
 				player.rad = player.rad + 2
+				v.resolved = true
 			elseif v.id == 56 then
 				player.item56Flag = true
+				v.resolved = true
 			elseif v.id == 57 then
 				player.item57Flag = true
+				v.resolved = true
 			elseif v.id == 58 then
 				player.item58Flag = true
+				v.resolved = true
 			elseif v.id == 59 then
 				player.item59Flag = true
+				v.resolved = true
 
 			elseif v.id == 60 then
 				player.item60Flag = true
+				v.resolved = true
 			elseif v.id == 61 then
 				--
 			elseif v.id == 62 then
 				--spit comes out in a cone
 				player.item62Flag = true
+				v.resolved = true
 			elseif v.id == 63 then
 
 			elseif v.id == 64 then
 				--renown instead of ammo
 				player.item64Flag = true
+				v.resolved = true
 			elseif v.id == 65 then
 				--gets rid of collision
 				player.item56Flag = true
+				v.resolved = true
 				--TODO: ghost colors
 			end
 		end

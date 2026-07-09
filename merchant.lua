@@ -67,6 +67,7 @@ local function purchaseDecision(decision)
 			elseif purchasingFlag == 3 then
 				if score >= merchant.item3Cost then
 					equipment:addItem(merchant.item3.id)
+					score = score - merchant.item3Cost
 					merchant.buttons[3].text = "Item 3 - SOLD OUT"
 					merchant.buttons[3].func = function()
 						print ("This button has no function attached")
