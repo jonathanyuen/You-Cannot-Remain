@@ -82,7 +82,7 @@ return {
 			switchDelay = 0.1
 		},
 		melee = {
-			frameCount = 3,
+			frameCount = 2,
 			offsetX = 0,
 			offsetY = 40,
 			frameW = 20,

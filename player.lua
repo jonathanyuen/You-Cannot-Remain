@@ -280,7 +280,7 @@ end
 function Player:update(dt)
 	--renown damage - item 30
 	if self.item30Flag == true then
-		self.dmg = self.baseDmg + (score/100)
+		self.dmg = self.baseDmg + (score/1000)
 	end
 
 	--fireBreath
@@ -396,7 +396,7 @@ function Player:draw()
 
 	--draw stats on ui
 	love.graphics.setFont(pixelPurlFont)
-	love.graphics.print({colorPalette.fauxWhite,player.dmg},75,10)
+	love.graphics.print({colorPalette.fauxWhite,math.floor(player.dmg)},75,10)
 	love.graphics.print({colorPalette.fauxWhite,player.rad},75,24)
 	love.graphics.print({colorPalette.fauxWhite,player.baseSpd},75,38)
 	love.graphics.print({colorPalette.fauxWhite,player.pspd},75,52)

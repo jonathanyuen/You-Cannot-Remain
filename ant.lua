@@ -10,7 +10,7 @@ function Ant:new(lvl,spawnX,spawnY)
 	end
 	self.anim = LoveAnimation.new('antAnimations.lua')
 	self.deathAnimation = LoveAnimation.new('deathAnimations.lua')
-	self.health = (lvl/2)+1
+	self.health = math.ceil((lvl/2)+1)
 	self.height = 16
 	self.width = 16
 	self.deathLocationX = self.x
@@ -57,6 +57,8 @@ function Ant:takeDmg(dmgNum,type)
 		--freeze position for duration
 		self.hitStunned = true
 		
+		self.y = self.y - 5
+		
 		--expire the hitstun
 		Timer.after(player.ironTail.hitstun,function() 
 			self.hitStunned = false
@@ -85,7 +87,7 @@ function Ant:takeDmg(dmgNum,type)
 	self.health = self.health - dmgNum
 
 	self.y = self.y - 1
-	
+
 	if player.item49Flag == true then
 		self.y = self.y-2 --enemy gets knocked back
 	end

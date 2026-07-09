@@ -5,7 +5,7 @@ function Squirrel:new(lvl,spawnX,spawnY)
 	--coordinates/attributes
 	self.x = spawnX
 	self.y = spawnY
-	self.speed = 10+(.15*lvl)
+	self.speed = 4+(.15*lvl)
 	if player.item32Flag == true then
 		self.speed = self.speed*.7
 	end
@@ -21,7 +21,7 @@ function Squirrel:new(lvl,spawnX,spawnY)
 	self.readyToClean = 5
 	self.collisionDmg = 1
     self.damageFlag = false
-	self.direction = 0 --0 is left, 1 is right
+	self.direction = math.random(0,1) --0 is left, 1 is right
 end
 
 --handles damage
@@ -59,6 +59,8 @@ function Squirrel:takeDmg(dmgNum,type)
 		end)
 		--freeze position for duration
 		self.hitStunned = true
+
+		self.y = self.y - 5
 		
 		--expire the hitstun
 		Timer.after(player.ironTail.hitstun,function() 
@@ -110,22 +112,16 @@ function Squirrel:update(dt)
 
 		--x axis movement
 		if self.direction == 1 then
-			print("moving right")
 			self.x = self.x + ((2 + self.speed) * dt)
 			if self.x >= 200 then
 				self.direction = 0
-				print("moving left")
 			end
 		elseif self.direction == 0 then
-			print("moving left")
 			self.x = self.x - ((2 + self.speed) * dt)
 			if self.x <= 102 then
 				self.direction = 1
-				print("moving right")
 			end
 		end
-
-		print ("xpos: " .. self.x)
         self:checkCollision(player)
 	
 	-- status: dead! play death animation

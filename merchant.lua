@@ -210,7 +210,7 @@ end
 function Merchant:isDupe(targetItem)
 	local itemAlreadyBought = false
 	for i,v in ipairs(equipment.equippedItemList) do
-		if d == v.id then
+		if targetItem == v.id then
 			itemAlreadyBought = true -- breaks loop if its a dupe!
 			print("dupe detected")
 			return itemAlreadyBought

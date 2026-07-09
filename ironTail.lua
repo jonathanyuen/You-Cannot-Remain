@@ -48,7 +48,7 @@ function IronTail:smackTail()
         and enemy_bottom > hbox_top
         and enemy_top < hbox_bottom then
             self:damageCalc(i,v)
-            Timer.after(.1,function() freezeGame(.2) end)
+            Timer.after(.1,function() freezeGame(.1) end)
         end
     end
 
