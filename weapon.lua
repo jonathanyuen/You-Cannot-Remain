@@ -65,7 +65,12 @@ function Weapon:triggerPull()
             end)
             if player.item59Flag == true then
                 self:fireBullet()
-                self:fireBullet()
+                Timer.after(.5, function()
+                    self:fireBullet()
+                end)
+                Timer.after(.5, function()
+                    self:fireBullet()
+                end)
             end
             self:fireBullet()
         elseif self.clip <= 0 then

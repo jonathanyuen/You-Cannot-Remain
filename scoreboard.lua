@@ -4,6 +4,7 @@ scoreGainRate = 1
     scoring = {
         counterAntsKilled = 0,
         counterFalconsKilled = 0,
+        counterSquirrelsKilled = 0,
         counterActiveReloadSuccess = 0,
         flagBulletsMissed = false,
         flagActiveReloadMissed = false,

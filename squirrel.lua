@@ -1,29 +1,32 @@
-Ant = Object:extend()
+Squirrel = Ant:extend()
 
-function Ant:new(lvl,spawnX,spawnY)
+-- TODO: change spawning to set position - falcons will stay put for a second then fly fast towards end
+function Squirrel:new(lvl,spawnX,spawnY)
 	--coordinates/attributes
 	self.x = spawnX
 	self.y = spawnY
-	self.speed = 5+(.15*lvl)
+	self.speed = 10+(.15*lvl)
 	if player.item32Flag == true then
 		self.speed = self.speed*.7
 	end
-	self.anim = LoveAnimation.new('antAnimations.lua')
+	self.anim = LoveAnimation.new('squirrelAnimations.lua')
 	self.deathAnimation = LoveAnimation.new('deathAnimations.lua')
-	self.health = (lvl/2)+1
-	self.height = 16
-	self.width = 16
+	self.health = 1+(.5*lvl)
+	self.height = 20
+	self.width = 20
 	self.deathLocationX = self.x
 	self.deathLocationY = self.y
 	self.newlyDead = true
-	self.deathValue = 50
+	self.deathValue = 100 -- more than standard bc of speed?
 	self.readyToClean = 5
 	self.collisionDmg = 1
-	self.hitStunned = false
+    self.damageFlag = false
+	self.direction = 0 --0 is left, 1 is right
 end
 
 --handles damage
-function Ant:takeDmg(dmgNum,type)
+-- TODO: damaged animation needs to be made?
+function Squirrel:takeDmg(dmgNum,type)
 	--damaged animation
 	self.anim:setState("damaged")
 	--play sfx
@@ -42,7 +45,7 @@ function Ant:takeDmg(dmgNum,type)
 		--expire the hitstun
 		Timer.after(player.spitter.hitstun,function() 
 			self.hitStunned = false
-			self.anim:setState("walking")
+			self.anim:setState("running")
 		end)
 	elseif type == "tail" then
 		if dmgNum >= self.health then
@@ -60,7 +63,7 @@ function Ant:takeDmg(dmgNum,type)
 		--expire the hitstun
 		Timer.after(player.ironTail.hitstun,function() 
 			self.hitStunned = false
-			self.anim:setState("walking")
+			self.anim:setState("running")
 		end)
 	elseif type == "fireBreath" then
 		if dmgNum >= self.health then
@@ -77,14 +80,14 @@ function Ant:takeDmg(dmgNum,type)
 		--expire the hitstun
 		Timer.after(player.fireBreath.hitstun,function() 
 			self.hitStunned = false
-			self.anim:setState("walking")
+			self.anim:setState("running")
 		end)
 	end
 
 	--health reduction
 	self.health = self.health - dmgNum
 
-	self.y = self.y - 1
+	self.y = self.y - 5
 	
 	if player.item49Flag == true then
 		self.y = self.y-2 --enemy gets knocked back
@@ -93,66 +96,37 @@ function Ant:takeDmg(dmgNum,type)
 	
 end
 
---checks Collisions
-function Ant:checkCollision(obj)
-    local self_left = self.x 
-    local self_right = self.x + self.width
-    local self_top = self.y
-    local self_bottom = self.y + self.height
-
-    local obj_left = obj.x
-    local obj_right = obj.x + obj.width
-    local obj_top = obj.y
-    local obj_bottom = obj.y + obj.height
-
-    if  self_right > obj_left
-    and self_left < obj_right
-    and self_bottom > obj_top
-    and self_top < obj_bottom then
-        self:collisionWithMango()
-    end
-end
-
---handles consequences of collision with Mango
-function Ant:collisionWithMango()
-	if collisionInstance == 0 then
-
-        --on collision with player - mango goes into shell
-
-        ---!!!WORK ON INSTANCES SO IT JUST HAPPENS ONCE UGHHG
-        collisionInstance = collisionInstance + 1
-        print(collisionInstance)
-        player:getHit()
-		if player.item57Flag == true then
-			self:takeDmg(player.baseDmg, "thorns")
-		end
-        Timer.after(3,function() 
-        	collisionInstance = 0 
-    	end)
-	end
-end
-
---literally *only* checks if the health of the Ant is zero
-function Ant:isDead()
-	if self.health <= 0 then
-		return true
-	else 
-		return false
-	end
-end
-
-function Ant:update(dt)
+function Squirrel:update(dt)
 	-- status: alive, so keep it pushin
-	if self:isDead() == false then
-		if self.hitStunned == false then
-			self.y = self.y + self.speed * dt
-			if self.y > 180 then
-				player:takeDmg(1)
-				self.health = 0
-				self.readyToClean = 6
+	if self:isDead() == false then	
+		print("squirrel direction: " .. self.direction)
+		--y axis movement
+        self.y = self.y + self.speed * dt
+        if self.y > 180 then
+            player:takeDmg(1)
+            self.health = 0
+            self.readyToClean = 6
+        end
+
+		--x axis movement
+		if self.direction == 1 then
+			print("moving right")
+			self.x = self.x + ((2 + self.speed) * dt)
+			if self.x >= 200 then
+				self.direction = 0
+				print("moving left")
 			end
-			self:checkCollision(player)
+		elseif self.direction == 0 then
+			print("moving left")
+			self.x = self.x - ((2 + self.speed) * dt)
+			if self.x <= 102 then
+				self.direction = 1
+				print("moving right")
+			end
 		end
+
+		print ("xpos: " .. self.x)
+        self:checkCollision(player)
 	
 	-- status: dead! play death animation
 	elseif self:isDead() == true and self.newlyDead == true then
@@ -164,8 +138,8 @@ function Ant:update(dt)
 		self.y = -1000
 		self.newlyDead = false
 		mastermind.enemyKillCount = mastermind.enemyKillCount+1
-		scoring.counterAntsKilled = scoring.counterAntsKilled + 1
-		scoreboard:updateTicker("Enemy slain", self.deathValue)
+		scoring.counterSquirrelsKilled = scoring.counterSquirrelsKilled + 1
+		scoreboard:updateTicker("Squirrel slain", self.deathValue)
 		mastermind:killCheck()
 
 	elseif self:isDead() == true and self.newlyDead == false then
@@ -177,7 +151,9 @@ function Ant:update(dt)
 
 end
 
-function Ant:draw()
+
+
+function Squirrel:draw()
 	--alive, draw alive bug
 	self.anim:setPosition(self.x,self.y)
 	if self:isDead() == false then
@@ -189,5 +165,11 @@ function Ant:draw()
 	if self:isDead() == true and self.newlyDead == false then
 		self.deathAnimation:draw()
 	end
+
+    --hit flash white
+    if self.damageFlag == true then
+        love.graphics.setColor(.999,.999,.999)
+    else love.graphics.setColor(1,1,1)
+    end
 
 end

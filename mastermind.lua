@@ -23,6 +23,9 @@ function Mastermind:spawn()
 		for i = 0, 10 do
 			table.insert(listOfEnemies,Ant(self.level,math.random(120,200),0-(math.random(12,20)*i)))
 		end
+		for i = 1, 3 do
+			table.insert(listOfEnemies,Squirrel(1,math.random(120,200),0-(math.random(4,24)*i)))
+		end
 	end
 end
 
@@ -48,6 +51,14 @@ function Mastermind:nextLevel(lvl)
 			table.insert(listOfEnemies,Falcon(lvl,math.random(120,200),0-(math.random(4,24)*i)))
 		end)
 	end
+
+	--squirrel spawns
+	for i = 1, (2*lvl)+1 do
+		Timer.after(math.random(1,2*lvl), function ()
+			table.insert(listOfEnemies,Squirrel(lvl,math.random(120,200),0-(math.random(4,24)*i)))
+		end)
+	end
+
 	-- power up spawns
 	for i = 0,lvl do
 		if player.item50Flag == true then

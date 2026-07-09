@@ -246,11 +246,6 @@ function Player:keyPressed(key)
 	end
 
 	--active reload
-	--item 53
-	if self.item53Flag == true then
-		self.activeReloadLowerBound = self.activeReloadLowerBound - 1
-		self.activeReloadHigherBound = self.activeReloadHigherBound + 1
-	end
 	if self.spitter.outOfAmmoFlag == false and self.spitter.activeReloadCursorXPos >= self.activeReloadLowerBound and self.spitter.activeReloadCursorXPos <= self.activeReloadHigherBound and love.keyboard.isDown("space") and player.inShell == false then
 		sfxActiveReloadSuccess:play()
 		self.portraitAnim:setState("activeReloadSuccess")
