@@ -710,11 +710,7 @@ function love.draw()
         love.graphics.draw(backdrop, backQuad, 102,0,0)
         --ui & stage
         love.graphics.draw(ui,0,0)
-        --stageAnim:draw()
-        dmgStatUpChevronAnim:draw()
-        radStatUpChevronAnim:draw()
-        spdStatUpChevronAnim:draw()
-        pspdStatUpChevronAnim:draw()
+        
 
         --dmgStatLevelAnim:draw()
         --radStatLevelAnim:draw()
@@ -722,9 +718,9 @@ function love.draw()
         --pspdStatLevelAnim:draw()
         -----weapon drawing
         if player.weaponEquipped["spitter"].equipped == true then
-            love.graphics.draw(spitImage,18,70)
+            love.graphics.draw(spitImage,40,68)
         elseif player.weaponEquipped["ironTail"].equipped == true then
-            love.graphics.draw(tailImage,28,68)
+            love.graphics.draw(tailImage,38,62)
         elseif player.weaponEquipped["fireBreath"].equipped == true then
             love.graphics.draw(flameBreathImage,24,76)
         end
@@ -732,6 +728,7 @@ function love.draw()
         --draw mango
         player:draw()
         scoreboard:draw()
+        mastermind:draw()
         
 
         --draw enemies

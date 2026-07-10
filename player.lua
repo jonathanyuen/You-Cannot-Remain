@@ -15,7 +15,7 @@ function Player:new()
 	self.portraitAnim = LoveAnimation.new('portraitAnimations.lua')
 	self.healthAnim = LoveAnimation.new('healthAnimations.lua')
 	self.healthAnim:setState("three")
-	self.healthAnim:setPosition(22,142)
+	self.healthAnim:setPosition(27,133)
 
 	self.activeReloadSuccessPointValue = 10
 
@@ -393,15 +393,6 @@ function Player:draw()
 	self.portraitAnim:draw()
 	--draw health
     self.healthAnim:draw()
-
-	--draw stats on ui
-	love.graphics.setFont(pixelPurlFont)
-	love.graphics.print({colorPalette.fauxWhite,math.floor(player.dmg)},75,10)
-	love.graphics.print({colorPalette.fauxWhite,player.rad},75,24)
-	love.graphics.print({colorPalette.fauxWhite,player.baseSpd},75,38)
-	love.graphics.print({colorPalette.fauxWhite,player.pspd},75,52)
-	love.graphics.setFont(font) --resets font
-
 
     --draw weapon associated graphics under mango
 	if self.weaponEquipped["spitter"].equipped == true then

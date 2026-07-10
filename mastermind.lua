@@ -165,5 +165,8 @@ function Mastermind:update(dt)
 end
 
 function Mastermind:draw()
-	
+	--a drawn progress indicator until wave clear
+	love.graphics.setColor(colorPalette.fauxWhite)
+	love.graphics.rectangle("fill", 20, 36, math.ceil(60 * (self.enemyKillCount/((((2.5*(self.level+1)) ^ 2)+(2.5 * (self.level+1)))))), 4)
+	love.graphics.setColor(1,1,1)
 end
