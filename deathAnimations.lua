@@ -63,11 +63,11 @@ return {
 	states = {
 		-- 1st line
 		fade = { -- the name of the state is arbitrary
-			frameCount = 5,
+			frameCount = 7,
 			offsetX = 0,
 			offsetY = 0,
-			frameW = 10,
-			frameH = 10,
+			frameW = 20,
+			frameH = 20,
 			switchDelay = 0.1
 		}
 	}
