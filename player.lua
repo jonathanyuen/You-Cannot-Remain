@@ -160,6 +160,7 @@ function Player:takeDmg(dmgNum)
 
 	self.health = self.health - dmgNum
 	sfxHPDown:play()
+	screenshake(.5,1)
 	
 
 	--item 14 logic - providing a power up upon damage
@@ -204,6 +205,7 @@ function Player:getHit()
 	if self.item65Flag == true then
 		--nothin!
 	else
+		screenshake(.1,.5)
 		player.anim:setState("intoShell")
 		self.portraitAnim:setState("sad")
 		sfxInShell:play()

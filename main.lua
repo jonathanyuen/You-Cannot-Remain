@@ -24,6 +24,11 @@ local button = require "Button"
 local gameWidth, gameHeight = 320,180
 local windowWidth, windowHeight = love.window.getDesktopDimensions()
 
+--screenshake variables
+local screenShaking = false --checks if screen should be shaking
+local dx = 0 -- delta x and y for the shakin
+local dy = 0
+
 gameIsFrozen = false
 
 --merchant transition in play variable
@@ -705,17 +710,16 @@ function love.draw()
 
     --if game.state is running
     elseif game.state["running"] then
-        -- scrolling background
-        backQuad:setViewport(0,u,backdrop:getWidth(),backdrop:getHeight())
-        love.graphics.draw(backdrop, backQuad, 102,0,0)
         --ui & stage
         love.graphics.draw(ui,0,0)
-        
 
-        --dmgStatLevelAnim:draw()
-        --radStatLevelAnim:draw()
-        --spdStatLevelAnim:draw()
-        --pspdStatLevelAnim:draw()
+        --draw score
+        love.graphics.setFont(renownFont)
+        ---colored printing scores and whatnot... still haven't done calcs yet either
+        love.graphics.print({colorPalette.red,"RENOWN "},227,171)
+        love.graphics.print({colorPalette.fauxWhite,string.format("%04d",score)},285,171)
+        love.graphics.setFont(font)
+
         -----weapon drawing
         if player.weaponEquipped["spitter"].equipped == true then
             love.graphics.draw(spitImage,40,68)
@@ -725,10 +729,32 @@ function love.draw()
             love.graphics.draw(flameBreathImage,24,76)
         end
 
-        --draw mango
-        player:draw()
         scoreboard:draw()
         mastermind:draw()
+
+        --screenshake
+        if screenShaking == true then
+            --love.graphics.push()
+            love.graphics.translate(dx,dy)
+            --love.graphics.pop()
+        end
+
+
+        -- scrolling background
+        backQuad:setViewport(0,u,backdrop:getWidth(),backdrop:getHeight())
+        love.graphics.draw(backdrop, backQuad, 102,0,0)
+        
+        
+
+        --dmgStatLevelAnim:draw()
+        --radStatLevelAnim:draw()
+        --spdStatLevelAnim:draw()
+        --pspdStatLevelAnim:draw()
+        
+
+        --draw mango
+        player:draw()
+        
         
 
         --draw enemies
@@ -746,12 +772,11 @@ function love.draw()
             v:draw()
         end
 
-        --draw score
-        love.graphics.setFont(renownFont)
-        ---colored printing scores and whatnot... still haven't done calcs yet either
-        love.graphics.print({colorPalette.red,"RENOWN "},227,171)
-        love.graphics.print({colorPalette.fauxWhite,string.format("%04d",score)},285,171)
-        love.graphics.setFont(font)
+        
+
+        
+
+        
 
 
     --game is pause state
@@ -770,6 +795,21 @@ function love.draw()
 end
 
 local love_errorhandler = love.errorhandler
+
+function screenshake(duration,intensity)
+    print("screenshake initialized")
+    screenShaking = true
+    Timer.during(duration, function (dt)
+        dx = math.random(-intensity,intensity)
+        dy = math.random(-intensity,intensity)
+        
+        print("dx: " .. dx .. " & dy: " .. dy)
+    end)
+    Timer.after(duration, function ()
+        screenShaking = false
+    end)
+
+end
 
 function love.errorhandler(msg)
     if lldebugger then

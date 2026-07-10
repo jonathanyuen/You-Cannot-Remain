@@ -112,12 +112,12 @@ function Squirrel:update(dt)
 
 		--x axis movement
 		if self.direction == 1 then
-			self.x = self.x + ((2 + self.speed) * dt)
+			self.x = self.x + ((8 + self.speed) * dt)
 			if self.x >= 200 then
 				self.direction = 0
 			end
 		elseif self.direction == 0 then
-			self.x = self.x - ((2 + self.speed) * dt)
+			self.x = self.x - ((8 + self.speed) * dt)
 			if self.x <= 102 then
 				self.direction = 1
 			end
@@ -137,6 +137,8 @@ function Squirrel:update(dt)
 		scoring.counterSquirrelsKilled = scoring.counterSquirrelsKilled + 1
 		scoreboard:updateTicker("Squirrel slain", self.deathValue)
 		mastermind:killCheck()
+		screenshake(.3,.3)
+
 
 	elseif self:isDead() == true and self.newlyDead == false then
 		self.deathAnimation:update(dt)

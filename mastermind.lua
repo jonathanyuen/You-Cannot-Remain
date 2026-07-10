@@ -1,5 +1,7 @@
 Mastermind = Object:extend()
 
+local waveCursor = love.graphics.newImage("sprites/wave-clear-cursor.png")
+
 function Mastermind:new()
 	self.level = 0
 	self.enemyKillCount = 0
@@ -169,4 +171,12 @@ function Mastermind:draw()
 	love.graphics.setColor(colorPalette.fauxWhite)
 	love.graphics.rectangle("fill", 20, 36, math.ceil(60 * (self.enemyKillCount/((((2.5*(self.level+1)) ^ 2)+(2.5 * (self.level+1)))))), 4)
 	love.graphics.setColor(1,1,1)
+
+	--cursor for the progress indicator
+	--[[the math here is: the cursor is drawn so it follows the 
+		rightmost edge of the rectangle that is the wave progress indicator
+
+		so it's: (your killcount / the kills needed for next wave) * width of the progress indicator (which is 60)
+	]]
+	love.graphics.draw(waveCursor,math.ceil(60 * (self.enemyKillCount/((((2.5*(self.level+1)) ^ 2)+(2.5 * (self.level+1)))))) + 15 , 43)
 end

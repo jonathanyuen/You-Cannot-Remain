@@ -169,6 +169,7 @@ function Ant:update(dt)
 		scoring.counterAntsKilled = scoring.counterAntsKilled + 1
 		scoreboard:updateTicker("Enemy slain", self.deathValue)
 		mastermind:killCheck()
+		screenshake(.05,.2)
 
 	elseif self:isDead() == true and self.newlyDead == false then
 		self.deathAnimation:update(dt)
