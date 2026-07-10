@@ -93,6 +93,7 @@ function startMerchant()
     merchantTransitionIsPlaying = true
     merchantTransitionAnim:setState("default")
     menuCursorAnim:setPosition(9, 122)
+    player.portraitAnim:setState("happyLoop")
     merchant:openShop()
 end
 
@@ -104,6 +105,7 @@ function endMerchant()
     game.state["merchant"] = false
 
     equipment:updateMango() --adds effects from items!
+    player.portraitAnim:setState("idle")
     --print("merchant ended")
 end
 

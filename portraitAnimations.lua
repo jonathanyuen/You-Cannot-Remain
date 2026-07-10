@@ -77,7 +77,7 @@ return {
 			offsetY = 80,
 			frameW = 80,
 			frameH = 80,
-			switchDelay = 0.2
+			switchDelay = 0.3
 		},
 		activeReloadSuccess = { -- the name of the state is arbitrary
 			frameCount = 2,
@@ -104,6 +104,15 @@ return {
 			frameW = 80,
 			frameH = 80,
 			nextState = "fireBreathLoop",
+			switchDelay = 0.1
+		},
+		happyLoop = { -- the name of the state is arbitrary
+			frameCount = 1,
+			offsetX = 0,
+			offsetY = 400,
+			frameW = 80,
+			frameH = 80,
+			nextState = "happyLoop",
 			switchDelay = 0.1
 		}
 	}

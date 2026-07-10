@@ -142,7 +142,8 @@ function Merchant:openShop()
 	item3 = random
 	blindBox = random
 	]]
-	
+
+
 	--making sure there aren't duplicates
 	local item1Num = self:rollItem()
 	local item2Num = self:rollItem()
@@ -247,7 +248,7 @@ function Merchant:draw()
 	--display depending on what is selected
 	if self.selectedMerchantButton == self.buttons[1] or self.selectedMerchantButton == self.buttons[2] or self.selectedMerchantButton == self.buttons[3] then
 		--display an item card
-		love.graphics.draw(itemCardBackground, 123, 8)
+		love.graphics.draw(itemCardBackground, 123, 6)
 		if self.selectedMerchantButton == self.buttons[1] then
 			love.graphics.setFont(itemHeadingFont)
 			love.graphics.printf({colorPalette.fauxWhite, self.item1.name},138,20,66,'center')
