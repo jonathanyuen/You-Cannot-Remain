@@ -92,7 +92,7 @@ function startMerchant()
     freezeGame(3)
     merchantTransitionIsPlaying = true
     merchantTransitionAnim:setState("default")
-    menuCursorAnim:setPosition(10-1, 19+3)
+    menuCursorAnim:setPosition(9, 122)
     merchant:openShop()
 end
 
@@ -324,24 +324,7 @@ function love.load()
     --stageAnim = LoveAnimation.new('stageAnimations.lua')
     --stageAnim:setPosition(237,154)
 
-     --stat upgrade animations (chevrons first then actual progress) & designate positions
-    dmgStatUpChevronAnim = LoveAnimation.new('statupAnimations.lua')
-    dmgStatUpChevronAnim:setPosition(89,13)
-    radStatUpChevronAnim = LoveAnimation.new('statupAnimations.lua')
-    radStatUpChevronAnim:setPosition(89,27)
-    spdStatUpChevronAnim = LoveAnimation.new('statupAnimations.lua')
-    spdStatUpChevronAnim:setPosition(89,41)
-    pspdStatUpChevronAnim = LoveAnimation.new('statupAnimations.lua')
-    pspdStatUpChevronAnim:setPosition(89,55)
 
-    dmgStatLevelAnim = LoveAnimation.new('statLevelIndicatorAnimations.lua')
-    dmgStatLevelAnim:setPosition(48,13)
-    radStatLevelAnim = LoveAnimation.new('statLevelIndicatorAnimations.lua')
-    radStatLevelAnim:setPosition(48,27)
-    spdStatLevelAnim = LoveAnimation.new('statLevelIndicatorAnimations.lua')
-    spdStatLevelAnim:setPosition(48,41)
-    pspdStatLevelAnim = LoveAnimation.new('statLevelIndicatorAnimations.lua')
-    pspdStatLevelAnim:setPosition(48,55)
     
     
     
@@ -571,6 +554,7 @@ function love.update(dt)
         if game.state["merchant"] == true then
             menuCursorAnim:update(dt)
             merchant:update(dt)
+            player.portraitAnim:update(dt)
         end
 
         --menuuu
@@ -636,16 +620,6 @@ function love.update(dt)
             --update mastermind
             mastermind:update(dt)
 
-            --update stats
-            dmgStatUpChevronAnim:update(dt)
-            radStatUpChevronAnim:update(dt)
-            spdStatUpChevronAnim:update(dt)
-            pspdStatUpChevronAnim:update(dt)
-
-            dmgStatLevelAnim:update(dt)
-            radStatLevelAnim:update(dt)
-            spdStatLevelAnim:update(dt)
-            pspdStatLevelAnim:update(dt)
 
             --trigger death screen
             if player.health <= 0 then
@@ -693,6 +667,7 @@ function love.draw()
     --if game.state is merchant
     if game.state["merchant"] then
         merchant:draw()
+        player.portraitAnim:draw()
 
         if merchantTransitionIsPlaying == true then
             merchantTransitionAnim:draw()

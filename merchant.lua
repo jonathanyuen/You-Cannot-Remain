@@ -10,7 +10,7 @@ purchasingFlag = 0
 --local blindBoxPurchaseCounter = 0
 
 confirmationCursorAnim = LoveAnimation.new("menuCursorAnimations.lua")
-confirmationCursorAnim:setPosition(140, 145)
+confirmationCursorAnim:setPosition(140, 143)
 
 --backdrop for merchant
 local merchantBackground = love.graphics.newImage("/sprites/merchant-bg.png")
