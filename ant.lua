@@ -35,6 +35,8 @@ function Ant:takeDmg(dmgNum,type)
 			
 		end
 		sfxSuccessfulHit:clone():play()
+		--knockback
+		self.y = self.y - 1
 		
 		--freeze position for duration
 		self.hitStunned = true
@@ -86,7 +88,7 @@ function Ant:takeDmg(dmgNum,type)
 	--health reduction
 	self.health = self.health - dmgNum
 
-	self.y = self.y - 1
+	
 
 	if player.item49Flag == true then
 		self.y = self.y-2 --enemy gets knocked back

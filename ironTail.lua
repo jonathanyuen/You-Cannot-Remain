@@ -33,7 +33,7 @@ function IronTail:smackTail()
 
     local hbox_left = player.x - self.hitboxExtensionHori
     local hbox_right = player.x + 16 + self.hitboxExtensionHori
-    local hbox_top = player.y - 8 - self.hitboxExtensionVert
+    local hbox_top = player.y - 10 - self.hitboxExtensionVert
     local hbox_bottom = player.y
 
     for i,v in ipairs(listOfEnemies) do
@@ -48,7 +48,7 @@ function IronTail:smackTail()
         and enemy_bottom > hbox_top
         and enemy_top < hbox_bottom then
             self:damageCalc(i,v)
-            Timer.after(.1,function() freezeGame(.1) end)
+            Timer.after(.02,function() freezeGame(.2) end)
         end
     end
 

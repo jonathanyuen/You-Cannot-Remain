@@ -312,6 +312,9 @@ function Equipment:updateMango()
 			elseif v.id == 51 then
 				--one item in next shop is freeee
 				player.item51Flag = true
+				if v.resolved == false then
+					merchant.item1Cost = 0
+				end
 				v.resolved = true
 			elseif v.id == 53 then
 				--active reload is easier

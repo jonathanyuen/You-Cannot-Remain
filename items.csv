@@ -4,15 +4,15 @@ id,name,effect,description text,rarity,implemented?
 3,SLINKY,tail increases length,tbd,everyday,y
 4,BIG MEAL,tail increases width,tbd,everyday,y
 5,CURRY,fire breath lasts longer,tbd,everyday,y
-6,SUNNYSIDE EGG,hp up 1,tbd,everyday,y
+6,SUNNY SIDE EGG,hp up 1,tbd,everyday,y
 7,BIG GULP,gives 20 spit ammo,tbd,everyday,y
 8,BULK PEPPERS,fire breath is stronger,tbd,everyday,y
 9,TURT KWON DO,dmg up 1,tbd,everyday,y
 10,LUCKY SHOES,spd up 1,tbd,everyday,y
-11,AERODYNAMICS,pspd up 1,tbd,everyday,y
-12,JAWBREAKERS,rad up 1,tbd,everyday,y
+11,SHARP SPIT,pspd up 1,tbd,everyday,y
+12,JAW BREAKER,rad up 1,tbd,everyday,y
 13,RING LIGHT,increases renown gain rate x.25,tbd,everyday,y
-14,HANDCUFFS,gain a random power up when you take dmg,tbd,everyday,y
+14,HAND CUFFS,gain a random power up when you take dmg,tbd,everyday,y
 15,RIZZO,enemy spit kills get extra renown,follows you around filming,everyday,y
 16,ROCCO,enemy tail kills get extra renown,follows you around writing,everyday,y
 17,RIPPO,enemy fire kills get extra renown,follows you around taking pictures,everyday,y
@@ -27,13 +27,13 @@ id,name,effect,description text,rarity,implemented?
 44,BOK CHOY,fire rate up,tbd,everyday,y
 47,BULGOGI,fire rate down,tbd,everyday,y
 48,CHAR SIU,fire rate severely down,tbd,everyday,y
-49,HORSEPOWER,adds knockback to your weapons,tbd,everyday,y
+49,HORSE POWER,adds knockback to your weapons,tbd,everyday,y
 51,COUPON,one item in next shop is free,tbd,everyday,y
 52,BOGO,buy one get one free,tbd,everyday,bypass
 53,ROOSTER HAT,active reload is easier,tbd,everyday,y
 54,SECRET MANUAL,clip size +1,tbd,everyday,y
-55,CANNONBALL,spit comes out like a cannonball,tbd,everyday,y
-23,4TH DIMENSIONAL CHARM,infinite clip but slower firerate,tbd,odd,y
+55,CANNON BALL,spit comes out like a cannonball,tbd,everyday,y
+23,4D CHARM,infinite clip but slower firerate,tbd,odd,y
 24,TOMATO,hp up 3,tbd,odd,y
 25,PAID AD,gives 2000 renown,tbd,odd,y
 26,BARBELL,dmg up 2,tbd,odd,y
@@ -42,24 +42,24 @@ id,name,effect,description text,rarity,implemented?
 29,VITAMINS,rad up 2,tbd,odd,y
 30,PRESS RELEASE,increases damage based on renown - 5 renown = 1 dmg,tbd,odd,y
 45,KIMCHI,fire rate up up,tbd,odd,y
-46,TTEOKBOKKI,fire rate up up up,tbd,odd,y
+46,TTEOK BOKKI,fire rate up up up,tbd,odd,y
 56,GHOST FLU,spit passes through enemies,tbd,odd,y
 57,THORNS,enemies get damaged on contact with you,tbd,odd,y
 58,LEGEND OF THE HAWK,every time you swap weapons you do a flip and gain renown,tbd,odd,y
 59,FAMAS,burst fire spit,tbd,odd,y
 31,EXTENDED MAG,all ammo based weapons have +2 clip size,tbd,remarkable,y
-32,STOPWATCH,everyone moves 30% slower,tbd,remarkable,y
+32,STOP WATCH,everyone moves 30% slower,tbd,remarkable,y
 33,GOOD DEED,add 5000 Renown,tbd,remarkable,y
 34,HEALING POT,hp up 6,tbd,remarkable,y
 35,SQUAT RACK,dmg up 3,tbd,remarkable,y
-36,ADRENALINE SHOT,spd up 3,tbd,remarkable,y
+36,ADRENA SHOT,spd up 3,tbd,remarkable,y
 37,RESEARCH,pspd up 3,tbd,remarkable,y
 38,ISOTOPE,rad up 3,tbd,remarkable,y
 39,CENTURY EGG,all stats up,Some say this egg is over a hundred years old.,remarkable,y
 50,GAS,adds more firebreath power ups,tbd,remarkable,y
 60,NO SHIRT NO SHOES,next shop is unavailable,tbd,remarkable,y
 61,REWARDS CARD,blind boxes stay the same price and never go up,tbd,remarkable,bypass
-62,VUVUZUELA,spit shoots out in a cone,tbd,remarkable,y
+62,VUVU ZUELA,spit shoots out in a cone,tbd,remarkable,y
 63,HIGH ROLLER SHADES,first blind box is always free,tbd,aberrant,bypass
 64,CHOCOLATE COIN,spit uses renown when you have no ammo,tbd,aberrant,y
 65,TOMBSTONE,mango no longer collides with enemies,tbd,aberrant,y

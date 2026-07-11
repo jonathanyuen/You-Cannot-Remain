@@ -78,7 +78,7 @@ end
 function FireBreath:damageCalc(enemyIndex,enemy)
     --include damage scaling here
     --damage is adjusted because its calculated by like... frame?? we'll see how this works
-    enemy:takeDmg((self.damage + player.dmg)/50,"fireBreath")
+    enemy:takeDmg((self.damage + player.dmg)/20,"fireBreath")
 end
 
 

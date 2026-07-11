@@ -131,21 +131,17 @@ end
 function Player:statUp(stat, upgradeAmt)
 	if stat == "pspd" then
 		self.pspd = self.pspd + 1*upgradeAmt
-    	pspdStatUpChevronAnim:setState("active")
     	
 	elseif stat == "spd" then
 		self.speed = self.speed + 10*upgradeAmt
 		self.baseSpd = self.baseSpd + 10 * upgradeAmt
-		spdStatUpChevronAnim:setState("active")
 		
 	elseif stat == "dmg" then
 		self.dmg = self.dmg + 1*upgradeAmt
-		dmgStatUpChevronAnim:setState("active")
 		
     
 	elseif stat == "rad" then
 		self.rad = self.rad + 1*upgradeAmt
-		radStatUpChevronAnim:setState("active")
 		
     
 	end

@@ -116,6 +116,7 @@ local function startNewGame()
     score = 0
     scoring.counterAntsKilled = 0
     scoring.counterActiveReloadSuccess = 0
+    scoreboard = Scoreboard()
     player = nil
     player = Player()
     mastermind = nil
@@ -469,21 +470,9 @@ function love.keypressed(key)
                     sfxButtonNav:clone():play()
                     merchant.selectedMerchantButton = merchant.buttons[4]
                     menuCursorAnim:setPosition(merchant.selectedMerchantButton.button_x-1,merchant.selectedMerchantButton.button_y+3)
-                elseif merchant.selectedMerchantButton == merchant.buttons[4] then
-                    purchasingFlag = 0
-                    print(purchasingFlag)
-                    sfxButtonNav:clone():play()
-                    merchant.selectedMerchantButton = merchant.buttons[5]
-                    menuCursorAnim:setPosition(merchant.selectedMerchantButton.button_x-1,merchant.selectedMerchantButton.button_y+3)
                 end
             elseif love.keyboard.isDown("up") == true then
-                if merchant.selectedMerchantButton == merchant.buttons[5] then
-                    purchasingFlag = 0
-                    print(purchasingFlag)
-                    sfxButtonNav:clone():play()
-                    merchant.selectedMerchantButton = merchant.buttons[4]
-                    menuCursorAnim:setPosition(merchant.selectedMerchantButton.button_x-1, merchant.selectedMerchantButton.button_y+3)
-                elseif merchant.selectedMerchantButton == merchant.buttons[4] then
+                if merchant.selectedMerchantButton == merchant.buttons[4] then
                     purchasingFlag = 0
                     print(purchasingFlag)
                     sfxButtonNav:clone():play()

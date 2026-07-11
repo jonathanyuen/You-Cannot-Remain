@@ -38,6 +38,7 @@ function Squirrel:takeDmg(dmgNum,type)
 			
 		end
 		sfxSuccessfulHit:clone():play()
+		self.y = self.y - 5
 		
 		--freeze position for duration
 		self.hitStunned = true
@@ -89,7 +90,7 @@ function Squirrel:takeDmg(dmgNum,type)
 	--health reduction
 	self.health = self.health - dmgNum
 
-	self.y = self.y - 5
+	
 	
 	if player.item49Flag == true then
 		self.y = self.y-2 --enemy gets knocked back

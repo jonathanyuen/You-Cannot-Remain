@@ -161,10 +161,6 @@ function Merchant:openShop()
 	
 	self.item1Cost = self:getItemCost(self.item1)
 
-	--Item 51 (free shop item)
-	if player.item51Flag == true then
-		self.item1Cost = 0
-	end
 	
 	self.item2Cost = self:getItemCost(self.item2)
 	self.item3Cost = self:getItemCost(self.item3)
@@ -251,24 +247,24 @@ function Merchant:draw()
 		love.graphics.draw(itemCardBackground, 123, 6)
 		if self.selectedMerchantButton == self.buttons[1] then
 			love.graphics.setFont(itemHeadingFont)
-			love.graphics.printf({colorPalette.fauxWhite, self.item1.name},138,20,66,'center')
+			love.graphics.printf({colorPalette.fauxWhite, self.item1.name},126,20,88,'center')
 			--reset font
 			love.graphics.setFont(font)
-			love.graphics.printf({colorPalette.fauxWhite, self.item1.effect}, 138, 65, 66, 'left')
+			love.graphics.printf({colorPalette.fauxWhite, self.item1.effect}, 138, 65, 66, 'center')
 			love.graphics.printf({colorPalette.fauxWhite, "COST: " .. self.item1Cost},138,108,66,'center')
 		elseif self.selectedMerchantButton == self.buttons[2] then
 			love.graphics.setFont(itemHeadingFont)
-			love.graphics.printf({colorPalette.fauxWhite, self.item2.name},138,20,66,'center')
+			love.graphics.printf({colorPalette.fauxWhite, self.item2.name},126,20,88,'center')
 			--reset font
 			love.graphics.setFont(font)
-			love.graphics.printf({colorPalette.fauxWhite, self.item2.effect}, 138, 65, 66, 'left')
+			love.graphics.printf({colorPalette.fauxWhite, self.item2.effect}, 138, 65, 66, 'center')
 			love.graphics.printf({colorPalette.fauxWhite, "COST: " .. self.item2Cost},138,108,66,'center')
 		elseif self.selectedMerchantButton == self.buttons[3] then
 			love.graphics.setFont(itemHeadingFont)
-			love.graphics.printf({colorPalette.fauxWhite, self.item3.name},138,20,66,'center')
+			love.graphics.printf({colorPalette.fauxWhite, self.item3.name},126,20,88,'center')
 			--reset font
 			love.graphics.setFont(font)
-			love.graphics.printf({colorPalette.fauxWhite, self.item3.effect}, 138, 65, 66, 'left')
+			love.graphics.printf({colorPalette.fauxWhite, self.item3.effect}, 138, 65, 66, 'center')
 			love.graphics.printf({colorPalette.fauxWhite, "COST: " .. self.item3Cost},138,108,66,'center')
 		end
 
