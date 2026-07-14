@@ -346,6 +346,7 @@ function Equipment:updateMango()
 
 			elseif v.id == 60 then
 				player.item60Flag = true
+				mastermind.item60ResolvedFlag = true
 				v.resolved = true
 			elseif v.id == 61 then
 				--

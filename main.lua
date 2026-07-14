@@ -17,6 +17,7 @@ require "powerups"
 require "dialogue"
 require "scoreboard"
 require "merchant"
+require "scoringScreen"
 
 
 local push = require "push"
@@ -57,7 +58,8 @@ local game = {
         merchant = false,
         pause = false,
         running = false,
-        ended = false
+        ended = false,
+        scoring = false
     }
 }
 
@@ -81,17 +83,30 @@ function freezeGame(secs)
     end)
 end
 
+function startScoringScreen()
+    --adjust the game states
+    game.state["running"] = false
+    game.state["pause"] = false
+    game.state["ended"] = false
+    game.state["merchant"] = false
+    game.state["scoringScreen"] = true
+
+    
+end
+
 --merchant (global)
 function startMerchant()
-    --print ("merchant started")
+    print ("merchant started")
     game.state["running"] = false
     game.state["pause"] = false
     game.state["ended"] = false
     game.state["merchant"] = true
-    --freeze game to reduce spam affecting shop
-    freezeGame(3)
+    game.state["scoringScreen"] = false
     merchantTransitionIsPlaying = true
     merchantTransitionAnim:setState("default")
+    --freeze game to reduce spam affecting shop
+    freezeGame(3)
+    
     menuCursorAnim:setPosition(9, 122)
     player.portraitAnim:setState("happyLoop")
     merchant:openShop()
@@ -131,6 +146,7 @@ local function startNewGame()
     listOfPowerups = {}
 
     merchant = Merchant()
+    scoringScreen = ScoringScreen()
 
     --initialize enemies and powerups 
     mastermind:spawn()

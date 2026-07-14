@@ -2,10 +2,13 @@ Mastermind = Object:extend()
 
 local waveCursor = love.graphics.newImage("sprites/wave-clear-cursor.png")
 
+
+
 function Mastermind:new()
 	self.level = 0
 	self.enemyKillCount = 0
 	self.killCountStatUpSpawned = false
+	self.item60ResolvedFlag = false
 end
 
 --[[
@@ -136,8 +139,9 @@ end
 
 function Mastermind:killCheck()
 	if self.enemyKillCount ~= 0 and self.enemyKillCount >= ((((2.5*(self.level+1)) ^ 2)+(2.5 * (self.level+1)))) then
-		if player.item60Flag == true then
+		if player.item60Flag == true and self.item60ResolvedFlag == false then
 			print("merchant skipped bc of item :L")
+			self.item60ResolvedFlag = true
 		else
 			startMerchant()
 			print("merchant started from mastermind")
