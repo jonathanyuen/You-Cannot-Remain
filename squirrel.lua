@@ -5,7 +5,7 @@ function Squirrel:new(lvl,spawnX,spawnY)
 	--coordinates/attributes
 	self.x = spawnX
 	self.y = spawnY
-	self.speed = 4+(.15*lvl)
+	self.speed = 4+(.5*lvl)
 	if player.item32Flag == true then
 		self.speed = self.speed*.7
 	end
@@ -102,7 +102,6 @@ end
 function Squirrel:update(dt)
 	-- status: alive, so keep it pushin
 	if self:isDead() == false then	
-		print("squirrel direction: " .. self.direction)
 		--y axis movement
         self.y = self.y + self.speed * dt
         if self.y > 180 then

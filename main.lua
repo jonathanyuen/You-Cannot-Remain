@@ -96,20 +96,29 @@ end
 
 --merchant (global)
 function startMerchant()
-    print ("merchant started")
-    game.state["running"] = false
-    game.state["pause"] = false
-    game.state["ended"] = false
-    game.state["merchant"] = true
-    game.state["scoringScreen"] = false
-    merchantTransitionIsPlaying = true
-    merchantTransitionAnim:setState("default")
-    --freeze game to reduce spam affecting shop
-    freezeGame(3)
+    print ("merchant started startMerchant() triggered")
+    --wavebomb cutscene
+    for i,v in ipairs(listOfEnemies) do
+        v.health = 0
+        sfxSuccessfulHit:clone():play()
+    end
+    Timer.after(.5, function ()
+        game.state["running"] = false
+        game.state["pause"] = false
+        game.state["ended"] = false
+        game.state["merchant"] = true
+        game.state["scoringScreen"] = false
+        merchantTransitionIsPlaying = true
+        merchantTransitionAnim:setState("default")
+        --freeze game to reduce spam affecting shop
+        freezeGame(3)
+        
+        menuCursorAnim:setPosition(9, 122)
+        player.portraitAnim:setState("happyLoop")
+        merchant:openShop()
+        
+    end)
     
-    menuCursorAnim:setPosition(9, 122)
-    player.portraitAnim:setState("happyLoop")
-    merchant:openShop()
 end
 
 --transition from merchant state to game state
@@ -122,6 +131,10 @@ function endMerchant()
     equipment:updateMango() --adds effects from items!
     player.portraitAnim:setState("idle")
     --print("merchant ended")
+
+    --reset mango's position
+    player.x = 160
+    player.y = 140
 end
 
 --start the game
@@ -779,13 +792,10 @@ end
 local love_errorhandler = love.errorhandler
 
 function screenshake(duration,intensity)
-    print("screenshake initialized")
     screenShaking = true
     Timer.during(duration, function (dt)
         dx = math.random(-intensity,intensity)
         dy = math.random(-intensity,intensity)
-        
-        print("dx: " .. dx .. " & dy: " .. dy)
     end)
     Timer.after(duration, function ()
         screenShaking = false
