@@ -42,9 +42,9 @@ end
 --nextLevel is basically the spawn function? may be redundant
 function Mastermind:nextLevel(lvl)
 	-- ant spawns
-	for i = 1, ((5+lvl) * (lvl+1)) do
-		table.insert(listOfEnemies,Ant(lvl,math.random(120,200),0-(math.random(4,24)*i)))
-		table.insert(listOfEnemies,Ant(lvl,math.random(120,200),0-(math.random(4,24)*i)))
+	for i = 1, ((4+lvl) * (lvl+1)) do
+		table.insert(listOfEnemies,Ant(lvl,math.random(120,200),0-(math.random(4,30)*i)))
+		table.insert(listOfEnemies,Ant(lvl,math.random(120,200),0-(math.random(4,30)*i)))
 	end
 
 	--falcon spawns

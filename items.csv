@@ -45,7 +45,7 @@ id,name,effect,description text,rarity,implemented?
 46,TTEOK BOKKI,Fire rate up up up,tbd,odd,y
 56,GHOST FLU,Spit passes through enemies,tbd,odd,y
 57,THORNS,Enemies get damaged on contact with you,tbd,odd,y
-58,QUICK HANDS,"Every time you swap weapons, you gain Renown",tbd,odd,y
+58,QUICK HANDS,Every time you swap weapons you gain Renown,tbd,odd,y
 59,FAMAS,Burst fire spit,tbd,odd,y
 31,EXTENDED MAG,All ammo-based weapons have +2 clip size,tbd,remarkable,y
 32,STOP WATCH,Everyone moves 30% slower,tbd,remarkable,y

@@ -38,10 +38,6 @@ function Player:new()
 	self.speed = 35
 	self.tailDmg = 1
 
-	--active reload positions
-	self.activeReloadLowerBound = 4
-	self.activeReloadHigherBound = 7
-
 	--power up status
 	self.onFire = false
 	self.onFireDuration = 5 -- base fireBreath powerup lasts 5 seconds -- called by powerups class
@@ -244,7 +240,7 @@ function Player:keyPressed(key)
 	end
 
 	--active reload
-	if self.spitter.outOfAmmoFlag == false and self.spitter.activeReloadCursorXPos >= self.activeReloadLowerBound and self.spitter.activeReloadCursorXPos <= self.activeReloadHigherBound and love.keyboard.isDown("space") and player.inShell == false then
+	if self.spitter.outOfAmmoFlag == false and self.spitter.activeReloadCursorXPos >= self.spitter.activeReloadLowerBound and self.spitter.activeReloadCursorXPos <= self.spitter.activeReloadUpperBound and love.keyboard.isDown("space") and player.inShell == false then
 		sfxActiveReloadSuccess:play()
 		self.portraitAnim:setState("activeReloadSuccess")
 
