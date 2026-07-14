@@ -35,7 +35,10 @@ end
 function Mastermind:setLevel(lvl)
 	if self.level ~= lvl then
 		self.level = lvl
-		self:nextLevel(lvl)
+		Timer.after(2, function ()
+			self:nextLevel(lvl)
+		end)
+		
 	end
 end
 
@@ -142,6 +145,7 @@ function Mastermind:killCheck()
 		if player.item60Flag == true and self.item60ResolvedFlag == false then
 			print("merchant skipped bc of item :L")
 			self.item60ResolvedFlag = true
+			self:setLevel(self.level + 1)
 		else
 			startMerchant()
 			print("merchant started from mastermind")

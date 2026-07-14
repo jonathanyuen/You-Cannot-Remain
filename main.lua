@@ -99,8 +99,10 @@ function startMerchant()
     print ("merchant started startMerchant() triggered")
     --wavebomb cutscene
     for i,v in ipairs(listOfEnemies) do
-        v.health = 0
-        sfxSuccessfulHit:clone():play()
+        if v.y >= -5 then
+            v.health = 0
+            sfxSuccessfulHit:clone():play()
+        end
     end
     Timer.after(.5, function ()
         game.state["running"] = false

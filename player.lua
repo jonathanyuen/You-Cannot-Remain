@@ -119,7 +119,7 @@ function Player:cycleWeapon()
 	end
 	--weaponswaps -> renown gain
 	if self.item58Flag == true then
-		scoreboard:updateTicker("Legend of the Hawk", 1)
+		scoreboard:updateTicker("Quick Hands", 1)
 	end
 end
 
