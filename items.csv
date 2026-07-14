@@ -57,9 +57,9 @@ id,name,effect,description text,rarity,implemented?
 38,ISOTOPE,Spit pellet radius up 3,tbd,remarkable,y
 39,CENTURY EGG,All stats up,Some say this egg is over a hundred years old.,remarkable,y
 50,GAS,Adds more firebreath power-ups,tbd,remarkable,y
-60,NO SHIRT NO SHOES,Next shop is unavailable,tbd,remarkable,y
+60,NO SHIRT NO SHOES,Next shop is unavailable,tbd,remarkable,bypass
 61,REWARDS CARD,Blind boxes stay the same price and never go up,tbd,remarkable,bypass
-62,VUVU ZUELA,Spit shoots out in a cone,tbd,remarkable,y
+62,VUVU ZUELA,Spit shoots out in a cone during Active Reload boost,tbd,remarkable,y
 63,HIGH ROLLER SHADES,First blind box is always free,tbd,aberrant,bypass
 64,CHOCOLATE COIN,Spit uses renown when you have no ammo,tbd,aberrant,y
 65,TOMBSTONE,Mango no longer collides with enemies,tbd,aberrant,y

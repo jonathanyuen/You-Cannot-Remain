@@ -40,7 +40,7 @@ local function purchaseDecision(decision)
 					print(merchant.item1Cost)
 					score = score - merchant.item1Cost
 					print ("item 1 - " .. merchant.item1.name .. " added!")
-					merchant.buttons[1].text = "Item 1 - SOLD OUT"
+					merchant.buttons[1].text = "ITEM 1 - SOLD OUT"
 					merchant.buttons[1].func = function()
 						print ("This button has no function attached")
 					end
@@ -54,7 +54,7 @@ local function purchaseDecision(decision)
 				if score >= merchant.item2Cost then
 					equipment:addItem(merchant.item2.id)
 					score = score - merchant.item2Cost
-					merchant.buttons[2].text = "Item 2 - SOLD OUT"
+					merchant.buttons[2].text = "ITEM 2 - SOLD OUT"
 					merchant.buttons[2].func = function()
 						print ("This button has no function attached")
 					end				
@@ -68,7 +68,7 @@ local function purchaseDecision(decision)
 				if score >= merchant.item3Cost then
 					equipment:addItem(merchant.item3.id)
 					score = score - merchant.item3Cost
-					merchant.buttons[3].text = "Item 3 - SOLD OUT"
+					merchant.buttons[3].text = "ITEM 3 - SOLD OUT"
 					merchant.buttons[3].func = function()
 						print ("This button has no function attached")
 					end
@@ -196,7 +196,7 @@ function Merchant:rollItem()
 	returnValue = math.random(1,65)
 
 	-- TODO: recursive script? or a while loop that keeps rolling if item was already purchased... use isDupe()
-	while self:isDupe(returnValue) == true or returnValue == 52 or returnValue == 61 or returnValue == 63 do
+	while self:isDupe(returnValue) == true or returnValue == 60 or returnValue == 47 or returnValue == 48 or returnValue == 52 or returnValue == 61 or returnValue == 63 do
 		returnValue = math.random(1,65)
 	end
 

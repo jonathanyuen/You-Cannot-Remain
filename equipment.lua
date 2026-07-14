@@ -117,7 +117,7 @@ function Equipment:updateMango()
 				v.resolved = true
 			elseif v.id == 7 then
 				--spitter ammo up 20
-				player.spitter.maxCapacity = player.spitter.maxCapacity + 20
+				player.spitter.ammoLeft = player.spitter.ammoLeft + 20
 				v.resolved = true
 			elseif v.id == 8 then
 				--flamethrower dmg up
@@ -362,7 +362,7 @@ function Equipment:updateMango()
 				v.resolved = true
 			elseif v.id == 65 then
 				--gets rid of collision
-				player.item56Flag = true
+				player.item65Flag = true
 				v.resolved = true
 				--TODO: ghost colors
 			end

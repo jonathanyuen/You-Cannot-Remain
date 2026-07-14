@@ -66,19 +66,6 @@ function Weapon:triggerPull()
             
             self:fireBullet()
 
-            if player.item59Flag == true and self.clip > 3 then
-                Timer.after(.1, function()
-                    self:fireBullet()
-                end)
-                Timer.after(.1, function()
-                    self:fireBullet()
-                end)
-            elseif player.item59Flag == true and self.clip == 2 then
-                Timer.after(.1, function()
-                    self:fireBullet()
-                end)
-            end
-
         elseif self.clip <= 0 then
             self:reload()
         end
@@ -131,6 +118,17 @@ function Weapon:fireBullet()
             table.insert(listOfSpitBullets, Spit(player.x+3, player.y))
         else
             table.insert(listOfSpitBullets, Spit(player.x+5, player.y))
+        end
+        if player.item59Flag == true then
+            --burst fire
+            Timer.after(.1, function ()
+                if player.item40Flag == true then
+                    table.insert(listOfSpitBullets, Spit(player.x+7, player.y))
+                    table.insert(listOfSpitBullets, Spit(player.x+3, player.y))
+                else
+                    table.insert(listOfSpitBullets, Spit(player.x+5, player.y))
+                end
+            end)
         end
         self.clip = self.clip - 1
         
