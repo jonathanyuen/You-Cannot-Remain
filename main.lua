@@ -30,10 +30,13 @@ local screenShaking = false --checks if screen should be shaking
 local dx = 0 -- delta x and y for the shakin
 local dy = 0
 
+--game freezing
 gameIsFrozen = false
 
 --merchant transition in play variable
 merchantTransitionIsPlaying = false
+
+waveClearState = false
 
 collisionInstance = 0
 
@@ -56,10 +59,11 @@ local game = {
     state = {
         menu = true,
         merchant = false,
+        waveClear = false,
         pause = false,
         running = false,
         ended = false,
-        scoring = false
+        scoringScreen = false
     }
 }
 
@@ -83,6 +87,36 @@ function freezeGame(secs)
     end)
 end
 
+--[[
+    function that handles when a wave is cleared
+    1. freezes positions - done
+    2. lets the death animations for enemies play - 
+    3. plays the wave cleared/merchant transition animation play
+    4. transition to the scoring screen
+    5. pauses spawning of next wave
+
+]]
+function waveCleared()
+    waveClearState = true --global variable that can be accessed to stop things like movement
+    --wavebomb cutscene
+    --blows up enemies
+    for i,v in ipairs(listOfEnemies) do
+        if v.y >= -5 then
+            v.health = 0
+            sfxSuccessfulHit:clone():play()
+        end
+    end
+    merchantTransitionIsPlaying = true
+    merchantTransitionAnim:setState("default")
+    --freeze game to reduce spam affecting shop
+    freezeGame(3)
+    --Timer for all this to happen -> startScoringScreen
+    Timer.after(2, function ()
+        waveClearState = false
+        startScoringScreen()
+    end)
+end
+
 function startScoringScreen()
     --adjust the game states
     game.state["running"] = false
@@ -91,35 +125,27 @@ function startScoringScreen()
     game.state["merchant"] = false
     game.state["scoringScreen"] = true
 
-    
+
+    --start the Merchant
+    startMerchant()
 end
 
 --merchant (global)
 function startMerchant()
-    print ("merchant started startMerchant() triggered")
-    --wavebomb cutscene
-    for i,v in ipairs(listOfEnemies) do
-        if v.y >= -5 then
-            v.health = 0
-            sfxSuccessfulHit:clone():play()
-        end
-    end
-    Timer.after(.5, function ()
-        game.state["running"] = false
-        game.state["pause"] = false
-        game.state["ended"] = false
-        game.state["merchant"] = true
-        game.state["scoringScreen"] = false
-        merchantTransitionIsPlaying = true
-        merchantTransitionAnim:setState("default")
-        --freeze game to reduce spam affecting shop
-        freezeGame(3)
+    
+
+    game.state["running"] = false
+    game.state["pause"] = false
+    game.state["ended"] = false
+    game.state["merchant"] = true
+    game.state["scoringScreen"] = false
+    
+    
+    menuCursorAnim:setPosition(9, 122)
+    player.portraitAnim:setState("happyLoop")
+    merchant:openShop()
         
-        menuCursorAnim:setPosition(9, 122)
-        player.portraitAnim:setState("happyLoop")
-        merchant:openShop()
-        
-    end)
+    
     
 end
 
@@ -247,6 +273,7 @@ function love.load()
     tailImage = love.graphics.newImage("/sprites/irontail.png")
     flameBreathImage = love.graphics.newImage("/sprites/fireBreathIcon.png")
 
+    
 
     
     --load the music
@@ -296,6 +323,7 @@ function love.load()
     scoreboard = Scoreboard()
     --initialize merchant
     merchant = Merchant()
+    scoringScreen = ScoringScreen()
 
     --arrays
     listOfEnemies = {}
@@ -579,6 +607,10 @@ function love.update(dt)
             player.portraitAnim:update(dt)
         end
 
+        if game.state["scoringScreen"] == true then
+            scoringScreen:update(dt)
+        end
+
         --menuuu
         if game.state["menu"] == true then
             menuCursorAnim:update(dt)        
@@ -662,8 +694,9 @@ function love.update(dt)
             ]]
 
             --update scroll background
-            u = u-4*dt
-            --update timer
+            if waveClearState == false then
+                u = u-4*dt
+            end
             
         end
 
@@ -785,6 +818,9 @@ function love.draw()
         menuCursorAnim:draw()
     elseif game.state["ended"] then
         deathScreenAnim:draw()
+    elseif game.state["scoring"] then
+        self.scoringScreen:draw()
+
     end
 
     --finish scaling

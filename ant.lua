@@ -148,7 +148,7 @@ end
 function Ant:update(dt)
 	-- status: alive, so keep it pushin
 	if self:isDead() == false then
-		if self.hitStunned == false then
+		if self.hitStunned == false and waveClearState == false then
 			self.y = self.y + self.speed * dt
 			if self.y > 180 then
 				player:takeDmg(1)

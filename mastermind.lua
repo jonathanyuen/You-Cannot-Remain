@@ -35,9 +35,8 @@ end
 function Mastermind:setLevel(lvl)
 	if self.level ~= lvl then
 		self.level = lvl
-		Timer.after(2, function ()
-			self:nextLevel(lvl)
-		end)
+		self:nextLevel(lvl)
+		
 		
 	end
 end
@@ -147,8 +146,7 @@ function Mastermind:killCheck()
 			self.item60ResolvedFlag = true
 			self:setLevel(self.level + 1)
 		else
-			startMerchant()
-			print("merchant started from mastermind")
+			waveCleared()
 			self:setLevel(self.level + 1)
 		end
 	end

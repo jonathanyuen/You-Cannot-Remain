@@ -314,17 +314,17 @@ function Player:update(dt)
 
 
 	--moving left and right
-	if love.keyboard.isDown("left") then
+	if love.keyboard.isDown("left") and waveClearState == false then
 		self.x = self.x - self.speed * dt
-	elseif love.keyboard.isDown("right") then
+	elseif love.keyboard.isDown("right") and waveClearState == false then
 		self.x = self.x + self.speed * dt
 	end
 
 	--moving up and down
 
-	if love.keyboard.isDown("up") then
+	if love.keyboard.isDown("up") and waveClearState == false then
 		self.y = self.y -self.speed * dt
-	elseif love.keyboard.isDown("down") then
+	elseif love.keyboard.isDown("down") and waveClearState == false then
 		self.y = self.y + self.speed * dt
 	end
 

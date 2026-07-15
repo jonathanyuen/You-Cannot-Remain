@@ -101,7 +101,7 @@ end
 
 function Squirrel:update(dt)
 	-- status: alive, so keep it pushin
-	if self:isDead() == false then	
+	if self:isDead() == false and waveClearState == false then	
 		--y axis movement
         self.y = self.y + self.speed * dt
         if self.y > 180 then
