@@ -21,6 +21,7 @@ function Falcon:new(lvl,spawnX,spawnY)
 	self.readyToClean = 5
 	self.collisionDmg = 1
     self.damageFlag = false
+	self.scorelessDeath = false
 end
 
 --handles damage
@@ -79,6 +80,7 @@ function Falcon:update(dt)
         if self.y > 180 then
             player:takeDmg(1)
             self.health = 0
+			self.scorelessDeath = true
             self.readyToClean = 6
         end
         self:checkCollision(player)
@@ -92,10 +94,12 @@ function Falcon:update(dt)
 		self.x = -1000
 		self.y = -1000
 		self.newlyDead = false
-		mastermind.enemyKillCount = mastermind.enemyKillCount+1
-		scoring.counterFalconsKilled = scoring.counterFalconsKilled + 1
-		scoreboard:updateTicker("Falcon slain", self.deathValue)
-		mastermind:killCheck()
+		if self.scorelessDeath == false then
+			mastermind.enemyKillCount = mastermind.enemyKillCount+1
+			scoring.counterFalconsKilled = scoring.counterFalconsKilled + 1
+			scoreboard:updateTicker("Falcon slain", self.deathValue)
+			mastermind:killCheck()
+		end
 
 	elseif self:isDead() == true and self.newlyDead == false then
 		self.deathAnimation:update(dt)

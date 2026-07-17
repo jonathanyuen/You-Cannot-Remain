@@ -9,7 +9,20 @@ function ScoringScreen:update(dt)
 
 end
 
-function ScoringScreen:draw(dt)
+function ScoringScreen:draw()
+    --background
     love.graphics.draw(scoringScreenBG, 0, 0)
+
+    --the score breakdowns
+    --[[
+    TODO:
+    Clear time
+    Accuracy
+    Times Hit
+    Damage Taken
+    Active Reloads
+    Blessings Collected
+    ]]
+    love.graphics.print("CLEAR TIME: ")
 end
 

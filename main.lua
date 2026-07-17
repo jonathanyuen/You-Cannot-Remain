@@ -100,6 +100,7 @@ function waveCleared()
     waveClearState = true --global variable that can be accessed to stop things like movement
     --wavebomb cutscene
     --blows up enemies
+    
     for i,v in ipairs(listOfEnemies) do
         if v.y >= -5 then
             v.health = 0
@@ -127,7 +128,7 @@ function startScoringScreen()
 
 
     --start the Merchant
-    startMerchant()
+    --startMerchant()
 end
 
 --merchant (global)
@@ -818,8 +819,8 @@ function love.draw()
         menuCursorAnim:draw()
     elseif game.state["ended"] then
         deathScreenAnim:draw()
-    elseif game.state["scoring"] then
-        self.scoringScreen:draw()
+    elseif game.state["scoringScreen"] then
+        scoringScreen:draw()
 
     end
 

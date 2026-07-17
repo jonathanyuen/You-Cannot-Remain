@@ -1,15 +1,32 @@
 Scoreboard = Object:extend()
 score = 0
 scoreGainRate = 1
-    scoring = {
-        counterAntsKilled = 0,
-        counterFalconsKilled = 0,
-        counterSquirrelsKilled = 0,
-        counterActiveReloadSuccess = 0,
-        flagBulletsMissed = false,
-        flagActiveReloadMissed = false,
-        blessingsObtained = 0
-    }
+--cumulative scoring
+scoring = {
+    counterAntsKilled = 0,
+    counterFalconsKilled = 0,
+    counterSquirrelsKilled = 0,
+    counterActiveReloadSuccess = 0,
+    totalBulletsFired = 0,
+    totalBulletsHit = 0,
+    flagBulletsMissed = false,
+    blessingsObtained = 0,
+    timesTouched = 0,
+    nestDamage = 0,
+    clearTime = 0
+}
+
+--the last counts of the scoring components before the most recent wave started
+waveScoring = {
+    lastTotalBulletsFired = 0,
+    lastTotalBulletsHit = 0,
+    lastBlessingsObtained = 0,
+    lastActiveReloadSuccess = 0,
+    lastClearTime = 0,
+    lastTimesTouched = 0,
+    lastNestDamage = 0
+}
+
 
 scoreboardColorPalette = {
     white = {184/255,181/255,185/255},
@@ -21,6 +38,16 @@ scoreboardColorPalette = {
 function Scoreboard:new()
     self.ticker = {}
     
+end
+
+function Scoreboard:saveScoringStats()
+    --save the scoring stats - invoke this method upon wave clear!
+    waveScoring["lastTotalBulletsFired"] = scoring["totalBulletsFired"]
+    waveScoring["lastTotalBulletsHit"] = scoring["totalBulletsHit"]
+    waveScoring["lastTimesTouched"] = scoring["timesTouched"]
+    waveScoring["lastNestDamage"] = scoring["nestDamage"]
+    waveScoring["lastBlessingsObtained"] = scoring["blessingsObtained"]
+
 end
 
 function Scoreboard:getSize()

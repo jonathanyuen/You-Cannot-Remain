@@ -20,6 +20,7 @@ function Ant:new(lvl,spawnX,spawnY)
 	self.readyToClean = 5
 	self.collisionDmg = 1
 	self.hitStunned = false
+	self.scorelessDeath = false
 end
 
 --handles damage
@@ -154,6 +155,7 @@ function Ant:update(dt)
 				player:takeDmg(1)
 				self.health = 0
 				self.readyToClean = 6
+				self.scorelessDeath = true
 			end
 			self:checkCollision(player)
 		end
@@ -167,10 +169,12 @@ function Ant:update(dt)
 		self.x = -1000
 		self.y = -1000
 		self.newlyDead = false
-		mastermind.enemyKillCount = mastermind.enemyKillCount+1
-		scoring.counterAntsKilled = scoring.counterAntsKilled + 1
-		scoreboard:updateTicker("Enemy slain", self.deathValue)
-		mastermind:killCheck()
+		if self.scorelessDeath == false then
+			mastermind.enemyKillCount = mastermind.enemyKillCount+1
+			scoring.counterAntsKilled = scoring.counterAntsKilled + 1
+			scoreboard:updateTicker("Enemy slain", self.deathValue)
+			mastermind:killCheck()
+		end
 		screenshake(.05,.2)
 
 	elseif self:isDead() == true and self.newlyDead == false then

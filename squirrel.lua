@@ -22,6 +22,7 @@ function Squirrel:new(lvl,spawnX,spawnY)
 	self.collisionDmg = 1
     self.damageFlag = false
 	self.direction = math.random(0,1) --0 is left, 1 is right
+	self.scorelessDeath = false
 end
 
 --handles damage
@@ -108,6 +109,7 @@ function Squirrel:update(dt)
             player:takeDmg(1)
             self.health = 0
             self.readyToClean = 6
+			self.scorelessDeath = true
         end
 
 		--x axis movement
@@ -133,10 +135,14 @@ function Squirrel:update(dt)
 		self.x = -1000
 		self.y = -1000
 		self.newlyDead = false
-		mastermind.enemyKillCount = mastermind.enemyKillCount+1
-		scoring.counterSquirrelsKilled = scoring.counterSquirrelsKilled + 1
-		scoreboard:updateTicker("Squirrel slain", self.deathValue)
-		mastermind:killCheck()
+		--differentiate if they died from wave clear bomb or actual death
+		if self.scorelessDeath == false then
+			mastermind.enemyKillCount = mastermind.enemyKillCount+1
+			scoring.counterSquirrelsKilled = scoring.counterSquirrelsKilled + 1
+			scoreboard:updateTicker("Squirrel slain", self.deathValue)
+			mastermind:killCheck()
+		end
+		
 		screenshake(.3,.3)
 
 
