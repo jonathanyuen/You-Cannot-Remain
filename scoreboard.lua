@@ -82,9 +82,7 @@ function Scoreboard:waveClearCalcStats()
     }
 
     --debug this
-    for i,v in ipairs(waveClearStats) do
-        print(v)
-    end
+    for key,value in ipairs(waveClearStats) do print(key,value) end
 
     --calculate timeBonus
     waveClearStats.timeBonus = (60 - waveClearStats.clearTime) * 20

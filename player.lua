@@ -150,6 +150,10 @@ function Player:takeDmg(dmgNum)
 		player.item18Flag = false
 	end
 
+
+	if dmgNum < 0  then
+		scoreboard.scoring["nestDamage"] = scoreboard.scoring["nestDamage"] + dmgNum
+	end
 	self.health = self.health - dmgNum
 	sfxHPDown:play()
 	screenshake(.5,1)
@@ -203,6 +207,7 @@ function Player:getHit()
 		sfxInShell:play()
 		self.inShell = true
 		player.speed = 0
+		scoreboard.scoring["timesTouched"] = scoreboard.scoring["timesTouched"] + 1
 		Timer.after(self.recoveryTime, function() 
 			--sfxOutOfShell:play()
 			player.anim:setState("outOfShell") 

@@ -475,7 +475,7 @@ function love.keypressed(key)
 
         --scoringScreen advancing
         if game.state["scoringScreen"] then
-            if love.keyBoard.isDown("space") then
+            if love.keyboard.isDown("space") then
                 scoringScreen:advanceSlide()
             end
         end
