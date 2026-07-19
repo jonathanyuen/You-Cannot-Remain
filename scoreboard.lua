@@ -24,7 +24,8 @@ waveScoring = {
     lastActiveReloadSuccess = 0,
     lastClearTime = 0,
     lastTimesTouched = 0,
-    lastNestDamage = 0
+    lastNestDamage = 0,
+    lastSecondCounter = 0
 }
 
 
@@ -40,14 +41,96 @@ function Scoreboard:new()
     
 end
 
+--saves the current stats of the run
 function Scoreboard:saveScoringStats()
     --save the scoring stats - invoke this method upon wave clear!
     waveScoring["lastTotalBulletsFired"] = scoring["totalBulletsFired"]
     waveScoring["lastTotalBulletsHit"] = scoring["totalBulletsHit"]
     waveScoring["lastTimesTouched"] = scoring["timesTouched"]
     waveScoring["lastNestDamage"] = scoring["nestDamage"]
+    waveScoring["lastActiveReloadSuccess"] = scoring["counterActiveReloadSuccess"]
     waveScoring["lastBlessingsObtained"] = scoring["blessingsObtained"]
+    waveScoring["lastSecondCounter"] = secondCounter
+end
 
+--calculates the scoring breakdown and bonuses for wave clear
+function Scoreboard:waveClearCalcStats()
+    --calculate the scoring breakdown
+    local clearTime = secondCounter - waveScoring["lastSecondCounter"]
+    local accuracy = (scoring["totalBulletsHit"] - waveScoring["lastTotalBulletsHit"]) / (scoring["totalBulletsFired"] - waveScoring["lastTotalBulletsFired"])
+    local statsTimesTouched = scoring["timesTouched"] - waveScoring["lastTimesTouched"]
+    local statsNestDamage = scoring["nestDamage"] - waveScoring["lastNestDamage"]
+    local activeReloads = scoring["counterActiveReloadSuccess"] - waveScoring["lastActiveReloadSuccess"]
+    local statsBlessingsObtained = scoring["blessingsObtained"] - waveScoring["lastBlessingsObtained"]
+    
+    --calculate possible bonuses
+    local waveClearStats = {
+        clearTime = clearTime,
+        accuracy = accuracy,
+        statsTimesTouched = statsTimesTouched,
+        statsNestDamage = statsNestDamage,
+        activeReloads = activeReloads,
+        statsBlessingsObtained = statsBlessingsObtained,
+        timeBonus = 0,
+        accuracyBonus = 0,
+        timesTouchedBonus = 0,
+        nestDmgBonus = 0,
+        activeReloadBonus = 0,
+        blessingsBonus = 0,
+        totalBonus = 0,
+        rank = ""
+    }
+
+    --debug this
+    for i,v in ipairs(waveClearStats) do
+        print(v)
+    end
+
+    --calculate timeBonus
+    waveClearStats.timeBonus = (60 - waveClearStats.clearTime) * 20
+
+    --calculate accuracyBonus   
+    if waveClearStats.accuracy == 1 then
+        waveClearStats.accuracyBonus = 2000 --perfect accuracy
+    elseif waveClearStats.accuracy < 1 and waveClearStats.accuracy >= .85 then
+        waveClearStats.accuracyBonus = 1000
+    elseif waveClearStats.accuracy < .85 and waveClearStats.accuracy >= .65 then
+        waveClearStats.accuracyBonus = 500
+    end
+
+    --calculate timesTouchedBonus
+    if waveClearStats.statsTimesTouched == 0 then
+        waveClearStats.timesTouchedBonus = 1000 * (mastermind.level + 1) --untouchable
+    end
+
+    --calculate nestDmgBonus
+    if waveClearStats.statsNestDamage == 0 then
+        waveClearStats.nestDmgBonus = 400 * (mastermind.level + 1) --perfect
+    end
+
+    --calculate activeReloadBonus
+    waveClearStats["activeReloadBonus"] = waveClearStats.activeReloads * 5
+    --calculate blessingsBonus
+    waveClearStats["blessingsBonus"] = waveClearStats.statsBlessingsObtained * 5
+
+    --calculate totalBonus
+    waveClearStats.totalBonus = waveClearStats.timeBonus + waveClearStats.accuracyBonus + waveClearStats.timesTouchedBonus + waveClearStats.nestDmgBonus + waveClearStats.activeReloadBonus + waveClearStats.blessingsBonus
+    --calculate rank!
+    if waveClearStats.totalBonus >= (4300 + (1400 * mastermind.level)) then
+        waveClearStats.rank = "S"
+    elseif waveClearStats.totalBonus >= (3100 + (1400 * mastermind.level)) then
+        waveClearStats.rank = "A"
+    elseif waveClearStats.totalBonus >= (1600 + (400 * mastermind.level)) then
+        waveClearStats.rank = "B"
+    elseif waveClearStats.totalBonus >= (1100 + (400 * mastermind.level)) then
+        waveClearStats.rank = "C"
+    else
+        waveClearStats.rank = "D"
+    end
+    --call saveScoringStats
+    self:saveScoringStats()
+    --return an array with the breakdown for easy access
+    return waveClearStats
 end
 
 function Scoreboard:getSize()

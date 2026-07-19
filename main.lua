@@ -52,7 +52,7 @@ colorPalette = {
 
 
 --debug timer
-local secondCounter = 0
+secondCounter = 0
 
 --game states
 local game = {
@@ -126,8 +126,11 @@ function startScoringScreen()
     game.state["merchant"] = false
     game.state["scoringScreen"] = true
 
+    --refresh stats
+    scoringScreen:refresh()
+    
 
-    --start the Merchant
+    --TODO: start the Merchant - need to tie this to like... key presses
     --startMerchant()
 end
 
@@ -467,6 +470,13 @@ function love.keypressed(key)
                     selectedMenuButton = buttons.menu_state[2]
                     menuCursorAnim:setPosition(selectedMenuButton.button_x-1, selectedMenuButton.button_y+3)
                 end
+            end
+        end
+
+        --scoringScreen advancing
+        if game.state["scoringScreen"] then
+            if love.keyBoard.isDown("space") then
+                scoringScreen:advanceSlide()
             end
         end
 
