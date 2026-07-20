@@ -173,6 +173,7 @@ end
 local function startNewGame()
     game.state["menu"] = false
     game.state["running"] = true
+    gameStartTime = secondCounter
     score = 0
     scoring.counterAntsKilled = 0
     scoring.counterActiveReloadSuccess = 0
@@ -406,6 +407,10 @@ function love.load()
     Timer.every(1, function()
         secondCounter = secondCounter+1
         print (secondCounter .. " seconds elapsed =======================================") 
+
+        if game.state["running"] == true and gameIsFrozen == false then
+            scoring["clearTime"] = scoring["clearTime"] + 1
+        end
     end)
     
 
