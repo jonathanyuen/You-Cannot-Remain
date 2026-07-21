@@ -107,18 +107,16 @@ function waveCleared()
             sfxSuccessfulHit:clone():play()
         end
     end
-    merchantTransitionIsPlaying = true
-    merchantTransitionAnim:setState("default")
-    --freeze game to reduce spam affecting shop
-    freezeGame(3)
     --Timer for all this to happen -> startScoringScreen
-    Timer.after(2, function ()
+    Timer.after(1, function ()
         waveClearState = false
         startScoringScreen()
     end)
 end
 
 function startScoringScreen()
+    merchantTransitionIsPlaying = true
+    merchantTransitionAnim:setState("default")
     --adjust the game states
     game.state["running"] = false
     game.state["pause"] = false
@@ -136,6 +134,9 @@ end
 
 --merchant (global)
 function startMerchant()
+    --freeze game to reduce spam affecting shop
+    freezeGame(2)
+    
     
 
     game.state["running"] = false
@@ -744,9 +745,7 @@ function love.draw()
         player.portraitAnim:draw()
         dialogue:draw()
 
-        if merchantTransitionIsPlaying == true then
-            merchantTransitionAnim:draw()
-        end
+        
     end
 
     --if game.state is menu
@@ -840,6 +839,9 @@ function love.draw()
     elseif game.state["ended"] then
         deathScreenAnim:draw()
     elseif game.state["scoringScreen"] then
+        if merchantTransitionIsPlaying == true then
+            merchantTransitionAnim:draw()
+        end
         scoringScreen:draw()
 
     end

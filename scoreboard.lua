@@ -58,7 +58,7 @@ end
 function Scoreboard:waveClearCalcStats()
     --calculate the scoring breakdown
     local clearTime = scoring["clearTime"] - waveScoring["lastClearTime"]
-    local accuracy = (scoring["totalBulletsHit"] - waveScoring["lastTotalBulletsHit"]) / (scoring["totalBulletsFired"] - waveScoring["lastTotalBulletsFired"])
+    local accuracy = math.floor((scoring["totalBulletsHit"] - waveScoring["lastTotalBulletsHit"]) / (scoring["totalBulletsFired"] - waveScoring["lastTotalBulletsFired"]))
     local statsTimesTouched = scoring["timesTouched"] - waveScoring["lastTimesTouched"]
     local statsNestDamage = scoring["nestDamage"] - waveScoring["lastNestDamage"]
     local activeReloads = scoring["counterActiveReloadSuccess"] - waveScoring["lastActiveReloadSuccess"]

@@ -1,5 +1,7 @@
 IronTail = Weapon:extend()
 
+require "ironTailAttackIndicator"
+
 function IronTail:new()
     --super class
     IronTail.super.new(self)
@@ -18,6 +20,8 @@ function IronTail:new()
     --array to keep the targets who are being calculate for their hit
     self.attackSuccessFlag = {}
 
+    self.indicators = {}
+
 end
 
 --[[
@@ -30,6 +34,9 @@ does the calculations of whether or not a projectile is *fired*
 function IronTail:smackTail()
 
     sfxIronTailSwipe:clone():play()
+    
+    --'spawn' the indicator
+    table.insert(self.indicators, IronTailAttackIndicator())
 
     local hbox_left = player.x - self.hitboxExtensionHori
     local hbox_right = player.x + 16 + self.hitboxExtensionHori
@@ -117,7 +124,20 @@ function IronTail:damageCalc(enemyIndex,enemy)
     end]]
 end
 
+--update for IronTail mostly deals with cleaning up the indicators who've played out their animation
+function IronTail:update(dt)
+    for i,v in ipairs(self.indicators) do
+        v:update(dt)
+        v.visualIndicatorAnim:onStateEnd(function()
+            table.remove(self.indicators, i)
+        
+        end)
+    end
+end
+
 function IronTail:draw()
-   
+    for i,v in ipairs(self.indicators) do
+        v:draw()
+    end
 end
 
