@@ -234,10 +234,10 @@ function Player:keyPressed(key)
 	--ironTail
 	if love.keyboard.isDown("space") and self.weaponEquipped["ironTail"].equipped == true and self.onFire == false and player.inShell == false and self.ironTail.swinging == false then
 		self.ironTail.swinging = true
-		Timer.after(.1, function()
-			self.ironTail:smackTail()
-			self.anim:setState("melee")
-		end)
+		
+		self.ironTail:smackTail()
+		self.anim:setState("melee")
+		
 		Timer.after(self.ironTail.fireRate, function()
 			self.ironTail.swinging = false
 		end)

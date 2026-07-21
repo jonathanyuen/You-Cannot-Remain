@@ -71,7 +71,7 @@ function IronTail:smackTail()
         and enemy_bottom > hbox_top
         and enemy_top < hbox_bottom then
             v:takeDmg(10000)
-            freezeGame(.1)
+            Timer.after(.01,function() freezeGame(.2) end)
             player.spitter.ammoLeft = player.spitter.ammoLeft + 16
         end
     end
