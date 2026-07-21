@@ -207,7 +207,7 @@ function Player:getHit()
 		sfxInShell:play()
 		self.inShell = true
 		player.speed = 0
-		scoreboard.scoring["timesTouched"] = scoreboard.scoring["timesTouched"] + 1
+		scoring["timesTouched"] = scoring["timesTouched"] + 1
 		Timer.after(self.recoveryTime, function() 
 			--sfxOutOfShell:play()
 			player.anim:setState("outOfShell") 

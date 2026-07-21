@@ -45,7 +45,7 @@ function ScoringScreen:draw()
     if slideNum >= 1 then
         --left side stats
         love.graphics.printf({colorPalette.fauxWhite, "CLEAR TIME: " .. waveClearStats["clearTime"] .. " SECS"}, 12,59, 97, 'right')
-        love.graphics.printf({colorPalette.fauxWhite, "ACCURACY: " .. (waveClearStats["accuracy"]*100) .. "%"}, 12,69, 97, 'right')
+        love.graphics.printf({colorPalette.fauxWhite, "ACCURACY: " .. math.floor(waveClearStats["accuracy"]*100) .. "%"}, 12,69, 97, 'right')
         love.graphics.printf({colorPalette.fauxWhite, "TIMES HIT: " .. waveClearStats["statsTimesTouched"]}, 12,79, 97, 'right')
         love.graphics.printf({colorPalette.fauxWhite, "DAMAGE TAKEN: " .. waveClearStats["statsNestDamage"]}, 12,89, 97, 'right')
         love.graphics.printf({colorPalette.fauxWhite, "ACTIVE RELOADS: " .. waveClearStats["activeReloads"]}, 12,99, 97, 'right')

@@ -55,7 +55,7 @@ colorPalette = {
 secondCounter = 0
 
 --game states
-local game = {
+game = {
     state = {
         menu = true,
         merchant = false,
@@ -193,6 +193,7 @@ local function startNewGame()
 
     merchant = Merchant()
     scoringScreen = ScoringScreen()
+    dialogue = Dialogue()
 
     --initialize enemies and powerups 
     mastermind:spawn()
@@ -329,6 +330,7 @@ function love.load()
     --initialize merchant
     merchant = Merchant()
     scoringScreen = ScoringScreen()
+    dialogue = Dialogue()
 
     --arrays
     listOfEnemies = {}
@@ -725,6 +727,7 @@ function love.update(dt)
     else
         merchantTransitionAnim:update(dt)
     end
+    dialogue:update(dt)
     Timer.update(dt)
 end
 
@@ -739,6 +742,7 @@ function love.draw()
     if game.state["merchant"] then
         merchant:draw()
         player.portraitAnim:draw()
+        dialogue:draw()
 
         if merchantTransitionIsPlaying == true then
             merchantTransitionAnim:draw()
@@ -758,6 +762,7 @@ function love.draw()
     elseif game.state["running"] then
         --ui & stage
         love.graphics.draw(ui,0,0)
+        dialogue:draw()
 
         --draw score
         love.graphics.setFont(renownFont)

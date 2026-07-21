@@ -48,6 +48,7 @@ function Scoreboard:saveScoringStats()
     waveScoring["lastTotalBulletsHit"] = scoring["totalBulletsHit"]
     waveScoring["lastTimesTouched"] = scoring["timesTouched"]
     waveScoring["lastNestDamage"] = scoring["nestDamage"]
+    waveScoring["lastClearTime"] = scoring["clearTime"]
     waveScoring["lastActiveReloadSuccess"] = scoring["counterActiveReloadSuccess"]
     waveScoring["lastBlessingsObtained"] = scoring["blessingsObtained"]
     waveScoring["lastSecondCounter"] = secondCounter
@@ -56,7 +57,7 @@ end
 --calculates the scoring breakdown and bonuses for wave clear
 function Scoreboard:waveClearCalcStats()
     --calculate the scoring breakdown
-    local clearTime = scoring["clearTime"]
+    local clearTime = scoring["clearTime"] - waveScoring["lastClearTime"]
     local accuracy = (scoring["totalBulletsHit"] - waveScoring["lastTotalBulletsHit"]) / (scoring["totalBulletsFired"] - waveScoring["lastTotalBulletsFired"])
     local statsTimesTouched = scoring["timesTouched"] - waveScoring["lastTimesTouched"]
     local statsNestDamage = scoring["nestDamage"] - waveScoring["lastNestDamage"]
