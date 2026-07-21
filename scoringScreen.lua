@@ -5,6 +5,11 @@ local waveClearStats = {}
 local totalBonusFont = love.graphics.newFont("/fonts/Not Jam UI 12.ttf",12)
 local rankingFont = love.graphics.newFont("/fonts/NotJamOldStyle11.ttf", 33)
 
+--sfx
+local sfxTotalBonus = love.audio.newSource("/sound/sfx/bonuspoints.wav", "static")
+local sfxRank = love.audio.newSource("/sound/sfx/ranknormal.ogg", "static")
+local sfxRankHigh = love.audio.newSource("/sound/sfx/rankhighest.ogg", "static")
+
 function ScoringScreen:new()
     --scoringScreen bg
     scoringScreenBG = love.graphics.newImage("/sprites/scoring-screen-bg.png")
@@ -22,6 +27,17 @@ end
 
 function ScoringScreen:advanceSlide()
     slideNum = slideNum + 1
+
+    if slideNum == 2 then
+        sfxTotalBonus:play()
+    end
+
+    if slideNum == 3 then
+        if waveClearStats["rank"] == "S" or waveClearStats["rank"] == "A" then
+            sfxRankHigh:play()
+        else sfxRank:play()
+        end
+    end
 
     --slide limit reached... start Merchant
     if slideNum == 4 then
