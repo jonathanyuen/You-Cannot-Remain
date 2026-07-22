@@ -162,7 +162,7 @@ end
 function Mastermind:draw()
 	--a drawn progress indicator until wave clear
 	love.graphics.setColor(colorPalette.fauxWhite)
-	love.graphics.rectangle("fill", 20, 36, math.ceil(60 * (self.enemyKillCount/((((2.5*(self.level+1)) ^ 2)+(2.5 * (self.level+1)))))), 4)
+	love.graphics.rectangle("fill", 20, 36, math.ceil(60 * ((self.enemyKillCount - ((((2.5*(self.level)) ^ 2)+(2.5 * (self.level)))))/((((2.5*(self.level+1)) ^ 2)+(2.5 * (self.level+1)))))), 4)
 	love.graphics.setColor(1,1,1)
 
 	--cursor for the progress indicator
@@ -171,5 +171,5 @@ function Mastermind:draw()
 
 		so it's: (your killcount / the kills needed for next wave) * width of the progress indicator (which is 60)
 	]]
-	love.graphics.draw(waveCursor,math.ceil(60 * (self.enemyKillCount/((((2.5*(self.level+1)) ^ 2)+(2.5 * (self.level+1)))))) + 15 , 43)
+	love.graphics.draw(waveCursor,math.ceil(60 * ((self.enemyKillCount - ((((2.5*(self.level)) ^ 2)+(2.5 * (self.level)))))/((((2.5*(self.level+1)) ^ 2)+(2.5 * (self.level+1)))))) + 15 , 43)
 end

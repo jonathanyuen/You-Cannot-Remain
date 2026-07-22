@@ -47,7 +47,8 @@ collisionInstance = 0
 colorPalette = {
     red = {180/255,82/255,82/255,1},
     fauxWhite = {184/255, 181/255, 185/255,1},
-    fauxBlack = {33/255,33/255,35/255,1}
+    fauxBlack = {33/255,33/255,35/255,1},
+    reloadBlue = {104/255, 194/255, 211,255}
 }
 
 
@@ -135,15 +136,16 @@ end
 --merchant (global)
 function startMerchant()
     --freeze game to reduce spam affecting shop
-    freezeGame(2)
-    
-    
-
     game.state["running"] = false
     game.state["pause"] = false
     game.state["ended"] = false
     game.state["merchant"] = true
     game.state["scoringScreen"] = false
+    freezeGame(1)
+    
+    
+
+    
     
     
     menuCursorAnim:setPosition(9, 122)

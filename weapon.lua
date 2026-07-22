@@ -30,18 +30,18 @@ function Weapon:new()
     --active reload variables?
     self.activeReloadBarWidth = 15
     self.activeReloadBarHeight = 3
-    self.activeReloadBarColor = {100/255,99/255,101/255}
+    self.activeReloadBarColor = colorPalette.fauxBlack
 
     --for input purposes
     self.activeReloadLowerBound = 4
     self.activeReloadUpperBound = 9
     --for drawing purposes
     self.activeReloadActiveZoneWidth = self.activeReloadUpperBound - self.activeReloadLowerBound
-    self.activeReloadActiveZoneColor = {184/255, 181/255, 185/255}
+    self.activeReloadActiveZoneColor = colorPalette.reloadBlue
 
     self.activeReloadCursorWidth = 1
     self.activeReloadCursorHeight = 5
-    self.activeReloadCursorColor = {237/255,225/255,158/255}
+    self.activeReloadCursorColor = {1,1,1}
     self.activeReloadCursorXPos = 0
     self.activeReloadCursorYPos = 0
 
