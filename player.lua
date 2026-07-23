@@ -129,8 +129,8 @@ function Player:statUp(stat, upgradeAmt)
 		self.pspd = self.pspd + 1*upgradeAmt
     	
 	elseif stat == "spd" then
-		self.speed = self.speed + 10*upgradeAmt
-		self.baseSpd = self.baseSpd + 10 * upgradeAmt
+		self.speed = self.speed + 5*upgradeAmt
+		self.baseSpd = self.baseSpd + 5 * upgradeAmt
 		
 	elseif stat == "dmg" then
 		self.dmg = self.dmg + 1*upgradeAmt

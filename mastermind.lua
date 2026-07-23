@@ -162,7 +162,7 @@ end
 function Mastermind:draw()
 	--a drawn progress indicator until wave clear
 	local killsNeededToAdvance = math.ceil((((2.5 * (self.level+1)) ^ 2)+(2.5*(self.level+1))) - (((2.5 * self.level) ^ 2)+(2.5*self.level)))
-	local currentKillCount = self.enemyKillCount - (((2.5 * self.level) ^ 2)+(2.5*self.level))
+	local currentKillCount = self.enemyKillCount - math.ceil((((2.5 * self.level) ^ 2)+(2.5*self.level)))
 
 	love.graphics.setColor(colorPalette.fauxWhite)
 	love.graphics.rectangle("fill", 20, 36, math.ceil(60 * (currentKillCount/killsNeededToAdvance)), 4)

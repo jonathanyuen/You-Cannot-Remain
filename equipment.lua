@@ -129,7 +129,7 @@ function Equipment:updateMango()
 				v.resolved = true
 			elseif v.id == 10 then
 				--spd up 1
-				player:statUp("spd",5)
+				player:statUp("spd",1)
 				v.resolved = true
 			elseif v.id == 11 then
 				--pspd +1
