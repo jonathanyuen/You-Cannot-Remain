@@ -116,6 +116,7 @@ function waveCleared()
 end
 
 function startScoringScreen()
+    freezeGame(2)
     merchantTransitionIsPlaying = true
     merchantTransitionAnim:setState("default")
     --adjust the game states
@@ -841,10 +842,11 @@ function love.draw()
     elseif game.state["ended"] then
         deathScreenAnim:draw()
     elseif game.state["scoringScreen"] then
+        scoringScreen:draw()
         if merchantTransitionIsPlaying == true then
             merchantTransitionAnim:draw()
         end
-        scoringScreen:draw()
+        
 
     end
 

@@ -21,6 +21,5 @@ end
 
 
 function IronTailAttackIndicator:draw()
-    print("drawing at " .. self.xPos .. ", " .. self.yPos)   
-    self.visualIndicatorAnim:draw(self.xScale, self.yScale)
+     self.visualIndicatorAnim:draw(self.xScale, self.yScale)
 end
