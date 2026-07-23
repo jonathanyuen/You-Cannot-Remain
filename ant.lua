@@ -129,7 +129,7 @@ function Ant:collisionWithMango()
         print(collisionInstance)
         player:getHit()
 		if player.item57Flag == true then
-			self:takeDmg(player.baseDmg, "thorns")
+			self:takeDmg(player.dmg + 1, "thorns")
 		end
         Timer.after(3,function() 
         	collisionInstance = 0 
