@@ -9,8 +9,8 @@ function Spit:new(x,y)
     self.width = 1+ player.rad
     self.height = 1+player.rad
     self.rad = 1+player.rad
-    self.tiltAngle = 20
-    self.direction = 0 --spit can be -1, 0, or 1 - helps define if its a left, middle, or right spit for cone firing!
+    self.tiltAngle = .3
+    self.direction = 1 --spit can be -1, 0, or 1 - helps define if its a left, middle, or right spit for cone firing!
     scoring["totalBulletsFired"] = scoring["totalBulletsFired"] + 1
 end
 
@@ -19,10 +19,10 @@ function Spit:update(dt)
         self.y = self.y - self.speed * dt
     elseif self.direction == -1 then
         self.y = self.y - self.speed * dt
-        self.x = self.x - (self.tiltAngle * dt)
+        self.x = self.x - self.tiltAngle * self.speed * dt
     elseif self.direction == 1 then
         self.y = self.y - self.speed * dt
-        self.x = self.x + (self.tiltAngle * dt)
+        self.x = self.x + self.tiltAngle * self.speed * dt
     end
 
     if self.y <= 0 or self.x <= 102 or self.x >= 218 then
