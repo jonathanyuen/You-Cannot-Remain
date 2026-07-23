@@ -13,6 +13,7 @@ local sfxRankHigh = love.audio.newSource("/sound/sfx/rankhighest.ogg", "static")
 function ScoringScreen:new()
     --scoringScreen bg
     scoringScreenBG = love.graphics.newImage("/sprites/scoring-screen-bg.png")
+    self.inputBufferActive = false
 end
 
 function ScoringScreen:refresh()
@@ -42,7 +43,10 @@ function ScoringScreen:advanceSlide()
     --slide limit reached... start Merchant
     if slideNum == 4 then
         scoreboard:updateTicker("Wave Clear", waveClearStats["totalBonus"])
-
+        self.inputBufferActive = true
+        Timer.after(.5, function ()
+            self.inputBufferActive = false
+        end)
         startMerchant()
     end
 end

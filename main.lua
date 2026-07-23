@@ -141,7 +141,7 @@ function startMerchant()
     game.state["ended"] = false
     game.state["merchant"] = true
     game.state["scoringScreen"] = false
-    freezeGame(1)
+    freezeGame(.5)
     
     
 
@@ -491,7 +491,7 @@ function love.keypressed(key)
         end
 
         --merchant state nav
-        if game.state["merchant"] then
+        if game.state["merchant"] and scoringScreen.inputBufferActive == false then
             --initial option selection
             -----option selection
             if  (love.keyboard.isDown("return") == true) or (love.keyboard.isDown("space")) and purchasingFlag == 0 then
