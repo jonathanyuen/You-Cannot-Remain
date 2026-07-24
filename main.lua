@@ -142,6 +142,7 @@ function startMerchant()
     game.state["ended"] = false
     game.state["merchant"] = true
     game.state["scoringScreen"] = false
+    songStageOne:stop()
     freezeGame(.5)
     
     
@@ -152,6 +153,8 @@ function startMerchant()
     menuCursorAnim:setPosition(9, 122)
     player.portraitAnim:setState("happyLoop")
     merchant:openShop()
+    songMerchant:setLooping(true) 
+    songMerchant:play()
         
     
     
@@ -171,10 +174,14 @@ function endMerchant()
     --reset mango's position
     player.x = 160
     player.y = 140
+
+    songMerchant:stop()
+    songStageOne:play()
 end
 
 --start the game
 local function startNewGame()
+    songTitles:stop()
     game.state["menu"] = false
     game.state["running"] = true
     gameStartTime = secondCounter
@@ -288,6 +295,11 @@ function love.load()
     
     --load the music
     songStageOne = love.audio.newSource("/sound/music/stage 1.mp3", "stream")
+    songStageOne:setVolume(.85)
+    songMerchant = love.audio.newSource("/sound/music/maverickthemerchant.wav","stream")
+    songMerchant:setVolume(1)
+    songTitles = love.audio.newSource("/sound/music/mango march.wav", "stream")
+    songTitles:setLooping(true)
 
     --load the sfx
     sfxActiveReloadSuccess = love.audio.newSource("/sound/sfx/active-reload-success.ogg", "static")
@@ -635,6 +647,7 @@ function love.update(dt)
 
         --menuuu
         if game.state["menu"] == true then
+            songTitles:play()
             menuCursorAnim:update(dt)        
         end
 
