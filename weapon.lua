@@ -62,6 +62,11 @@ does the calculations of whether or not a projectile is *fired*
 function Weapon:triggerPull()
     if self.outOfAmmoFlag == false and self.onCooldown == false then
         if self.clip > 0 and self.reloadComplete == true and self.reloadInstance == 0 and self.activeReloadInstance == 0 then
+            if player.rad < 20 then
+                sfxSpit:setPitch(1-(player.rad/20))
+            else
+                sfxSpit:setPitch(.01)
+            end
             sfxSpit:clone():play()
             self.onCooldown = true
             Timer.after(self.fireRate, function ()
