@@ -435,7 +435,7 @@ function love.keypressed(key)
                 game.state["menu"] = false
             end
 
-            if player.spitter.activeReloadInstance == 1 and player.spitter.activeReloadCursorXPos < 4 or player.spitter.activeReloadCursorXPos > 7 then
+            if player.spitter.activeReloadInstance == 1 and player.spitter.activeReloadCursorXPos < player.spitter.activeReloadLowerBound or player.spitter.activeReloadCursorXPos > player.spitter.activeReloadUpperBound then
                 if key == "space" then
                     --print("nope")
                     scoring.flagActiveReloadMissed = true

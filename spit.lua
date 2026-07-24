@@ -10,7 +10,7 @@ function Spit:new(x,y)
     self.height = 1+player.rad
     self.rad = 1+player.rad
     self.tiltAngle = .3
-    self.direction = 1 --spit can be -1, 0, or 1 - helps define if its a left, middle, or right spit for cone firing!
+    self.direction = 0 --spit can be -1, 0, or 1 - helps define if its a left, middle, or right spit for cone firing!
     scoring["totalBulletsFired"] = scoring["totalBulletsFired"] + 1
 end
 

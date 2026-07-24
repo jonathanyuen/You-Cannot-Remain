@@ -319,7 +319,7 @@ function Equipment:updateMango()
 			elseif v.id == 53 then
 				--active reload is easier
 				player.item53Flag = true
-				player.spitter.activeReloadUpperBound = player.spitter.activeReloadUpperBound+2
+				player.spitter.activeReloadUpperBound = player.spitter.activeReloadUpperBound+5
 				v.resolved = true
 			elseif v.id == 54 then
 				player.spitter.maxCapacity = player.spitter.maxCapacity + 1

@@ -95,7 +95,7 @@ function Player:new()
 	--cone shaped spit fire pattern
 	self.item62Flag = false
 	--use renown instead of ammo
-	self.item64Flag = false
+	self.item64Flag = true -- debug
 	--go through enemies
 	self.item56Flag = false
 	--more flamethrower occurrences
@@ -151,8 +151,8 @@ function Player:takeDmg(dmgNum)
 	end
 
 
-	if dmgNum < 0  then
-		scoreboard.scoring["nestDamage"] = scoreboard.scoring["nestDamage"] + dmgNum
+	if dmgNum > 0  then
+		scoring["nestDamage"] = scoring["nestDamage"] + dmgNum
 	end
 	self.health = self.health - dmgNum
 	sfxHPDown:play()

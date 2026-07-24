@@ -69,6 +69,7 @@ function Weapon:triggerPull()
             end)
             
             self:fireBullet()
+            player.y = player.y+player.rad*.5
 
         elseif self.clip <= 0 then
             self:reload()
@@ -207,9 +208,9 @@ end
 function Weapon:outOfAmmo()
     if self.clip == 0 and self.ammoLeft == 0 then
         if player.item64Flag == true then
-            if scoreboard.score >= 480 then
+            if score >= 480 then
                 self.ammoLeft = 24
-                scoreboard.score = scoreboard.score - 480
+                score = score - 480
             else
                 self.outOfAmmoFlag = true
             end
@@ -240,6 +241,9 @@ function Weapon:update(dt)
 end
 
 function Weapon:draw()
+    --reset activeReloadZoneWidth
+    self.activeReloadActiveZoneWidth = self.activeReloadUpperBound - self.activeReloadLowerBound
+
     --ammo counter for dev purposes
     if self.reloadComplete == true and self.outOfAmmoFlag == false then
         love.graphics.print(self.clip .. "/" .. self.ammoLeft,player.x+7,player.y+15)
