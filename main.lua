@@ -887,3 +887,9 @@ function love.errorhandler(msg)
         return love_errorhandler(msg)
     end
 end
+
+--used to save progress in Lore snippets
+function saveGame()
+    data = {}
+    
+end

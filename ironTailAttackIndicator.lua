@@ -2,7 +2,7 @@ IronTailAttackIndicator = Object:extend()
 
 function IronTailAttackIndicator:new()
     --animations
-    self.visualIndicatorAnim = LoveAnimation.new('IronTailAttackAnimations.lua')
+    self.visualIndicatorAnim = LoveAnimation.new('ironTailAttackAnimations.lua')
     self.xPos = player.x - player.ironTail.hitboxExtensionHori - 4
     self.yPos = player.y - 10 - player.ironTail.hitboxExtensionVert
 
