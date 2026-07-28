@@ -774,6 +774,10 @@ function love.draw()
 
     --if game.state is running
     elseif game.state["running"] then
+        -- scrolling background
+        backQuad:setViewport(0,u,backdrop:getWidth(),backdrop:getHeight())
+        love.graphics.draw(backdrop, backQuad, 102,0,0)
+        
         --ui & stage
         love.graphics.draw(ui,0,0)
         dialogue:draw()
@@ -805,9 +809,7 @@ function love.draw()
         end
 
 
-        -- scrolling background
-        backQuad:setViewport(0,u,backdrop:getWidth(),backdrop:getHeight())
-        love.graphics.draw(backdrop, backQuad, 102,0,0)
+        
         
         
 

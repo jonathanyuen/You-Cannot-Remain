@@ -1,5 +1,7 @@
 IronTailAttackIndicator = Object:extend()
 
+require "ironTailAttackAnimations"
+
 function IronTailAttackIndicator:new()
     --animations
     self.visualIndicatorAnim = LoveAnimation.new('ironTailAttackAnimations.lua')
