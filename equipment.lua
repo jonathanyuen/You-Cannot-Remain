@@ -191,7 +191,7 @@ function Equipment:updateMango()
 				v.resolved = true
 			elseif v.id == 25 then
 				--gives 2000 renown
-				scoreboard:updateTicker("Free Renown!", 2000)
+				scoreboard:updateTicker("Dividends!", 2000)
 				v.resolved = true
 			elseif v.id == 26 then
 				--dmg up 2
@@ -227,7 +227,7 @@ function Equipment:updateMango()
 				v.resolved = true
 			elseif v.id == 33 then
 				--add 500 Renown
-				scoreboard:updateTicker("Free Renown",5000)
+				scoreboard:updateTicker("Dividends!",5000)
 				v.resolved = true
 			elseif v.id == 34 then
 				--hp up 6

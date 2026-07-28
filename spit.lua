@@ -12,6 +12,8 @@ function Spit:new(x,y)
     self.tiltAngle = .3
     self.direction = 0 --spit can be -1, 0, or 1 - helps define if its a left, middle, or right spit for cone firing!
     scoring["totalBulletsFired"] = scoring["totalBulletsFired"] + 1
+
+    self.targetsHit = {}
 end
 
 function Spit:update(dt)
@@ -49,6 +51,15 @@ function Spit:checkCollision(obj)
 
         --get rid of spit bullet
         if player.item56Flag == true then
+            local hitAlready = false
+            for i,v in ipairs(self.targetsHit) do
+                if v == obj then
+                    hitAlready = true
+                end
+            end
+            if hitAlready == false then
+                table.insert(self.targetsHit, obj)
+            end
             if self.y <= 0 then
                 self.dead = true
             end
@@ -56,8 +67,15 @@ function Spit:checkCollision(obj)
             self.dead = true
         end
 
+        if player.item56Flag == true and hitAlready == false then
+            obj:takeDmg(self.damage,"spit")
+        end
+
         --decrease health
-        obj:takeDmg(self.damage,"spit")
+        if player.item56Flag == false then
+            obj:takeDmg(self.damage,"spit")
+
+        end
         --keeps track of bullets that hit
         scoring["totalBulletsHit"] = scoring["totalBulletsHit"] + 1
         

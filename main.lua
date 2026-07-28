@@ -207,8 +207,7 @@ local function startNewGame()
     dialogue = Dialogue()
 
     --initialize enemies and powerups 
-    mastermind:spawn()
-    mastermind:spawnPowerup()
+    mastermind:spawnWave()
     
 
 end
@@ -340,8 +339,9 @@ function love.load()
     local r,g,b = love.math.colorFromBytes(33,33,35)
     love.graphics.setBackgroundColor(r, g, b,1)
     --print (love.graphics.getBackgroundColor())
-    mastermind = Mastermind()
     player = Player()
+    mastermind = Mastermind()
+    
     scoreboard = Scoreboard()
     --initialize merchant
     merchant = Merchant()
@@ -400,8 +400,7 @@ function love.load()
 
 
     --figure out where/how to do this so its not just in load?
-    mastermind:spawn()
-    mastermind:spawnPowerup()
+    mastermind:spawnWave()
 
     
 

@@ -63,9 +63,9 @@ function Weapon:triggerPull()
     if self.outOfAmmoFlag == false and self.onCooldown == false then
         if self.clip > 0 and self.reloadComplete == true and self.reloadInstance == 0 and self.activeReloadInstance == 0 then
             if player.rad < 20 then
-                sfxSpit:setPitch(1-(player.rad/20))
+                sfxSpit:setPitch(1-(player.rad/50))
             else
-                sfxSpit:setPitch(.01)
+                sfxSpit:setPitch(.4)
             end
             sfxSpit:clone():play()
             self.onCooldown = true

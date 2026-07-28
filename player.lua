@@ -95,7 +95,7 @@ function Player:new()
 	--cone shaped spit fire pattern
 	self.item62Flag = false
 	--use renown instead of ammo
-	self.item64Flag = true -- debug
+	self.item64Flag = false
 	--go through enemies
 	self.item56Flag = false
 	--more flamethrower occurrences
