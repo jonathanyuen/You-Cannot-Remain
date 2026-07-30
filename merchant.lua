@@ -179,16 +179,16 @@ end
 function Merchant:getItemCost(item)
 	if item.rarity == "everyday" then
 		print("item rarity: everyday")
-		return math.random(350,700)
+		return math.random(3500,7000)
 	elseif item.rarity == "odd" then
 		print("item rarity: odd")
-		return math.random(750,1000)
+		return math.random(7500,10000)
 	elseif item.rarity == "remarkable" then
 		print("item rarity: remarkable")
-		return math.random(1500,2500)
+		return math.random(15000,25000)
 	elseif item.rarity == "aberrant" then
 		print("item rarity: aberrant")
-		return math.random(2500,3500)
+		return math.random(25000,35000)
 	end
 end
 

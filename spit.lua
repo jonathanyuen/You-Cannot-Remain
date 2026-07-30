@@ -49,9 +49,10 @@ function Spit:checkCollision(obj)
     and self_top < obj_bottom then
         --spit hit!
 
+        local hitAlready = false
         --get rid of spit bullet
         if player.item56Flag == true then
-            local hitAlready = false
+            hitAlready = false
             for i,v in ipairs(self.targetsHit) do
                 if v == obj then
                     hitAlready = true
