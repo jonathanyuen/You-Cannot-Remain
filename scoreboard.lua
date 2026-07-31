@@ -104,13 +104,13 @@ function Scoreboard:waveClearCalcStats()
     --calculate totalBonus
     waveClearStats.totalBonus = waveClearStats.timeBonus + waveClearStats.accuracyBonus + waveClearStats.timesTouchedBonus + waveClearStats.nestDmgBonus + waveClearStats.activeReloadBonus + waveClearStats.blessingsBonus
     --calculate rank!
-    if waveClearStats.totalBonus >= (4300 + (1400 * mastermind.level)) then
+    if waveClearStats.totalBonus >= (2300 + (1400 * mastermind.level)) then
         waveClearStats.rank = "S"
-    elseif waveClearStats.totalBonus >= (3100 + (1400 * mastermind.level)) then
+    elseif waveClearStats.totalBonus >= (1100 + (1400 * mastermind.level)) then
         waveClearStats.rank = "A"
-    elseif waveClearStats.totalBonus >= (1600 + (400 * mastermind.level)) then
+    elseif waveClearStats.totalBonus >= (600 + (400 * mastermind.level)) then
         waveClearStats.rank = "B"
-    elseif waveClearStats.totalBonus >= (1100 + (400 * mastermind.level)) then
+    elseif waveClearStats.totalBonus >= (100 + (400 * mastermind.level)) then
         waveClearStats.rank = "C"
     else
         waveClearStats.rank = "D"
