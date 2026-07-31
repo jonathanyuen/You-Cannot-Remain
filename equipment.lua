@@ -312,7 +312,8 @@ function Equipment:updateMango()
 			elseif v.id == 51 then
 				--one item in next shop is freeee
 				player.item51Flag = true
-				if v.resolved == false then
+				item51Resolved = false
+				if item51Resolved == false then
 					merchant.item1Cost = 0
 				end
 				v.resolved = true
@@ -332,6 +333,7 @@ function Equipment:updateMango()
 				v.resolved = true
 			elseif v.id == 56 then
 				player.item56Flag = true
+				player.baseDmg = math.ceil(player.baseDmg/2)
 				v.resolved = true
 			elseif v.id == 57 then
 				player.item57Flag = true

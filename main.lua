@@ -167,6 +167,10 @@ function endMerchant()
     game.state["ended"] = false
     game.state["merchant"] = false
 
+    if player.item51Flag == true and item51Resolved == false then
+        item51Resolved = true
+    end
+
     equipment:updateMango() --adds effects from items!
     player.portraitAnim:setState("idle")
     --print("merchant ended")
@@ -777,7 +781,7 @@ function love.draw()
         -- scrolling background
         backQuad:setViewport(0,u,backdrop:getWidth(),backdrop:getHeight())
         love.graphics.draw(backdrop, backQuad, 102,0,0)
-        
+
         --ui & stage
         love.graphics.draw(ui,0,0)
         dialogue:draw()

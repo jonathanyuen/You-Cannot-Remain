@@ -58,7 +58,6 @@ end
 function Scoreboard:waveClearCalcStats()
     --calculate the scoring breakdown
     local clearTime = scoring["clearTime"] - waveScoring["lastClearTime"]
-    local accuracy = math.floor((scoring["totalBulletsHit"] - waveScoring["lastTotalBulletsHit"]) / (scoring["totalBulletsFired"] - waveScoring["lastTotalBulletsFired"]))
     local statsTimesTouched = scoring["timesTouched"] - waveScoring["lastTimesTouched"]
     local statsNestDamage = scoring["nestDamage"] - waveScoring["lastNestDamage"]
     local activeReloads = scoring["counterActiveReloadSuccess"] - waveScoring["lastActiveReloadSuccess"]
@@ -67,7 +66,6 @@ function Scoreboard:waveClearCalcStats()
     --calculate possible bonuses
     local waveClearStats = {
         clearTime = clearTime,
-        accuracy = accuracy,
         statsTimesTouched = statsTimesTouched,
         statsNestDamage = statsNestDamage,
         activeReloads = activeReloads,
@@ -87,15 +85,6 @@ function Scoreboard:waveClearCalcStats()
 
     --calculate timeBonus
     waveClearStats.timeBonus = (60 - waveClearStats.clearTime) * 20
-
-    --calculate accuracyBonus   
-    if waveClearStats.accuracy == 1 then
-        waveClearStats.accuracyBonus = 2000 --perfect accuracy
-    elseif waveClearStats.accuracy < 1 and waveClearStats.accuracy >= .85 then
-        waveClearStats.accuracyBonus = 1000
-    elseif waveClearStats.accuracy < .85 and waveClearStats.accuracy >= .65 then
-        waveClearStats.accuracyBonus = 500
-    end
 
     --calculate timesTouchedBonus
     if waveClearStats.statsTimesTouched == 0 then

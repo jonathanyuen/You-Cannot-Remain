@@ -65,25 +65,23 @@ function ScoringScreen:draw()
     if slideNum >= 1 then
         --left side stats
         love.graphics.printf({colorPalette.fauxWhite, "CLEAR TIME: " .. waveClearStats["clearTime"] .. " SECS"}, 12,59, 97, 'right')
-        love.graphics.printf({colorPalette.fauxWhite, "ACCURACY: " .. (waveClearStats["accuracy"]*100) .. "%"}, 12,69, 97, 'right')
-        love.graphics.printf({colorPalette.fauxWhite, "TIMES HIT: " .. waveClearStats["statsTimesTouched"]}, 12,79, 97, 'right')
-        love.graphics.printf({colorPalette.fauxWhite, "DAMAGE TAKEN: " .. waveClearStats["statsNestDamage"]}, 12,89, 97, 'right')
-        love.graphics.printf({colorPalette.fauxWhite, "ACTIVE RELOADS: " .. waveClearStats["activeReloads"]}, 12,99, 97, 'right')
-        love.graphics.printf({colorPalette.fauxWhite, "BLESSINGS COLLECTED: " .. waveClearStats["statsBlessingsObtained"]}, 12,109, 97, 'right')
+        love.graphics.printf({colorPalette.fauxWhite, "TIMES HIT: " .. waveClearStats["statsTimesTouched"]}, 12,79-10, 97, 'right')
+        love.graphics.printf({colorPalette.fauxWhite, "DAMAGE TAKEN: " .. waveClearStats["statsNestDamage"]}, 12,89-10, 97, 'right')
+        love.graphics.printf({colorPalette.fauxWhite, "ACTIVE RELOADS: " .. waveClearStats["activeReloads"]}, 12,99-10, 97, 'right')
+        love.graphics.printf({colorPalette.fauxWhite, "BLESSINGS COLLECTED: " .. waveClearStats["statsBlessingsObtained"]}, 12,109-10, 97, 'right')
     
         --right side bonuses
         love.graphics.printf({colorPalette.red, "TIME BONUS: +" .. waveClearStats["timeBonus"]}, 114,59, 99, 'left')
-        love.graphics.printf({colorPalette.red, "ACCURACY BONUS: +" .. waveClearStats["accuracyBonus"]}, 114,69, 99, 'left')
         if waveClearStats["timesTouchedBonus"] > 0 then
-            love.graphics.printf({colorPalette.red, "UNTOUCHABLE: +" .. waveClearStats["timesTouchedBonus"]}, 114,79, 99, 'left')
+            love.graphics.printf({colorPalette.red, "UNTOUCHABLE: +" .. waveClearStats["timesTouchedBonus"]}, 114,79-10, 99, 'left')
         end
 
         if waveClearStats["nestDmgBonus"] > 0 then
-            love.graphics.printf({colorPalette.red, "NEST UNTOUCHED: +" .. waveClearStats["nestDmgBonus"]}, 114,89, 99, 'left')
+            love.graphics.printf({colorPalette.red, "NEST UNTOUCHED: +" .. waveClearStats["nestDmgBonus"]}, 114,89-10, 99, 'left')
 
         end
-        love.graphics.printf({colorPalette.red, "+" .. waveClearStats["activeReloadBonus"]}, 114,99, 99, 'left')
-        love.graphics.printf({colorPalette.red, "+" .. waveClearStats["blessingsBonus"]}, 114,109, 99, 'left')
+        love.graphics.printf({colorPalette.red, "+" .. waveClearStats["activeReloadBonus"]}, 114,99-10, 99, 'left')
+        love.graphics.printf({colorPalette.red, "+" .. waveClearStats["blessingsBonus"]}, 114,109-10, 99, 'left')
     
     
     end
