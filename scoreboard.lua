@@ -71,7 +71,6 @@ function Scoreboard:waveClearCalcStats()
         activeReloads = activeReloads,
         statsBlessingsObtained = statsBlessingsObtained,
         timeBonus = 0,
-        accuracyBonus = 0,
         timesTouchedBonus = 0,
         nestDmgBonus = 0,
         activeReloadBonus = 0,
@@ -102,7 +101,7 @@ function Scoreboard:waveClearCalcStats()
     waveClearStats["blessingsBonus"] = waveClearStats.statsBlessingsObtained * 5
 
     --calculate totalBonus
-    waveClearStats.totalBonus = waveClearStats.timeBonus + waveClearStats.accuracyBonus + waveClearStats.timesTouchedBonus + waveClearStats.nestDmgBonus + waveClearStats.activeReloadBonus + waveClearStats.blessingsBonus
+    waveClearStats.totalBonus = waveClearStats.timeBonus + waveClearStats.timesTouchedBonus + waveClearStats.nestDmgBonus + waveClearStats.activeReloadBonus + waveClearStats.blessingsBonus
     --calculate rank!
     if waveClearStats.totalBonus >= (2300 + (1400 * mastermind.level)) then
         waveClearStats.rank = "S"

@@ -49,7 +49,7 @@ id,name,effect,description text,rarity,implemented?
 59,FAMAS,BURST FIRE SPIT,tbd,odd,y
 31,EXTENDED MAG,CLIP SIZE++,tbd,remarkable,y
 32,STOP WATCH,EVERYONE MOVES 30% SLOWER,tbd,remarkable,y
-33,GOOD DEED,ADD 5000 RENOWN,tbd,remarkable,y
+33,PUBLIC GOOD DEED,GIVES A LOT OF RENOWN AFTER YOU LEAVE THE SHOP,tbd,remarkable,y
 34,HEALING POT,HEALTH POINTS UP 6,tbd,remarkable,y
 35,SQUAT RACK,DAMAGE+++,tbd,remarkable,y
 36,ADRENA SHOT,SPEED+++,tbd,remarkable,y

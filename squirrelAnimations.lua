@@ -63,7 +63,7 @@ return {
 	states = {
 		-- 1st line
 		running = { -- the name of the state is arbitrary
-			frameCount = 4,
+			frameCount = 10,
 			offsetX = 0,
 			offsetY = 0,
 			frameW = 20,
